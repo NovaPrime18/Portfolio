@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CompressorController — 230 V AC VESC-compatible HVAC drive · Thommy</title>
+<meta name="description" content="A mains-powered, VESC-compatible three-phase motor driver with active PFC, isolated gate signals and dual isolated CAN, designed against IEC 61000-3-2.">
+<meta name="author" content="Thommy">
+<meta name="theme-color" content="#08090b">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CompressorController — 230 V AC VESC-compatible HVAC drive · Thommy">
+<meta property="og:description" content="A mains-powered, VESC-compatible three-phase motor driver with active PFC, isolated gate signals and dual isolated CAN, designed against IEC 61000-3-2.">
+<meta property="og:image" content="../assets/img/ganymede-iso-1100.webp">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../assets/fonts/Archivo-100_900-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/JetBrainsMono-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+<a class="skip" href="#body">Skip to the content</a>
+
+<header class="site-head" data-stuck="false" data-open="false">
+  <div class="wrap head-inner">
+    <a class="brand" href="../index.html" aria-label="Thommy, home">
+      <span class="via" aria-hidden="true"></span>
+      Thommy<span class="dot">.</span>
+    </a>
+      <nav class="nav" id="primary-nav" aria-label="Primary">
+        <a href="../index.html#work">Work</a>
+        <a href="../index.html#capabilities">Capabilities</a>
+        <a href="../index.html#process">How I work</a>
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    <span class="head-status"><span class="pulse" aria-hidden="true"></span>Open to the right thing</span>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav">
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<main id="top" class="case-hero">
+  <div class="wrap">
+    <p class="crumb"><a href="../index.html#work">Work</a> <span aria-hidden="true">/</span> <i>04</i> <span>Mains drive</span></p>
+    <h1>A compressor drive that<br>keeps the grid <em class="serif">happy.</em></h1>
+    <p class="lede">230 V AC straight into a VESC-compatible HVAC drive, with a CCM PFC front end so the current draw is a sine wave rather than a crime — and IEC 61000-3-2 in the requirements from the first schematic.</p>
+    <dl class="case-meta">
+        <div><dt>Year</dt><dd>2026 — Rev 1</dd></div>
+        <div><dt>Role</dt><dd>Hardware design, schematic hierarchy</dd></div>
+        <div><dt>Scope</dt><dd>Mains · 325 V bus · HVAC</dd></div>
+        <div><dt>Licence</dt><dd>CERN-OHL-S v2.0</dd></div>
+    </dl>
+  </div>
+  <div class="wrap case-hero-media">
+    <img src="../assets/img/compressor-front-950.webp"
+             srcset="../assets/img/compressor-front-950.webp 950w, ../assets/img/compressor-front-1500.webp 1500w"
+             sizes="(max-width: 860px) 92vw, 84vw" width="1500" height="935" alt="The compressor controller: green PCB with an intelligent power module, PFC inductor, film capacitors and a large bus capacitor bank." loading="lazy">
+  </div>
+
+  <div class="wrap case-body" id="body">
+
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">01</span>The brief</h2>
+        <div class="prose">
+
+          <p>Compressors and HVAC blowers are the boring half of electrification, and they are where the volume is. This board takes 230 V AC from the wall, rectifies it, corrects the power factor and drives a three-phase compressor motor — while staying inside the VESC ecosystem, so the firmware, tooling and configuration experience are already solved problems.</p>
+          <p>The interesting requirement is not the motor. It is the grid: a diode bridge and a big capacitor draw current in ugly pulses, and IEC 61000-3-2 has opinions about that. Active PFC turns the input current into a sine wave in phase with the voltage, which is both a compliance story and a smaller bus capacitor.</p>
+        
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">02</span>Specification</h2>
+        <div>
+          <table class="table">
+            <caption>Revision 1</caption>
+            <tbody>
+            <tr><th scope="row">Input</th><td class="num">230 V AC single phase</td></tr>
+            <tr><th scope="row">HV bus</th><td class="num">≈ 325 V DC nominal</td></tr>
+            <tr><th scope="row">PFC</th><td class="num">TI UCC28180D — CCM boost PFC</td></tr>
+            <tr><th scope="row">Power bridge</th><td>Infineon IKCM10H60GAXKMA1 IPM — 10 A / 600 V</td></tr>
+            <tr><th scope="row">MCU</th><td>STM32F405RGTx running VESC firmware</td></tr>
+            <tr><th scope="row">Connectivity</th><td>VESC Express (ESP32) — Wi-Fi, BLE, CAN bridge</td></tr>
+            <tr><th scope="row">CAN</th><td>Dual isolated interfaces</td></tr>
+            <tr><th scope="row">USB</th><td>USB Type-C for VESC Tool</td></tr>
+            <tr><th scope="row">Debug</th><td>Tag-Connect SWD</td></tr>
+            <tr><th scope="row">Sensing</th><td>Phase current U/V/W · bus and phase voltage</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">03</span>Architecture</h2>
+        <div class="prose">
+
+          <p>The design is split into ten hierarchical sheets rather than one enormous schematic: power in, PFC, phases, filters, isolator, LV power, MCU, CAN and the VESC Express module. Each sheet can be read, reviewed and reused on its own — and a reviewer looking for the creepage problem only has to read the sheet where creepage lives.</p>
+          <p>The power path is deliberately conventional: EMI filter, inrush limiting and a bridge rectifier into a ~325 V bus; a UCC28180 CCM PFC boost stage; then an Infineon IKCM10H60 IPM — 10 A, 600 V, with gate drivers and bootstrap integrated — driving U/V/W. What is not conventional is how carefully the control domain is kept away from the mains domain.</p>
+        
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">04</span>Decisions worth defending</h2>
+        <div class="prose">
+
+          <p><strong>Isolation is a boundary, not a suggestion.</strong> Gate signals and fault lines cross through a dedicated isolator sheet, and the CAN interfaces are isolated too. On a mains product the barrier is the product; everything else is a circuit.</p>
+          <p><strong>PFC first, motor second.</strong> The PFC stage is sized for the compressor's real load profile, not for a resistive test load, because the harmonic limit is about current shape at part load as much as at full load.</p>
+          <p><strong>VESC Express instead of a bespoke cloud.</strong> An ESP32 module provides Wi-Fi, Bluetooth and a CAN bridge, so commissioning and monitoring happen through tools that already exist. The board does not need to invent an app.</p>
+          <p><strong>Serviceability.</strong> Tag-Connect SWD, status LEDs and a USB-C port for VESC Tool, because the first person to debug this board should not need to solder to it.</p>
+        
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">05</span>Compliance targets</h2>
+        <div>
+          <table class="table">
+            <caption>Standards in scope</caption>
+            <tbody>
+            <tr><th scope="row">IEC 61000-3-2</th><td class="num">Harmonic current emissions — addressed by active PFC</td></tr>
+            <tr><th scope="row">IEC 60335-2-34</th><td>Particular requirements for motor-compressors</td></tr>
+            <tr><th scope="row">EN IEC 63000</th><td>RoHS technical documentation</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">06</span>The honest part</h2>
+        <div class="prose">
+
+          <p>The board is designed against IEC 61000-3-2 (harmonic current emissions), IEC 60335-2-34 (motor-compressors) and EN IEC 63000 (RoHS documentation). Active PFC substantially helps with the first; it does not grant certification. CE marking has to be earned by the integrating party with measurement, and the repository says exactly that.</p>
+          <p>The same goes for the voltage: the DC bus sits at roughly 325–400 V from rectified mains. This is a board to be handled by people who already know why the capacitor bank is the last thing you touch.</p>
+        
+        </div>
+      </section>
+    <div class="figures">
+            <figure class="figure figure--wide">
+              <img src="../assets/img/compressor-back-950.webp"
+                   srcset="../assets/img/compressor-back-950.webp 950w, ../assets/img/compressor-back-1500.webp 1500w"
+                   sizes="(max-width: 860px) 92vw, 60vw" width="1500" height="944" alt="The power side: PFC inductor, film capacitors, IPM heatspreader and the bus capacitor bank." loading="lazy">
+              <figcaption>Power side</figcaption>
+            </figure>
+    </div>
+
+    <div class="case-foot">
+      <div class="tags"><span class="tag">230 V AC</span><span class="tag">Active PFC</span><span class="tag">VESC</span><span class="tag">IEC 61000-3-2</span></div>
+      <div><a class="arrow" href="https://github.com/NovaPrime18/CompressorController" target="_blank" rel="noopener">Hardware files on GitHub <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h11M8.6 1.4 12.2 5l-3.6 3.6" stroke="currentColor" stroke-width="1.2"/></svg></a></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <a class="next-case" href="twin-gan.html">
+      <span class="k">Next case</span>
+      <span class="t"><span>Two motor drives, one 99 mm board.</span><span aria-hidden="true">→</span></span>
+    </a>
+  </div>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <span>© 2026 Thommy · they/them</span>
+    <span>Plain HTML, because a portfolio shouldn't need a build step.</span>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="https://github.com/NovaPrime18" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:novaprime18@gmail.com">Email</a>
+      <a href="#top">Top ↑</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js" defer></script>
+</body>
+</html>

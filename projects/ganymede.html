@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GaNymede — 60 V, 100 A GaN motor drive · Thommy</title>
+<meta name="description" content="A VESC-compatible three-phase GaN motor controller: six EPC2361 eGaN FETs, 0.25 mΩ phase shunts and 1.4 mF of bus capacitance on a 78 × 65 mm six-layer board.">
+<meta name="author" content="Thommy">
+<meta name="theme-color" content="#08090b">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GaNymede — 60 V, 100 A GaN motor drive · Thommy">
+<meta property="og:description" content="A VESC-compatible three-phase GaN motor controller: six EPC2361 eGaN FETs, 0.25 mΩ phase shunts and 1.4 mF of bus capacitance on a 78 × 65 mm six-layer board.">
+<meta property="og:image" content="../assets/img/ganymede-iso-1100.webp">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../assets/fonts/Archivo-100_900-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/JetBrainsMono-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+<a class="skip" href="#body">Skip to the content</a>
+
+<header class="site-head" data-stuck="false" data-open="false">
+  <div class="wrap head-inner">
+    <a class="brand" href="../index.html" aria-label="Thommy, home">
+      <span class="via" aria-hidden="true"></span>
+      Thommy<span class="dot">.</span>
+    </a>
+      <nav class="nav" id="primary-nav" aria-label="Primary">
+        <a href="../index.html#work">Work</a>
+        <a href="../index.html#capabilities">Capabilities</a>
+        <a href="../index.html#process">How I work</a>
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    <span class="head-status"><span class="pulse" aria-hidden="true"></span>Open to the right thing</span>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav">
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<main id="top" class="case-hero">
+  <div class="wrap">
+    <p class="crumb"><a href="../index.html#work">Work</a> <span aria-hidden="true">/</span> <i>02</i> <span>Motor drive</span></p>
+    <h1>Sixty volts,<br>a hundred <em class="serif">amps.</em></h1>
+    <p class="lede">A VESC-compatible three-phase drive for a direct-drive hub motor: six eGaN FETs, 0.25 mΩ phase shunts and 1.4 mF of bus capacitance wrapped around a 78 × 65 mm six-layer power stage.</p>
+    <dl class="case-meta">
+        <div><dt>Year</dt><dd>2026 — R1</dd></div>
+        <div><dt>Role</dt><dd>Hardware design, layout, loss model</dd></div>
+        <div><dt>Board</dt><dd>78 × 65 mm · 6-layer</dd></div>
+        <div><dt>Licence</dt><dd>CERN-OHL-S v2.0</dd></div>
+    </dl>
+  </div>
+  <div class="wrap case-hero-media">
+    <img src="../assets/img/ganymede-iso-1100.webp"
+             srcset="../assets/img/ganymede-iso-1100.webp 1100w, ../assets/img/ganymede-iso-1800.webp 1800w"
+             sizes="(max-width: 860px) 92vw, 84vw" width="1800" height="1533" alt="GaNymede in its translucent housing, engraved silkscreen illustration of Ganymede and the eagle across the copper." loading="lazy">
+  </div>
+
+  <div class="wrap case-body" id="body">
+
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">01</span>The brief</h2>
+        <div class="prose">
+
+          <p>A direct-drive hub motor wants a lot of phase current in a small package, with no gearbox to hide the inefficiency. GaNymede is built for that: 50 A phase continuous, 100 A peak for one minute, phase-current and phase-voltage sensing on every leg, Hall inputs, and an ESP32-C3 for wireless telemetry.</p>
+          <p>The control side deliberately follows the VESC pattern — STM32F405, three Hall inputs, three phase-current channels — because the value of a VESC-compatible board is the firmware ecosystem, not a new one. The power stage is where the design earns its keep.</p>
+        
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">02</span>Specification</h2>
+        <div>
+          <table class="table">
+            <caption>Revision 1 — design targets, not yet bench-verified</caption>
+            <tbody>
+            <tr><th scope="row">Bus voltage</th><td class="num">up to 60 V DC</td></tr>
+            <tr><th scope="row">Phase current</th><td class="num">50 A continuous · 100 A peak (1 min)</td></tr>
+            <tr><th scope="row">Peak output</th><td>≈ 5.2 kW at 100 A peak, m = 1, modelled</td></tr>
+            <tr><th scope="row">Topology</th><td>3-phase inverter, 6× EPC2361 100 V eGaN</td></tr>
+            <tr><th scope="row">Switching</th><td>20 kHz nominal (10–40 kHz analysed)</td></tr>
+            <tr><th scope="row">Gate drive</th><td>LMG1210, 5 V, 2.2 Ω</td></tr>
+            <tr><th scope="row">Current sense</th><td>0.25 mΩ per phase · INA240A1, gain 20</td></tr>
+            <tr><th scope="row">Control</th><td>STM32F405RGT6, 168 MHz, 8 MHz HSE</td></tr>
+            <tr><th scope="row">Wireless</th><td>ESP32-C3-WROOM-02 — Wi-Fi / BLE</td></tr>
+            <tr><th scope="row">CAN</th><td>2× TJA1051TK-3 (STM32 + ESP32), shared bus</td></tr>
+            <tr><th scope="row">Bus capacitance</th><td>≈ 1.4 mF, TVS protected (SMAJ60A)</td></tr>
+            <tr><th scope="row">PCB</th><td class="num">78 × 65 mm · 6 layers · 1.6 mm · 1 oz Cu</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">03</span>Decisions worth defending</h2>
+        <div class="prose">
+
+          <p><strong>The bus capacitor bank wraps the power stage.</strong> 1.4 mF is not a polite number of capacitors; placing them around the bridge instead of at one end keeps the commutation loop short and stops the DC link from becoming an inductor with a capacitor problem.</p>
+          <p><strong>0.25 mΩ per phase, measured across two 0.5 mΩ shunts in parallel.</strong> Two 2512 resistors share the current and the heating, and an INA240A1 at a gain of 20 turns microvolts into something a 12-bit ADC can resolve at 100 A. The whole sensing chain is inside the power loop, so it is part of the layout, not an afterthought.</p>
+          <p><strong>Dead time lives in firmware.</strong> The LMG1210s are strapped for independent high and low inputs rather than self-timed, which makes dead time a software parameter. That is the right place for it on a VESC target — but it means the gate drive is only as safe as the first bring-up.</p>
+          <p><strong>Copper sized for the peak, not the average.</strong> A 100 A minute is a thermal event. The pours and the via stitching are sized for the whole minute, not for the 50 A number on the front of the datasheet.</p>
+        
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">04</span>The loss model says something surprising</h2>
+        <div class="prose">
+
+          <p>There is a full copper, semiconductor and thermal model in <a href="https://github.com/NovaPrime18/GaNymede/blob/main/LOSSES.md" target="_blank" rel="noopener">LOSSES.md</a>. At 100 A peak it predicts about 29 W of total loss and 99.4 % efficiency; at 50 A continuous, about 7.3 W and 99.7 %.</p>
+          <p>The interesting part is where the heat comes from: the phase shunts and the 60 V/GND copper dominate the budget, not the six eGaN devices. Which changes the thermal design — the heatsink needs to move 5–6 W continuously and about 20 W by the end of a 100 A minute, so a 1.5–2 °C/W natural-convection sink is enough. The thermal pad under the FETs matters more than the heatsink, and the one-minute rating is limited by thermal mass rather than by the sink.</p>
+        
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">05</span>A board can be a poster</h2>
+        <div class="prose">
+
+          <p>The back of the board carries an engraved illustration of Ganymede — the moon, and the myth — rendered as silkscreen and copper pour. It costs nothing electrically and it makes the object worth picking up. If a board spends its life inside a housing, it may as well look like something on the way in.</p>
+        
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">06</span>Where it stands</h2>
+        <div class="prose">
+
+          <p>R1 is drawn and the six-layer layout is finished. The current and thermal figures above are design targets from the loss model, not bench measurements — the repository says so where the table is, and this page is not going to pretend otherwise.</p>
+        
+        </div>
+      </section>
+    <div class="figures">
+            <figure class="figure figure--wide">
+              <img src="../assets/img/ganymede-top-900.webp"
+                   srcset="../assets/img/ganymede-top-900.webp 900w, ../assets/img/ganymede-top-1400.webp 1400w"
+                   sizes="(max-width: 860px) 92vw, 60vw" width="1400" height="1020" alt="The assembled module in its printed housing: 78 × 65 mm, XT90 input, three plated through-holes for U, V and W." loading="lazy">
+              <figcaption>Assembled, in housing</figcaption>
+            </figure>
+    </div>
+
+    <div class="case-foot">
+      <div class="tags"><span class="tag">5.2 kW</span><span class="tag">100 A peak</span><span class="tag">EPC2361</span><span class="tag">CERN-OHL-S</span></div>
+      <div><a class="arrow" href="https://github.com/NovaPrime18/GaNymede" target="_blank" rel="noopener">Hardware files on GitHub <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h11M8.6 1.4 12.2 5l-3.6 3.6" stroke="currentColor" stroke-width="1.2"/></svg></a></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <a class="next-case" href="nitride-nano.html">
+      <span class="k">Next case</span>
+      <span class="t"><span>Two hundred and forty watts, in a pocket.</span><span aria-hidden="true">→</span></span>
+    </a>
+  </div>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <span>© 2026 Thommy · they/them</span>
+    <span>Plain HTML, because a portfolio shouldn't need a build step.</span>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="https://github.com/NovaPrime18" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:novaprime18@gmail.com">Email</a>
+      <a href="#top">Top ↑</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js" defer></script>
+</body>
+</html>

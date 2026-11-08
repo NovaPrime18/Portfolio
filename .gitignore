@@ -1,0 +1,16 @@
+# authoring / design-review scratch
+.preview/
+.pylibs/
+.tmp/
+.ffprof*/
+.shot*.png
+.contact-sheet.jpg
+.overview.jpg
+.g-overview.jpg
+.keys.jpg
+.qa*.jpg
+.[a-z][0-9].jpg
+.[a-z][0-9].png
+
+# OS
+.DS_Store

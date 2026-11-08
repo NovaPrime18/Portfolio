@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DAB DC-DC — 10 kW module · Thommy</title>
+<meta name="description" content="A 10 kW dual active bridge module for a 500 kW off-grid EV charger: 800 V in, 1000 V out, 100 kHz, 1700 V SiC and creepage rules that shaped the layout.">
+<meta name="author" content="Thommy">
+<meta name="theme-color" content="#08090b">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DAB DC-DC — 10 kW module · Thommy">
+<meta property="og:description" content="A 10 kW dual active bridge module for a 500 kW off-grid EV charger: 800 V in, 1000 V out, 100 kHz, 1700 V SiC and creepage rules that shaped the layout.">
+<meta property="og:image" content="../assets/img/ganymede-iso-1100.webp">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../assets/fonts/Archivo-100_900-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/JetBrainsMono-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+<a class="skip" href="#body">Skip to the content</a>
+
+<header class="site-head" data-stuck="false" data-open="false">
+  <div class="wrap head-inner">
+    <a class="brand" href="../index.html" aria-label="Thommy, home">
+      <span class="via" aria-hidden="true"></span>
+      Thommy<span class="dot">.</span>
+    </a>
+      <nav class="nav" id="primary-nav" aria-label="Primary">
+        <a href="../index.html#work">Work</a>
+        <a href="../index.html#capabilities">Capabilities</a>
+        <a href="../index.html#process">How I work</a>
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    <span class="head-status"><span class="pulse" aria-hidden="true"></span>Open to the right thing</span>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav">
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<main id="top" class="case-hero">
+  <div class="wrap">
+    <p class="crumb"><a href="../index.html#work">Work</a> <span aria-hidden="true">/</span> <i>01</i> <span>DC-DC</span></p>
+    <h1>Ten kilowatts,<br>on the <em class="serif">bench.</em></h1>
+    <p class="lede">One building block of a 500 kW off-grid EV charger: 800 V in, up to 1000 V out at 100 kHz through a planar transformer with 10 kV isolation — and creepage treated as a design constraint rather than an afterthought.</p>
+    <dl class="case-meta">
+        <div><dt>Year</dt><dd>2026</dd></div>
+        <div><dt>Role</dt><dd>Hardware design — internship thesis</dd></div>
+        <div><dt>Board</dt><dd>6-layer · 70 µm Cu · 2 mm FR4</dd></div>
+        <div><dt>Licence</dt><dd>CERN-OHL-S v2.0</dd></div>
+    </dl>
+  </div>
+  <div class="wrap case-hero-media">
+    <img src="../assets/img/dab-hero-1100.webp"
+             srcset="../assets/img/dab-hero-1100.webp 1100w, ../assets/img/dab-hero-1800.webp 1800w"
+             sizes="(max-width: 860px) 92vw, 84vw" width="1800" height="773" alt="The 10 kW dual active bridge board: purple solder mask, a planar transformer under an aluminium block, 1700 V SiC MOSFETs along both sides." loading="lazy">
+  </div>
+
+  <div class="wrap case-body" id="body">
+
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">01</span>The brief</h2>
+        <div class="prose">
+
+          <p>The project was an internship thesis: work out whether a 500 kW off-grid EV DC fast charger could be built in-house. A 500 kW charger is not one converter. It is a rack of modules that share a DC bus, so the thesis needed a module — a 10 kW dual active bridge, derived from a Texas Instruments reference design and rebuilt around the parts and processes actually available.</p>
+          <p>The module had to hold 500–800 V on the primary, deliver 250–1000 V on the secondary, survive an EV charger's fault currents, and be manufacturable at a price that made the whole idea worth evaluating. The full design rationale, LTspice and PLECS results and the test campaign live in the thesis; the repository holds the hardware.</p>
+        
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">02</span>What a 10 kW module needs</h2>
+        <div>
+          <table class="table">
+            <caption>Prototype module, revision 1</caption>
+            <tbody>
+            <tr><th scope="row">Topology</th><td>Dual active bridge, phase-shift controlled</td></tr>
+            <tr><th scope="row">Input</th><td class="num">500–800 V DC</td></tr>
+            <tr><th scope="row">Output</th><td class="num">250–1000 V DC (peak efficiency at 666 V)</td></tr>
+            <tr><th scope="row">Power</th><td class="num">≈ 10 kW per module</td></tr>
+            <tr><th scope="row">Current</th><td>15 A primary (22 A peak) · 17 A secondary (25 A peak)</td></tr>
+            <tr><th scope="row">Switching</th><td class="num">100 kHz</td></tr>
+            <tr><th scope="row">Isolation</th><td>10 kV primary-to-secondary</td></tr>
+            <tr><th scope="row">Transformer</th><td>Payton Planar, 24:20, 35 µH leakage</td></tr>
+            <tr><th scope="row">Secondary switches</th><td>Microchip MSC035SMA170B4, 1700 V SiC</td></tr>
+            <tr><th scope="row">Creepage / clearance</th><td>3 mm primary · 3.5 mm secondary (IEC-60664 at 1000 V)</td></tr>
+            <tr><th scope="row">Voltage derating</th><td class="num">1.7× on HV secondary parts</td></tr>
+            <tr><th scope="row">PCB</th><td>6 layers · 70 µm Cu · 2 mm FR4</td></tr>
+            <tr><th scope="row">Cooling</th><td>Fin-stack air or aluminium liquid-cooling plate</td></tr>
+            <tr><th scope="row">Connectors</th><td>XT30 for HV in/out — contactors off-board</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">03</span>Decisions worth defending</h2>
+        <div class="prose">
+
+          <p><strong>Six layers instead of the reference design's four.</strong> At 22 A peak on the primary and 25 A on the secondary, conduction loss stops being a detail. The extra layers carry 70 µm copper, spread heat, and let the high-current path keep a via per amp without turning the plane into a colander. Trace rise was held to ≤ 10 °C above ambient at 30 A using KiCad's trace-width calculator.</p>
+          <p><strong>1700 V on the isolated side, with 1.7× derating.</strong> A 1000 V output does not leave 1000 V of headroom — it leaves switching overshoot, transformer ringing and the occasional very bad day. The SiC MOSFETs and the DC-blocking capacitors are rated to 1700 V, and the blocking caps are 2280-package parts double-stacked to reach the capacitance in the space available.</p>
+          <p><strong>The contactors left the board.</strong> High-voltage switching happens externally, through XT30 connectors. It costs a little in integration effort and buys the freedom to pick a contactor rated for the real bus voltage instead of one that fits a footprint on a prototype PCB.</p>
+          <p><strong>The transformer is a structural member.</strong> It sits in the middle, supports the board, and is where the cooling plate clamps down. The board does not need a separate frame because the heaviest component is already doing the job.</p>
+        
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">04</span>What went wrong</h2>
+        <div class="prose">
+          <div class="callout">
+            <b>Errata, first prototype.</b> The eFuse (TPS26400) had pins 3 and 5 swapped in the footprint, so the board would not power up; it was bodged with wires. The standard KiCad footprint for TI's controlCARD connector numbers its pins the other way round, so a small flip-adapter PCB is included in the repo. The isolated supply's 1 kΩ current-limit resistor was replaced with 270 Ω to stop start-up faults, and the DS modulator sense pins — routed to pins that do not support it — were rerouted with magnet wire. Until these are fixed in a re-spin, this prototype is only to be run at low voltage.
+          </div></div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">05</span>Numbers</h2>
+        <div>
+          <table class="table">
+            <caption>Design summary</caption>
+            <tbody>
+            <tr><th scope="row">Module power</th><td class="num">≈ 10 kW</td></tr>
+            <tr><th scope="row">Switching frequency</th><td class="num">100 kHz</td></tr>
+            <tr><th scope="row">Isolation</th><td class="num">10 kV</td></tr>
+            <tr><th scope="row">Creepage at 1000 V</th><td class="num">3.5 mm</td></tr>
+            <tr><th scope="row">HV derating</th><td>1.7×</td></tr>
+            <tr><th scope="row">Copper</th><td>6 layers · 70 µm</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">06</span>The rest of the board</h2>
+        <div class="prose">
+
+          <p>All components sit on the top side, for cheaper single-sided assembly and a simpler stencil. Isolation is galvanic through a Payton Planar transformer — 24:20 turns, 35 µH of leakage inductance, 10 kV dielectric strength — and the 5 V and gate-drive rails are derived on-board on both sides of the barrier. Control is a TI controlCARD over CAN, phase-shift regulating the bridge.</p>
+          <p>Everything was prototyped through JLCPCB on their 6-layer, double-thick-copper process. The board is not a product; it is an argument that the product is possible.</p>
+        
+        </div>
+      </section>
+    <div class="figures">
+            <figure class="figure ">
+              <img src="../assets/img/dab-macro-1100.webp"
+                   srcset="../assets/img/dab-macro-1100.webp 1100w, ../assets/img/dab-macro-1800.webp 1800w"
+                   sizes="(max-width: 860px) 92vw, 60vw" width="1800" height="1125" alt="Close-up of the secondary side: 1700 V SiC MOSFETs, gate-drive isolation and the HV capacitor bank." loading="lazy">
+              <figcaption>Secondary side</figcaption>
+            </figure>
+            <figure class="figure ">
+              <img src="../assets/img/dab-cooling-950.webp"
+                   srcset="../assets/img/dab-cooling-950.webp 950w, ../assets/img/dab-cooling-1500.webp 1500w"
+                   sizes="(max-width: 860px) 92vw, 60vw" width="1500" height="1125" alt="The cooling plate and fin stack, clamped over the SiC devices and the transformer." loading="lazy">
+              <figcaption>Cooling plate</figcaption>
+            </figure>
+    </div>
+
+    <div class="case-foot">
+      <div class="tags"><span class="tag">10 kW</span><span class="tag">100 kHz</span><span class="tag">1700 V SiC</span><span class="tag">CERN-OHL-S</span></div>
+      <div><a class="arrow" href="https://github.com/NovaPrime18/DAB_DCDC" target="_blank" rel="noopener">Hardware files on GitHub <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h11M8.6 1.4 12.2 5l-3.6 3.6" stroke="currentColor" stroke-width="1.2"/></svg></a></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <a class="next-case" href="ganymede.html">
+      <span class="k">Next case</span>
+      <span class="t"><span>Sixty volts, a hundred amps.</span><span aria-hidden="true">→</span></span>
+    </a>
+  </div>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <span>© 2026 Thommy · they/them</span>
+    <span>Plain HTML, because a portfolio shouldn't need a build step.</span>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="https://github.com/NovaPrime18" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:novaprime18@gmail.com">Email</a>
+      <a href="#top">Top ↑</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js" defer></script>
+</body>
+</html>

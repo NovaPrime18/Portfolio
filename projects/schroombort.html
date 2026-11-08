@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Schroombort — 36-key soundboard, macro-pad and calculator · Thommy</title>
+<meta name="description" content="A battery-powered, over-engineered mechanical soundboard: 36 Cherry MX switches, a VFD, stereo speakers and three modes of operation.">
+<meta name="author" content="Thommy">
+<meta name="theme-color" content="#08090b">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Schroombort — 36-key soundboard, macro-pad and calculator · Thommy">
+<meta property="og:description" content="A battery-powered, over-engineered mechanical soundboard: 36 Cherry MX switches, a VFD, stereo speakers and three modes of operation.">
+<meta property="og:image" content="../assets/img/ganymede-iso-1100.webp">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../assets/fonts/Archivo-100_900-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/JetBrainsMono-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+<a class="skip" href="#body">Skip to the content</a>
+
+<header class="site-head" data-stuck="false" data-open="false">
+  <div class="wrap head-inner">
+    <a class="brand" href="../index.html" aria-label="Thommy, home">
+      <span class="via" aria-hidden="true"></span>
+      Thommy<span class="dot">.</span>
+    </a>
+      <nav class="nav" id="primary-nav" aria-label="Primary">
+        <a href="../index.html#work">Work</a>
+        <a href="../index.html#capabilities">Capabilities</a>
+        <a href="../index.html#process">How I work</a>
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    <span class="head-status"><span class="pulse" aria-hidden="true"></span>Open to the right thing</span>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav">
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<main id="top" class="case-hero">
+  <div class="wrap">
+    <p class="crumb"><a href="../index.html#work">Work</a> <span aria-hidden="true">/</span> <i>06</i> <span>Where I started</span></p>
+    <h1>The thing that<br>got me <em class="serif">here.</em></h1>
+    <p class="lede">A battery-powered soundboard with 36 Cherry MX switches, a vacuum fluorescent display and stereo speakers. It is also a macro-pad. And a calculator. It was the first board I ever finished, and it is the reason there are five more.</p>
+    <dl class="case-meta">
+        <div><dt>Year</dt><dd>2021</dd></div>
+        <div><dt>Role</dt><dd>Everything — it was the first one</dd></div>
+        <div><dt>Modes</dt><dd>Soundboard · macro-pad · calculator</dd></div>
+        <div><dt>Licence</dt><dd>CERN-OHL-S v2.0</dd></div>
+    </dl>
+  </div>
+  <div class="wrap case-hero-media">
+    <img src="../assets/img/schroombort-950.webp"
+             srcset="../assets/img/schroombort-950.webp 950w, ../assets/img/schroombort-1500.webp 1500w"
+             sizes="(max-width: 860px) 92vw, 84vw" width="1500" height="1670" alt="Schroombort: a black battery-powered board with 36 mechanical switches, a vacuum fluorescent display and silkscreen artwork." loading="lazy">
+  </div>
+
+  <div class="wrap case-body" id="body">
+
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">01</span>What it is</h2>
+        <div class="prose">
+
+          <p>A device whose entire job is to play dumb sounds when you press a button. Thirty-six Cherry MX-style switches, a vacuum fluorescent display, stereo speakers, a battery, USB-C charging, and a power-path manager that runs from USB, battery, or a mix of both without anyone noticing the transition.</p>
+          <p>It runs in three configurations. As a soundboard, each key plays a file straight from the SD card. Plugged into a computer over USB-C, it becomes a 36-key macro-pad with assignable macros. Flip it into the third mode and it is a fully functional basic calculator — because a device with a VFD and a keypad that cannot do arithmetic is leaving value on the table.</p>
+        
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">02</span>Specification</h2>
+        <div>
+          <table class="table">
+            <caption>Revision 1 — 2021</caption>
+            <tbody>
+            <tr><th scope="row">Inputs</th><td class="num">36 mechanical (Cherry MX-style) switches</td></tr>
+            <tr><th scope="row">Display</th><td class="num">Vacuum fluorescent display</td></tr>
+            <tr><th scope="row">Audio</th><td>Stereo speakers</td></tr>
+            <tr><th scope="row">MCU</th><td>ATxmega256A3U</td></tr>
+            <tr><th scope="row">Charging</th><td>Any 5 V charger, up to 2 A</td></tr>
+            <tr><th scope="row">Power path</th><td>Dynamic — USB only, battery only, or both</td></tr>
+            <tr><th scope="row">Modes</th><td>Soundboard · macro-pad · calculator</td></tr>
+            <tr><th scope="row">Connectivity</th><td>USB-C</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">03</span>Why it matters</h2>
+        <div class="prose">
+
+          <p>Every later board on this site owes something to this one. It taught the loop that actually matters: pick a thing that does not need to exist, then make it exist properly. Power path, battery charging, keyboard matrix, display driving, audio output, enclosure, firmware, and the specific misery of a silkscreen that looked fine in the viewer and unreadable on the physical board.</p>
+          <p>The over-engineering is the point. Nobody needs 36 buttons to play a sound. Building it anyway is how you find out what a board feels like when it is finished, and that is a different skill from designing one.</p>
+        
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">04</span>The trailer</h2>
+        <div class="prose">
+
+          <p>There is a cinematic trailer, because a README cannot do it justice. It is on <a href="https://www.youtube.com/watch?v=MM4cooladaY" target="_blank" rel="noopener">YouTube</a>, and it is exactly as serious as the project deserves.</p>
+        
+        </div>
+      </section>
+    <div class="figures">
+            <figure class="figure figure--wide">
+              <img src="../assets/img/schroombort-photo-950.webp"
+                   srcset="../assets/img/schroombort-photo-950.webp 950w, ../assets/img/schroombort-photo-1500.webp 1500w"
+                   sizes="(max-width: 860px) 92vw, 60vw" width="1500" height="1191" alt="The finished board, battery-powered, display lit — silkscreen reads NOVA PRIME, Schroomboysz, and a Dutch joke about money." loading="lazy">
+              <figcaption>Finished, 2021</figcaption>
+            </figure>
+    </div>
+
+    <div class="case-foot">
+      <div class="tags"><span class="tag">36 keys</span><span class="tag">VFD</span><span class="tag">ATxmega</span><span class="tag">CERN-OHL-S</span></div>
+      <div><a class="arrow" href="https://github.com/NovaPrime18/schroombort" target="_blank" rel="noopener">Hardware on GitHub <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h11M8.6 1.4 12.2 5l-3.6 3.6" stroke="currentColor" stroke-width="1.2"/></svg></a></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <a class="next-case" href="dab-dcdc.html">
+      <span class="k">Next case</span>
+      <span class="t"><span>Ten kilowatts, on the bench.</span><span aria-hidden="true">→</span></span>
+    </a>
+  </div>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <span>© 2021 Thommy · they/them</span>
+    <span>Plain HTML, because a portfolio shouldn't need a build step.</span>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="https://github.com/NovaPrime18" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:novaprime18@gmail.com">Email</a>
+      <a href="#top">Top ↑</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js" defer></script>
+</body>
+</html>

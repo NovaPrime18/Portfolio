@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>nitride-nano — 240 W USB-C PD bench supply · Thommy</title>
+<meta name="description" content="A USB-C PD 3.1 buck/boost converter: 12–48 V in, 0–60 V out, 240 W, 1 MHz switching, 94.8 % measured peak efficiency.">
+<meta name="author" content="Thommy">
+<meta name="theme-color" content="#08090b">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nitride-nano — 240 W USB-C PD bench supply · Thommy">
+<meta property="og:description" content="A USB-C PD 3.1 buck/boost converter: 12–48 V in, 0–60 V out, 240 W, 1 MHz switching, 94.8 % measured peak efficiency.">
+<meta property="og:image" content="../assets/img/ganymede-iso-1100.webp">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../assets/fonts/Archivo-100_900-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/JetBrainsMono-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+<a class="skip" href="#body">Skip to the content</a>
+
+<header class="site-head" data-stuck="false" data-open="false">
+  <div class="wrap head-inner">
+    <a class="brand" href="../index.html" aria-label="Thommy, home">
+      <span class="via" aria-hidden="true"></span>
+      Thommy<span class="dot">.</span>
+    </a>
+      <nav class="nav" id="primary-nav" aria-label="Primary">
+        <a href="../index.html#work">Work</a>
+        <a href="../index.html#capabilities">Capabilities</a>
+        <a href="../index.html#process">How I work</a>
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    <span class="head-status"><span class="pulse" aria-hidden="true"></span>Open to the right thing</span>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav">
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<main id="top" class="case-hero">
+  <div class="wrap">
+    <p class="crumb"><a href="../index.html#work">Work</a> <span aria-hidden="true">/</span> <i>03</i> <span>Power supply</span></p>
+    <h1>Two hundred and forty watts,<br>in a <em class="serif">pocket.</em></h1>
+    <p class="lede">A USB-C PD 3.1 buck/boost that turns a laptop charger into a 0–60 V bench supply. 1 MHz switching, eGaN FETs, and a controller kept out of its own lossiest operating mode by an MCU that negotiates PPS, AVS and EPR.</p>
+    <dl class="case-meta">
+        <div><dt>Year</dt><dd>2026 — R2</dd></div>
+        <div><dt>Role</dt><dd>Hardware, layout, bring-up, test</dd></div>
+        <div><dt>Result</dt><dd>94.8 % peak · 240.8 W in</dd></div>
+        <div><dt>Licence</dt><dd>CERN-OHL-S v2.0</dd></div>
+    </dl>
+  </div>
+  <div class="wrap case-hero-media">
+    <img src="../assets/img/nano-front-1100.webp"
+             srcset="../assets/img/nano-front-1100.webp 1100w, ../assets/img/nano-front-1800.webp 1800w"
+             sizes="(max-width: 860px) 92vw, 84vw" width="1800" height="947" alt="nitride-nano: a compact white PCB with USB-C, an OLED display, a rotary encoder, an XT90 output and a dense GaN power stage." loading="lazy">
+  </div>
+
+  <div class="wrap case-body" id="body">
+
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">01</span>The brief</h2>
+        <div class="prose">
+
+          <p>The target was a portable programmable supply — the same job as a Miniware MDP-XP, but with more power density and a wider voltage range, and less concern about output ripple. Input from USB-C Power Delivery or a high-voltage DC source; output 0–60 V at up to 20 A from an XT90.</p>
+          <p>Small is the whole point. At 1 MHz the inductor and capacitors shrink enough for the board to fit inside a printed housing the size of a small brick, and the GaN FETs make 1 MHz practical without the switching loss eating the density gain.</p>
+        
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">02</span>Specification</h2>
+        <div>
+          <table class="table">
+            <caption>Revision 2, bench-tested</caption>
+            <tbody>
+            <tr><th scope="row">Input</th><td class="num">12–48 V — USB-C PD or XT90</td></tr>
+            <tr><th scope="row">Output</th><td class="num">0–60 V, 20 A, 240 W</td></tr>
+            <tr><th scope="row">Topology</th><td>Non-inverting buck/boost, LT8390A</td></tr>
+            <tr><th scope="row">Switching</th><td class="num">1 MHz</td></tr>
+            <tr><th scope="row">Power FETs</th><td>EPC2367 eGaN</td></tr>
+            <tr><th scope="row">Power monitor</th><td>INA228, 16-bit, I²C</td></tr>
+            <tr><th scope="row">MCU</th><td>STM32G474CEUx</td></tr>
+            <tr><th scope="row">Display</th><td>SSD1306 0.96″ OLED, 3-button UI</td></tr>
+            <tr><th scope="row">PD</th><td>Fixed PDO · PPS 5–21 V · AVS/EPR 15–48 V</td></tr>
+            <tr><th scope="row">Peak efficiency</th><td class="num">94.8 % at 36 V in → 52.4 V, 219 W out</td></tr>
+            <tr><th scope="row">Peak input power</th><td class="num">240.8 W at 14 V in, 90.2 %</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">03</span>The trick: auto-tracking PD</h2>
+        <div class="prose">
+
+          <p>A non-inverting buck/boost is efficient in buck, efficient in boost, and noticeably worse in the four-switch band where both bridges switch. nitride-nano negotiates the input voltage instead of accepting whatever the charger offers: the MCU derives the PD rail from the requested output, so the LT8390A stays in a clean buck or boost region across the whole 0–60 V range.</p>
+          <p>That means speaking full USB-C PD on the input side — fixed PDOs, PPS in 50 mV steps, and AVS/EPR up to 48 V — and choosing the rail before the converter ever has to regulate. The negotiation is as much a part of the power stage as the inductor.</p>
+        
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">04</span>Measured, not modelled</h2>
+        <div class="prose">
+
+          <p>Revision 1 delivered 164 W at 94.1 %; revision 2, with a 2.2 µH Coilcraft XAL1010-222MED, delivers 219 W at 94.8 % peak — 240.8 W in, measured on a Riden RD6024 and an EA-EL 3160-60 load.</p>
+          <p>The two revisions are in the repository with their full test tables. Publishing the worse number next to the better one is the only way the better one means anything.</p>
+        
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">05</span>Thermal</h2>
+        <div class="prose">
+
+          <p>The enclosure was simulated in FreeCAD: about 38 °C with a fan when 10 W of loss goes into the heatsink from the GaN FETs. In practice the FETs barely exceed 60 °C, because not all of that heat leaves through the top of the package — the inductor core, at around 90 °C, is by far the hottest thing on the board. Which is the usual lesson: the magnetic component is the thermal design.</p>
+        
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">06</span>The rest of it</h2>
+        <div class="prose">
+
+          <p>An STM32G474 runs the bare-metal UI on a 0.96″ OLED with three buttons, reads an INA228 for input and output power, and shows real-time efficiency. The power stage is EPC2367 eGaN with an LT8390A controller, following the EVAL-LT8390A topology. USB-C PD input stage based on the open-source PD240W design.</p>
+        
+        </div>
+      </section>
+    <div class="figures">
+            <figure class="figure ">
+              <img src="../assets/img/nano-back-950.webp"
+                   srcset="../assets/img/nano-back-950.webp 950w, ../assets/img/nano-back-1500.webp 1500w"
+                   sizes="(max-width: 860px) 92vw, 60vw" width="1500" height="871" alt="The back of the board: silkscreen reads POWAH!, atom logo, and the output range printed where an assembly technician will see it." loading="lazy">
+              <figcaption>Back side</figcaption>
+            </figure>
+            <figure class="figure figure--wide">
+              <img src="../assets/img/nano-photo-1000.webp"
+                   srcset="../assets/img/nano-photo-1000.webp 1000w, ../assets/img/nano-photo-1600.webp 1600w"
+                   sizes="(max-width: 860px) 92vw, 60vw" width="1600" height="1205" alt="The rev 2 board in its printed housing, running on an XT90 input." loading="lazy">
+              <figcaption>Rev 2, running</figcaption>
+            </figure>
+    </div>
+
+    <div class="case-foot">
+      <div class="tags"><span class="tag">240 W</span><span class="tag">1 MHz</span><span class="tag">USB-C PD 3.1</span><span class="tag">CERN-OHL-S</span></div>
+      <div><a class="arrow" href="https://github.com/NovaPrime18/nitride-nano" target="_blank" rel="noopener">Hardware and firmware on GitHub <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h11M8.6 1.4 12.2 5l-3.6 3.6" stroke="currentColor" stroke-width="1.2"/></svg></a></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <a class="next-case" href="compressor-controller.html">
+      <span class="k">Next case</span>
+      <span class="t"><span>A compressor drive that keeps the grid happy.</span><span aria-hidden="true">→</span></span>
+    </a>
+  </div>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <span>© 2026 Thommy · they/them</span>
+    <span>Plain HTML, because a portfolio shouldn't need a build step.</span>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="https://github.com/NovaPrime18" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:novaprime18@gmail.com">Email</a>
+      <a href="#top">Top ↑</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Twin-GaN — dual 3-phase GaN motor controller · Thommy</title>
+<meta name="description" content="Two complete VESC-compatible three-phase inverters on one 99 × 99 mm board, with both MCUs and an ESP32 sharing one internal CAN bus.">
+<meta name="author" content="Thommy">
+<meta name="theme-color" content="#08090b">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Twin-GaN — dual 3-phase GaN motor controller · Thommy">
+<meta property="og:description" content="Two complete VESC-compatible three-phase inverters on one 99 × 99 mm board, with both MCUs and an ESP32 sharing one internal CAN bus.">
+<meta property="og:image" content="../assets/img/ganymede-iso-1100.webp">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../assets/fonts/Archivo-100_900-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/JetBrainsMono-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+<a class="skip" href="#body">Skip to the content</a>
+
+<header class="site-head" data-stuck="false" data-open="false">
+  <div class="wrap head-inner">
+    <a class="brand" href="../index.html" aria-label="Thommy, home">
+      <span class="via" aria-hidden="true"></span>
+      Thommy<span class="dot">.</span>
+    </a>
+      <nav class="nav" id="primary-nav" aria-label="Primary">
+        <a href="../index.html#work">Work</a>
+        <a href="../index.html#capabilities">Capabilities</a>
+        <a href="../index.html#process">How I work</a>
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    <span class="head-status"><span class="pulse" aria-hidden="true"></span>Open to the right thing</span>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav">
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<main id="top" class="case-hero">
+  <div class="wrap">
+    <p class="crumb"><a href="../index.html#work">Work</a> <span aria-hidden="true">/</span> <i>05</i> <span>Side project</span></p>
+    <h1>Two motor drives,<br>one 99 mm <em class="serif">board.</em></h1>
+    <p class="lede">A dual VESC-compatible controller that packs two complete three-phase GaN inverters onto a single 99 × 99 mm board — with all three controllers sharing one internal CAN bus, so traction control is a local conversation instead of a cable.</p>
+    <dl class="case-meta">
+        <div><dt>Year</dt><dd>2026 — R1</dd></div>
+        <div><dt>Role</dt><dd>Hardware design</dd></div>
+        <div><dt>Board</dt><dd>99 × 99 mm · 4-layer</dd></div>
+        <div><dt>Licence</dt><dd>CERN-OHL-S v2.0</dd></div>
+    </dl>
+  </div>
+  <div class="wrap case-hero-media">
+    <img src="../assets/img/twin-gan-900.webp"
+             srcset="../assets/img/twin-gan-900.webp 900w, ../assets/img/twin-gan-1400.webp 1400w"
+             sizes="(max-width: 860px) 92vw, 84vw" width="1400" height="1553" alt="Twin-GaN: a 99 mm square green PCB with two complete three-phase GaN inverters, six ePower stages and two STM32 controllers." loading="lazy">
+  </div>
+
+  <div class="wrap case-body" id="body">
+
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">01</span>The brief</h2>
+        <div class="prose">
+
+          <p>Two-wheel-drive light electric vehicles — skateboards, e-bikes, small robots — usually carry two separate ESCs that have to agree with each other over a cable. Twin-GaN does the job with one board: two independent three-phase inverters, each with its own STM32F405, its own USB-C and its own three-shunt sensing chain, plus an ESP32-C3 as a third CAN node.</p>
+          <p>The bet is that integration beats modularity at this size. It is cheaper and smaller than the equivalent dual ESC, and the trade-off is deliberate: it gives up peak power for density.</p>
+        
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">02</span>Specification</h2>
+        <div>
+          <table class="table">
+            <caption>Revision 1 — design targets, not yet bench-verified</caption>
+            <tbody>
+            <tr><th scope="row">Input</th><td class="num">up to 60 V DC · XT60</td></tr>
+            <tr><th scope="row">Battery current</th><td class="num">20 A</td></tr>
+            <tr><th scope="row">Phase current</th><td class="num">20 A continuous · 40 A absolute max, per channel</td></tr>
+            <tr><th scope="row">Max input power</th><td>≈ 1.2 kW, battery-limited</td></tr>
+            <tr><th scope="row">Topology</th><td>2 × independent 3-phase inverter</td></tr>
+            <tr><th scope="row">Power stage</th><td>6 × EPC23102 ePower Stage — 100 V, 5.2 mΩ</td></tr>
+            <tr><th scope="row">PWM</th><td>up to 35 kHz</td></tr>
+            <tr><th scope="row">Control</th><td>2 × STM32F405RGT6 + ESP32-C3-WROOM-02</td></tr>
+            <tr><th scope="row">Current sense</th><td>6 × INA240A1D across 2 mΩ shunts</td></tr>
+            <tr><th scope="row">CAN</th><td>3 × TJA1051T/3 on one terminated internal bus</td></tr>
+            <tr><th scope="row">Board</th><td class="num">99 × 99 mm · 4 layers · 1.6 mm</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">03</span>What makes it a system, not two boards</h2>
+        <div class="prose">
+
+          <p><strong>One CAN bus, three nodes.</strong> Both STM32s and the ESP32 are on the same internal bus with on-board termination, so the two channels can hand each other torque requests without an external harness. Traction control becomes a firmware feature rather than a wiring problem.</p>
+          <p><strong>Two VESC targets, not one.</strong> Because each channel has its own MCU and its own 6-PWM stage, VESC Tool sees two separate controllers, identifies and configures them independently, and treats them exactly like two ESCs — which is what makes the board instantly usable by anyone who already knows the ecosystem.</p>
+          <p><strong>Three-shunt sensing per channel with a real reference.</strong> One INA240A1D per phase across 2 mΩ shunts, with REF1 at GND and REF2 at 3V3, so the measurement is genuinely bidirectional and the firmware can tell forward from regen.</p>
+          <p><strong>Every port accounted for.</strong> USB-C per controller with proper 5.1 kΩ CC pulldowns and a PTC on VBUS; Tag-Connect SWD per MCU; VESC accessory headers on the standard pinout. The details that make a board feel like a product instead of a prototype.</p>
+        
+        </div>
+      </section>
+      <section class="case-grid" data-reveal>
+        <h2><span class="n">04</span>Where it stands</h2>
+        <div class="prose">
+
+          <p>R1 is drawn, and the numbers on this page are design targets — 60 V, 20 A battery current, 20 A continuous and 40 A absolute-max phase current per channel, roughly 1.2 kW total. None of it has been bench-verified. The repository carries the same warning at the top of the specification table, which is the only honest way to publish a board that has not yet been through a real load.</p>
+        
+        </div>
+      </section>
+    <div class="figures">
+            <figure class="figure figure--wide">
+              <img src="../assets/img/twin-gan-900.webp"
+                   srcset="../assets/img/twin-gan-900.webp 900w, ../assets/img/twin-gan-900.webp 900w"
+                   sizes="(max-width: 860px) 92vw, 60vw" width="1086" height="1205" alt="Detail: two EPC23102 ePower stages per channel, with the 2 mΩ shunts and INA240 sensing in the phase legs." loading="lazy">
+              <figcaption>Power stage detail</figcaption>
+            </figure>
+    </div>
+
+    <div class="case-foot">
+      <div class="tags"><span class="tag">1.2 kW</span><span class="tag">2 × 3-phase</span><span class="tag">EPC23102</span><span class="tag">CERN-OHL-S</span></div>
+      <div><a class="arrow" href="https://github.com/NovaPrime18/Twin-GaN" target="_blank" rel="noopener">Hardware files on GitHub <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h11M8.6 1.4 12.2 5l-3.6 3.6" stroke="currentColor" stroke-width="1.2"/></svg></a></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <a class="next-case" href="schroombort.html">
+      <span class="k">Next case</span>
+      <span class="t"><span>The thing that got me here.</span><span aria-hidden="true">→</span></span>
+    </a>
+  </div>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <span>© 2026 Thommy · they/them</span>
+    <span>Plain HTML, because a portfolio shouldn't need a build step.</span>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="https://github.com/NovaPrime18" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:novaprime18@gmail.com">Email</a>
+      <a href="#top">Top ↑</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js" defer></script>
+</body>
+</html>
