@@ -2,6 +2,7 @@
 .preview/
 .pylibs/
 .tmp/
+.work/
 .ffprof*/
 .shot*.png
 .contact-sheet.jpg

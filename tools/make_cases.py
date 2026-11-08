@@ -39,6 +39,8 @@ def head(title, desc, og="assets/img/ganymede-iso-1100.webp"):
 <meta property="og:image" content="../{og}">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../assets/favicon-180.png">
 <link rel="preload" href="../assets/fonts/Archivo-100_900-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../assets/fonts/JetBrainsMono-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -50,7 +52,7 @@ def head(title, desc, og="assets/img/ganymede-iso-1100.webp"):
 <header class="site-head" data-stuck="false" data-open="false">
   <div class="wrap head-inner">
     <a class="brand" href="../index.html" aria-label="Thommy, home">
-      <span class="via" aria-hidden="true"></span>
+      <img class="brand-mark" src="../assets/logo-mark.svg" alt="" width="23" height="26">
       Thommy<span class="dot">.</span>
     </a>
 {NAV}
@@ -266,7 +268,7 @@ CASES["nitride-nano"] = dict(
         ("Result", "94.8 % peak · 240.8 W in"),
         ("Licence", "CERN-OHL-S v2.0"),
     ],
-    hero=("nano-front-1800", "nano-front-1100", "nitride-nano: a compact white PCB with USB-C, an OLED display, a rotary encoder, an XT90 output and a dense GaN power stage.", 1800, 947),
+    hero=("nano-front-1800", "nano-front-1100", "nitride-nano: a compact white PCB with its GaN power stage, USB-C input and XT90 output connectors.", 1800, 1046),
     sections=[
         ("01", "The brief", """
           <p>The goal was a portable programmable supply in the spirit of the Miniware MDP-XP, with a wider output range and an emphasis on power density. It accepts USB-C Power Delivery or higher-voltage DC input and provides 0–60 V at up to 20 A through an XT90 connector.</p>
@@ -309,7 +311,7 @@ CASES["nitride-nano"] = dict(
           </div>""",
     figures=[
         ("nano-back-1500", "nano-back-950", "The back of the board: silkscreen reads POWAH!, atom logo, and the output range printed where an assembly technician will see it.", 1500, 871, "", "Back side"),
-        ("nano-photo-1600", "nano-photo-1000", "The rev 2 board in its printed housing, running on an XT90 input.", 1600, 1205, "figure--wide", "Rev 2, running"),
+        ("nano-photo-1800", "nano-photo-1100", "The rev 2 board in its printed housing, running on an XT90 input.", 1800, 1355, "figure--wide", "Rev 2, running"),
     ],
     links=[("https://github.com/NovaPrime18/nitride-nano", "Hardware and firmware on GitHub")],
     tags=["240 W", "1 MHz", "USB-C PD 3.1", "CERN-OHL-S"],
@@ -330,7 +332,7 @@ CASES["compressor-controller"] = dict(
         ("Scope", "Mains · 325 V bus · HVAC"),
         ("Licence", "CERN-OHL-S v2.0"),
     ],
-    hero=("compressor-front-1500", "compressor-front-950", "The compressor controller: green PCB with an intelligent power module, PFC inductor, film capacitors and a large bus capacitor bank.", 1500, 935),
+    hero=("compressor-front-1500", "compressor-front-950", "The compressor controller: green PCB with an intelligent power module, PFC inductor, film capacitors and a large bus capacitor bank.", 1500, 911),
     sections=[
         ("01", "The brief", """
           <p>This board is intended for compressor and HVAC applications where a compact three-phase drive has to run directly from 230 V AC. It combines a rectified DC bus, active power factor correction and an intelligent power module, while remaining compatible with VESC firmware and tools.</p>

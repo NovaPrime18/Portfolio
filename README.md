@@ -33,7 +33,10 @@ Open `index.html` and it works.
 │   ├── css/style.css               the whole design system
 │   ├── js/main.js                  nav, scroll reveals, copy-email
 │   ├── fonts/                      Archivo, Instrument Serif, JetBrains Mono (woff2)
-│   └── img/                        optimised WebP, two widths each
+│   ├── img/                        optimised WebP, two widths each
+│   ├── src/                        source renders for the local image pipeline
+│   ├── logo-mark.svg               monogram used in the header and as a watermark
+│   └── favicon.svg / .png          browser and touch icons
 ├── tools/                          optional authoring helpers, not part of the site
 └── .nojekyll                       tells GitHub Pages to serve files as-is
 ```
@@ -64,7 +67,8 @@ organisation page, or any subdirectory.
 
 **Text** lives directly in the HTML. Change it and reload.
 
-**Images** are generated from the renders in the sibling project repositories:
+**Images** are generated from `assets/src/` (or, for older boards, the sibling
+project repositories):
 
 ```sh
 python3 tools/prepare_assets.py
@@ -73,6 +77,9 @@ python3 tools/prepare_assets.py
 It crops, keys out flat black/lavender render backdrops, and writes two WebP
 widths per image into `assets/img/`. Edit the `JOBS` table at the top to add a
 new board. Requires Pillow and NumPy.
+
+The logo is vector-traced from `assets/src/logo.png`; the header, watermark and
+favicon all use the resulting SVG.
 
 **Case-study pages** are produced by `tools/make_cases.py` from one content
 dictionary. If you edit a generated page by hand, stop using the generator for

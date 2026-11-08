@@ -5,7 +5,7 @@ Optional tool — the site itself is plain static files. Run from the repo root:
 
     python3 tools/prepare_assets.py
 
-Source renders live in the sibling project repos (/home/tj/<repo>).
+Source renders live either in assets/src/ or in the sibling project repos.
 """
 
 from pathlib import Path
@@ -19,18 +19,18 @@ SRC = ROOT.parent
 OUT = ROOT / "assets" / "img"
 OUT.mkdir(parents=True, exist_ok=True)
 
-# name, source path, widths, mode ("keep" | "key")
+# name, source path, widths, mode ("keep" | "key" | "keyblack" | "cut")
+# "cut" expects an image that already has a transparent background.
 JOBS = [
     ("ganymede-iso",      "GaNymede/Pics/board-iso.png",              [1800, 1100], "keyblack"),
     ("ganymede-top",      "GaNymede/Pics/board-top.png",              [1400, 900],  "keyblack"),
-    ("nano-front",        "nitride-nano/Pics/nitride-nano-f.png",     [1800, 1100], "keyblack"),
+    ("nano-front",        "assets/src/nano-new.webp",                 [1800, 1100], "cut"),
     ("nano-back",         "nitride-nano/Pics/nitride-nano-b.png",     [1500, 950],  "keyblack"),
-    ("nano-photo",        "nitride-nano/Pics/Assembled.jpg",          [1600, 1000], "keep"),
-    ("compressor-front",  "CompressorController/FB.png",              [1500, 950],  "key"),
+    ("nano-photo",        "assets/src/nano-photo.jpg",                [1800, 1100], "keep"),
+    ("compressor-front",  "assets/src/compressor-new.webp",           [1500, 950],  "key"),
     ("compressor-back",   "CompressorController/FC.png",              [1500, 950],  "key"),
     ("dab-hero",          "DAB_DCDC/Pictures/DAB9T.png",               [1800, 1100], "keyblack"),
     ("dab-macro",         "DAB_DCDC/Pictures/DAB10.jpg",               [1800, 1100], "keep"),
-    ("dab-top",           "DAB_DCDC/Pictures/irlpcb.jpg",              [1600, 1000], "keep"),
     ("dab-cooling",       "DAB_DCDC/Pictures/cooling_4k_H.png",        [1500, 950],  "keyblack"),
     ("twin-gan",          "Twin-GaN/Twin-GaN.png",                     [1400, 900],  "key"),
     ("schroombort",       "schroombort/Pictures/SchroombortRENDER.png",[1500, 950],  "keyblack"),
@@ -103,17 +103,19 @@ def key_background(im: Image.Image) -> Image.Image:
 
 
 def process(name, rel, widths, mode):
-    src = SRC / rel
+    src = ROOT / rel
+    if not src.exists():
+        src = SRC / rel
     if not src.exists():
         print(f"  !! missing {src}")
         return
     im = Image.open(src)
-    im = im.convert("RGBA") if mode in ("key", "keyblack") else im.convert("RGB")
+    im = im.convert("RGBA") if mode in ("key", "keyblack", "cut") else im.convert("RGB")
     if mode == "key":
         im = key_background(im)
     elif mode == "keyblack":
         im = key_black(im)
-    if mode in ("key", "keyblack"):
+    if mode in ("key", "keyblack", "cut"):
         box = im.getchannel("A").getbbox()
         if box:
             pad = 6
@@ -125,7 +127,7 @@ def process(name, rel, widths, mode):
         h = round(im.height * w / im.width)
         resized = im.resize((w, h), Image.LANCZOS)
         dest = OUT / f"{name}-{w}.webp"
-        if mode in ("key", "keyblack"):
+        if mode in ("key", "keyblack", "cut"):
             resized.save(dest, "WEBP", quality=86, method=6)
         else:
             resized.save(dest, "WEBP", quality=80, method=6)

@@ -9,10 +9,12 @@
 <meta name="theme-color" content="#08090b">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Thommy — Power Electronics &amp; Open Hardware">
-<meta property="og:description" content="Six boards, 240 W to 10 kW. GaN and SiC power stages, motor drives and mains hardware.">
+<meta property="og:description" content="Open hardware, 240 W to 10 kW: GaN and SiC power stages, motor drives and mains electronics.">
 <meta property="og:image" content="assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/favicon-180.png">
 <link rel="preload" href="assets/fonts/Archivo-100_900-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/JetBrainsMono-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <script>document.documentElement.classList.add("js");</script>
@@ -24,7 +26,7 @@
 <header class="site-head" data-stuck="false" data-open="false">
   <div class="wrap head-inner">
     <a class="brand" href="index.html" aria-label="Thommy, home">
-      <span class="via" aria-hidden="true"></span>
+      <img class="brand-mark" src="assets/logo-mark.svg" alt="" width="23" height="26">
       Thommy<span class="dot">.</span>
     </a>
     <nav class="nav" id="primary-nav" aria-label="Primary">
@@ -52,12 +54,12 @@
           <span class="line">I make</span>
           <span class="line">power <em class="serif">dense.</em></span>
         </h1>
-        <p class="lede">I design GaN and SiC converters, motor drives and mains hardware, and enjoy taking a project from first schematic to finished board. These six projects range from a 240&nbsp;W pocket supply to a 10&nbsp;kW converter module, with the enclosures and renders made along the way.</p>
+        <p class="lede">I design GaN and SiC converters, motor drives and mains hardware, and enjoy taking a project from first idea to finished system. These projects range from a 240&nbsp;W pocket supply to a 10&nbsp;kW converter module, with the enclosures and renders made along the way.</p>
         <div class="hero-cta">
           <a class="btn" href="#work">See the boards <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h11M8.6 1.4 12.2 5l-3.6 3.6" stroke="currentColor" stroke-width="1.2"/></svg></a>
           <a class="btn btn--ghost" href="https://github.com/NovaPrime18" target="_blank" rel="noopener">GitHub <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h11M8.6 1.4 12.2 5l-3.6 3.6" stroke="currentColor" stroke-width="1.2"/></svg></a>
         </div>
-        <p class="hero-note"><span>Six open designs</span><span class="bar" aria-hidden="true"></span><span>2025 — 2026</span><span class="bar" aria-hidden="true"></span><span>Hardware, enclosures &amp; renders by me</span></p>
+        <p class="hero-note"><span>Open designs</span><span class="bar" aria-hidden="true"></span><span>2021 — 2026</span><span class="bar" aria-hidden="true"></span><span>Hardware, enclosures &amp; renders by me</span></p>
       </div>
 
       <div class="hero-art-wrap">
@@ -99,7 +101,7 @@
       <div class="sec-head">
         <span class="sec-num">01</span>
         <h2 class="h2">Selected <span class="serif">work</span></h2>
-        <span class="sec-note">Six boards · 2025—2026</span>
+        <span class="sec-note">6 years of PCB design experience</span>
       </div>
 
       <!-- 01 DAB -->
@@ -138,7 +140,7 @@
         <div class="project-body">
           <div class="project-index"><i>02</i><span>Motor drive</span><span class="rule" aria-hidden="true"></span><span>VESC compatible</span></div>
           <h3><a href="projects/ganymede.html">Sixty volts,<br>a hundred amps.</a></h3>
-          <p>A VESC-compatible three-phase drive for a direct-drive hub motor, with six eGaN FETs, 0.25&nbsp;mΩ phase shunts and 1.4&nbsp;mF of bus capacitance on a 78 × 65&nbsp;mm six-layer board. The back carries an engraved illustration of Ganymede and the eagle.</p>
+          <p>A VESC-compatible three-phase driver for a direct-drive hub motor, with six eGaN FETs, 0.25&nbsp;mΩ phase shunts and 1.4&nbsp;mF of bus capacitance on a 78 × 65&nbsp;mm six-layer board. The back carries an engraved illustration of Ganymede and the eagle.</p>
           <ul class="spec-line">
             <li><b>5.2 kW</b> peak</li>
             <li>100 A / 50 A</li>
@@ -154,8 +156,8 @@
           <img src="assets/img/nano-front-1100.webp"
                srcset="assets/img/nano-front-1100.webp 1100w, assets/img/nano-front-1800.webp 1800w"
                sizes="(max-width: 860px) 92vw, 56vw"
-               width="1800" height="947"
-               alt="nitride-nano: a small white PCB with a USB-C connector, an OLED display, a rotary encoder and an XT90 connector."
+               width="1800" height="1046"
+               alt="nitride-nano: a compact white PCB with its GaN power stage, USB-C input and XT90 output connectors."
                loading="lazy">
         </a>
         <div class="project-body">
@@ -177,7 +179,7 @@
           <img src="assets/img/compressor-front-950.webp"
                srcset="assets/img/compressor-front-950.webp 950w, assets/img/compressor-front-1500.webp 1500w"
                sizes="(max-width: 860px) 92vw, 56vw"
-               width="1500" height="935"
+               width="1500" height="911"
                alt="The mains-powered compressor controller: green PCB with an intelligent power module, PFC inductor and large bus capacitors."
                loading="lazy">
         </a>
@@ -208,7 +210,7 @@
           </div>
           <div class="card-body">
             <div class="project-index"><i>05</i><span>Side project</span></div>
-            <h3 class="h3">Two motor drives, one 99&nbsp;mm board.</h3>
+            <h3 class="h3">Two motor drives, on a 99&nbsp;mm board.</h3>
             <p>A dual VESC-compatible controller with two STM32s and an ESP32 sharing one internal CAN bus, allowing the motor channels to coordinate directly for traction control.</p>
             <div class="card-tags"><span class="tag">1.2 kW</span><span class="tag">2 × 3-phase</span><span class="tag">4-layer</span></div>
             <a class="arrow" href="projects/twin-gan.html">Read the notes <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h11M8.6 1.4 12.2 5l-3.6 3.6" stroke="currentColor" stroke-width="1.2"/></svg></a>
@@ -327,8 +329,8 @@
 
       <div class="about-grid">
         <div class="about-side">
-          <h3 class="h2">Hi, I'm <span class="serif">Thommy.</span></h3>
-          <p class="lede">I like taking things apart to understand them, then putting that understanding into something useful. Most of my personal projects start as small questions and turn into complete boards.</p>
+          <h3 class="h2">I'm <span class="serif">Thommy.</span></h3>
+          <p class="lede">I like taking things apart to understand them, then putting the half-working thing back together and understanding a little more of the world. Most of my personal projects start as small questions and turn into complete boards.</p>
           <div class="chips">
             <span class="chip">Blender &amp; FreeCAD</span>
             <span class="chip">Self-hosted tools</span>
@@ -351,7 +353,7 @@
         </div>
 
         <div class="about-body">
-          <p>Power electronics is the day job, but the same curiosity shows up in smaller projects: a 36-button soundboard, a browser app for reading a battery management system, and a Home Assistant add-on that handles a repetitive task automatically. I enjoy making tools for my own setup and sharing them when they might help someone else.</p>
+          <p>Designing electronics is my pride and joy, but the same curiosity shows up in smaller projects: a 36-button soundboard, a browser app for reading a battery management system, and a Home Assistant add-on that handles a repetitive task automatically. I enjoy making tools for my own setup and sharing them when they might help someone else.</p>
           <p>I like products that can be opened, understood and repaired. I publish hardware under CERN-OHL-S where I can, and I try to document both the design and the mistakes. Reverse engineering is satisfying for the same reason: it turns a closed system into something you can work with.</p>
           <p>I also do the mechanical design and rendering for these projects, using KiCad, FreeCAD and Blender. It helps me check the packaging and gives each board a clear visual identity.</p>
           <p>Right now I'm working in power electronics and open to new opportunities — especially a team with <strong>interesting hardware problems</strong> and room to keep learning.</p>

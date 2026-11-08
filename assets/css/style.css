@@ -272,7 +272,7 @@ h3,
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 11px;
+  gap: 12px;
   font-family: var(--mono);
   font-size: 12px;
   font-weight: 500;
@@ -280,12 +280,10 @@ h3,
   text-transform: uppercase;
   color: var(--text);
 }
-.brand .via {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  border: 1.5px solid var(--gold);
-  box-shadow: 0 0 0 3px rgba(226, 180, 108, 0.1);
+.brand-mark {
+  height: 26px;
+  width: auto;
+  display: block;
   flex: none;
 }
 .brand span.dot { color: var(--gold); letter-spacing: 0; }
@@ -855,7 +853,25 @@ h3,
 
 /* ---- contact ------------------------------------------------------------ */
 .contact { padding-block: clamp(90px, 12vw, 170px) 0; }
-.contact-inner { border-top: 1px solid var(--line); padding-top: clamp(44px, 6vw, 80px); }
+.contact-inner {
+  border-top: 1px solid var(--line);
+  padding-top: clamp(44px, 6vw, 80px);
+  position: relative;
+  overflow: hidden;
+}
+.contact-inner::after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  top: 24px;
+  width: clamp(190px, 19vw, 280px);
+  aspect-ratio: 895 / 1019;
+  background: url("../logo-mark.svg") center / contain no-repeat;
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: 0;
+}
+.contact-inner > * { position: relative; z-index: 1; }
 .contact h2 {
   margin: 18px 0 0;
   font-size: clamp(2.5rem, 7vw, 6.2rem);
@@ -1213,6 +1229,7 @@ h3,
   .caps li { grid-template-columns: 1fr; gap: 8px; }
   .contact-rows { grid-template-columns: 1fr; }
   .contact-row { border-left: 0; padding: 20px 0 !important; border-top: 1px solid var(--line-2); }
+  .contact-inner::after { display: none; }
   .contact-row:first-child { border-top: 0; }
   .case-meta { grid-template-columns: 1fr 1fr; }
   .case-meta div:nth-child(3) { border-left: 0; padding-left: 0; }
