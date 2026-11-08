@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Thommy — Power Electronics &amp; Open Hardware</title>
-<meta name="description" content="GaN and SiC converters, motor drives and mains hardware. Six open boards, from 240 W in a pocket to 10 kW behind a cooling plate. Designed, laid out, packaged and rendered by Thommy.">
+<meta name="description" content="Power electronics and open hardware by Thommy: GaN and SiC converters, motor drives and mains hardware, from a 240 W pocket supply to a 10 kW converter module.">
 <meta name="author" content="Thommy">
 <meta name="theme-color" content="#08090b">
 <meta property="og:type" content="website">
@@ -34,7 +34,7 @@
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
     </nav>
-    <span class="head-status"><span class="pulse" aria-hidden="true"></span>Open to the right thing</span>
+    <span class="head-status"><span class="pulse" aria-hidden="true"></span>Open to new opportunities</span>
     <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav">
       <span aria-hidden="true"></span>
     </button>
@@ -52,12 +52,12 @@
           <span class="line">I make</span>
           <span class="line">power <em class="serif">dense.</em></span>
         </h1>
-        <p class="lede">GaN and SiC converters, motor drives and mains hardware. Six boards, from 240&nbsp;W in a pocket to 10&nbsp;kW that needs a cooling plate — designed, laid out, packaged and rendered by one person who is bad at leaving things alone.</p>
+        <p class="lede">I design GaN and SiC converters, motor drives and mains hardware, and enjoy taking a project from first schematic to finished board. These six projects range from a 240&nbsp;W pocket supply to a 10&nbsp;kW converter module, with the enclosures and renders made along the way.</p>
         <div class="hero-cta">
           <a class="btn" href="#work">See the boards <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h11M8.6 1.4 12.2 5l-3.6 3.6" stroke="currentColor" stroke-width="1.2"/></svg></a>
           <a class="btn btn--ghost" href="https://github.com/NovaPrime18" target="_blank" rel="noopener">GitHub <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h11M8.6 1.4 12.2 5l-3.6 3.6" stroke="currentColor" stroke-width="1.2"/></svg></a>
         </div>
-        <p class="hero-note"><span>Six open designs</span><span class="bar" aria-hidden="true"></span><span>2025 — 2026</span><span class="bar" aria-hidden="true"></span><span>Every render mine</span></p>
+        <p class="hero-note"><span>Six open designs</span><span class="bar" aria-hidden="true"></span><span>2025 — 2026</span><span class="bar" aria-hidden="true"></span><span>Hardware, enclosures &amp; renders by me</span></p>
       </div>
 
       <div class="hero-art-wrap">
@@ -115,7 +115,7 @@
         <div class="project-body">
           <div class="project-index"><i>01</i><span>DC-DC</span><span class="rule" aria-hidden="true"></span><span>Internship thesis</span></div>
           <h3><a href="projects/dab-dcdc.html">Ten kilowatts,<br>on the bench.</a></h3>
-          <p>One building block of a 500 kW off-grid EV charger. 800 V in, 1000 V out at 100 kHz through a planar transformer, with 1700 V SiC on the isolated side and creepage treated as a design constraint rather than an afterthought.</p>
+          <p>A 10 kW dual active bridge module developed as part of a thesis on a 500 kW off-grid EV charger. 800 V in, up to 1000 V out at 100 kHz, with 1700 V SiC devices and the isolation and cooling requirements considered from the start.</p>
           <ul class="spec-line">
             <li><b>10 kW</b> per module</li>
             <li>800 → 1000 V</li>
@@ -138,7 +138,7 @@
         <div class="project-body">
           <div class="project-index"><i>02</i><span>Motor drive</span><span class="rule" aria-hidden="true"></span><span>VESC compatible</span></div>
           <h3><a href="projects/ganymede.html">Sixty volts,<br>a hundred amps.</a></h3>
-          <p>A three-phase drive for a direct-drive hub motor: six eGaN FETs, 0.25&nbsp;mΩ phase shunts and 1.4&nbsp;mF of bus capacitance wrapped around a 78 × 65&nbsp;mm six-layer power stage. The back of the board has a Greek god on it, because if you're going to spend a weekend on copper you may as well make it look like something.</p>
+          <p>A VESC-compatible three-phase drive for a direct-drive hub motor, with six eGaN FETs, 0.25&nbsp;mΩ phase shunts and 1.4&nbsp;mF of bus capacitance on a 78 × 65&nbsp;mm six-layer board. The back carries an engraved illustration of Ganymede and the eagle.</p>
           <ul class="spec-line">
             <li><b>5.2 kW</b> peak</li>
             <li>100 A / 50 A</li>
@@ -160,8 +160,8 @@
         </a>
         <div class="project-body">
           <div class="project-index"><i>03</i><span>Power supply</span><span class="rule" aria-hidden="true"></span><span>Bench verified</span></div>
-          <h3><a href="projects/nitride-nano.html">Two hundred and forty watts,<br>in a pocket.</a></h3>
-          <p>A USB-C PD 3.1 buck/boost that turns a laptop charger into a 0–60&nbsp;V bench supply. 1&nbsp;MHz switching, eGaN FETs and a controller kept out of its own lossiest operating mode by an MCU that negotiates PPS, AVS and EPR. Measured 94.8&nbsp;% peak — after one revision that added 55&nbsp;W of output.</p>
+          <h3><a href="projects/nitride-nano.html">240 W<br>in a pocket.</a></h3>
+          <p>A USB-C PD 3.1 buck/boost supply with a 0–60&nbsp;V output and up to 240&nbsp;W. The STM32 negotiates the input rail to keep the converter in an efficient operating region; the second revision reached 94.8&nbsp;% measured peak efficiency.</p>
           <ul class="spec-line">
             <li><b>240 W</b></li>
             <li>0 — 60 V</li>
@@ -183,8 +183,8 @@
         </a>
         <div class="project-body">
           <div class="project-index"><i>04</i><span>Mains drive</span><span class="rule" aria-hidden="true"></span><span>HVAC</span></div>
-          <h3><a href="projects/compressor-controller.html">A compressor drive that<br>keeps the grid happy.</a></h3>
-          <p>230&nbsp;V AC straight into a VESC-compatible HVAC drive, with a CCM PFC front end so the current draw is a sine wave rather than a crime. Isolated gate signals, dual isolated CAN, and IEC 61000-3-2 in the requirements from the first schematic, not the last.</p>
+          <h3><a href="projects/compressor-controller.html">A compressor drive<br>with active PFC.</a></h3>
+          <p>A 230&nbsp;V AC, VESC-compatible drive for compressor and HVAC applications. Active PFC reduces harmonic current, while isolated gate signals and dual isolated CAN separate the control side from the mains domain.</p>
           <ul class="spec-line">
             <li><b>230 V AC</b></li>
             <li>325 V bus</li>
@@ -209,7 +209,7 @@
           <div class="card-body">
             <div class="project-index"><i>05</i><span>Side project</span></div>
             <h3 class="h3">Two motor drives, one 99&nbsp;mm board.</h3>
-            <p>A dual VESC-compatible controller with both MCUs and an ESP32 sharing one internal CAN bus — so traction control is a local conversation instead of a cable between two ESCs.</p>
+            <p>A dual VESC-compatible controller with two STM32s and an ESP32 sharing one internal CAN bus, allowing the motor channels to coordinate directly for traction control.</p>
             <div class="card-tags"><span class="tag">1.2 kW</span><span class="tag">2 × 3-phase</span><span class="tag">4-layer</span></div>
             <a class="arrow" href="projects/twin-gan.html">Read the notes <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h11M8.6 1.4 12.2 5l-3.6 3.6" stroke="currentColor" stroke-width="1.2"/></svg></a>
           </div>
@@ -226,8 +226,8 @@
           </div>
           <div class="card-body">
             <div class="project-index"><i>06</i><span>Where I started</span></div>
-            <h3 class="h3">The thing that got me here.</h3>
-            <p>Thirty-six Cherry MX switches, a vacuum fluorescent display, stereo speakers and a battery. A soundboard. Also a macro-pad. Also a calculator. Obviously.</p>
+            <h3 class="h3">The board that started it.</h3>
+            <p>Thirty-six Cherry MX switches, a vacuum fluorescent display, stereo speakers and a battery. It works as a soundboard, a macro-pad and a calculator — more than the original idea strictly needed.</p>
             <div class="card-tags"><span class="tag">36 keys</span><span class="tag">VFD</span><span class="tag">CERN-OHL-S</span></div>
             <a class="arrow" href="projects/schroombort.html">Where it started <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h11M8.6 1.4 12.2 5l-3.6 3.6" stroke="currentColor" stroke-width="1.2"/></svg></a>
           </div>
@@ -241,14 +241,14 @@
     <div class="wrap">
       <div class="sec-head">
         <span class="sec-num">02</span>
-        <h2 class="h2">What I actually <span class="serif">do</span></h2>
-        <span class="sec-note">Schematic to first article</span>
+        <h2 class="h2">What I <span class="serif">do</span></h2>
+        <span class="sec-note">From schematic to tested hardware</span>
       </div>
 
       <ul class="caps">
         <li data-reveal>
           <span class="k"><em>01</em>Power conversion</span>
-          <span class="v">Non-isolated buck/boost, dual active bridge, CCM boost PFC and three-phase inverters — from 100&nbsp;kHz planar-transformer designs to 1&nbsp;MHz GaN stages, chosen for the loss budget rather than whatever the reference design used.</span>
+          <span class="v">Non-isolated buck/boost, dual active bridge, CCM boost PFC and three-phase inverters, from 100&nbsp;kHz planar-transformer designs to 1&nbsp;MHz GaN stages. Component and topology choices are matched to the loss budget and the available parts.</span>
         </li>
         <li data-reveal>
           <span class="k"><em>02</em>Wide-bandgap power stages</span>
@@ -256,23 +256,23 @@
         </li>
         <li data-reveal>
           <span class="k"><em>03</em>Magnetics</span>
-          <span class="v">Planar transformer turns ratios and leakage targets, inductor saturation and core loss, and the thermal consequences of both — the inductor is usually what gets hot first, so it gets designed first.</span>
+          <span class="v">Planar transformer turns ratios and leakage targets, inductor saturation and core loss, and the thermal consequences of both. Bench measurements help check those assumptions against the real hardware.</span>
         </li>
         <li data-reveal>
           <span class="k"><em>04</em>Thermal &amp; packaging</span>
-          <span class="v">Heatsink and cold-plate sizing, copper-filled vias, FreeCAD thermal studies, machined and printed housings. The thermal interface material usually matters more than the heatsink.</span>
+          <span class="v">Heatsink and cold-plate sizing, copper-filled vias, FreeCAD thermal studies, and machined or printed housings, including the interface materials and mechanical details that are easy to overlook.</span>
         </li>
         <li data-reveal>
           <span class="k"><em>05</em>Safety &amp; compliance</span>
-          <span class="v">Creepage and clearance to IPC-2221 and IEC-60664, 1.7× derating on high-voltage parts, conformal coating, IEC 61000-3-2 harmonics — and knowing that for a mains product, certification is part of the design, not paperwork afterwards.</span>
+          <span class="v">Creepage and clearance to IPC-2221 and IEC-60664, 1.7× derating on high-voltage parts, conformal coating and IEC 61000-3-2 harmonics, with certification treated as part of the design process.</span>
         </li>
         <li data-reveal>
           <span class="k"><em>06</em>Layout &amp; fabrication</span>
-          <span class="v">Six-layer 2&nbsp;oz stack-ups, high-current pours, a via per amp, isolated domains in the right places. JLCPCB-compatible from the first revision, because re-spins cost weekends.</span>
+          <span class="v">Six-layer 2&nbsp;oz stack-ups, high-current pours, via stitching and clearly separated isolated domains. Designs are prepared with fabrication and assembly constraints in mind from the first revision.</span>
         </li>
         <li data-reveal>
           <span class="k"><em>07</em>Bring-up &amp; reverse engineering</span>
-          <span class="v">Bench measurement, errata hunting, VESC ecosystem integration, and the occasional protocol dug out of a vendor app that never documented it.</span>
+          <span class="v">Bench measurement, errata tracking, VESC ecosystem integration, and reverse-engineering undocumented device protocols when that is the practical way to get useful data.</span>
         </li>
       </ul>
     </div>
@@ -284,32 +284,32 @@
       <div class="sec-head">
         <span class="sec-num">03</span>
         <h2 class="h2">How I <span class="serif">work</span></h2>
-        <span class="sec-note">Resourcefulness, specifically</span>
+        <span class="sec-note">A practical approach</span>
       </div>
 
       <div class="grid-2">
         <article class="note" data-reveal>
           <span class="num">01</span>
-          <h3 class="h3">I don't trust a number I haven't modelled.</h3>
-          <p>Loss budgets, thermal runs and efficiency tables live in the repo next to the schematic, with the assumptions spelled out. When a figure is a target rather than a measurement, it says so — right on the page, not in a footnote.</p>
+          <h3 class="h3">I check the numbers before I trust them.</h3>
+          <p>Loss budgets, thermal studies and efficiency tables live alongside the schematics, with the assumptions written down. Measured results and modelled targets are labelled separately.</p>
           <span class="corner" aria-hidden="true"></span>
         </article>
         <article class="note" data-reveal>
           <span class="num">02</span>
-          <h3 class="h3">If the tool doesn't exist, I write it.</h3>
-          <p>A single-file, offline FET-loss calculator that compares GaN against silicon and designs the magnetics around the answer. A browser app for a battery BMS because the vendor app crashed. Both started as being annoyed enough.</p>
+          <h3 class="h3">I build small tools when they save time.</h3>
+          <p>FET-FoM is an offline calculator for comparing power devices and estimating losses. The BMS web app came from wanting a quicker, more reliable way to read battery data. Small, focused tools can solve a problem without adding another service.</p>
           <span class="corner" aria-hidden="true"></span>
         </article>
         <article class="note" data-reveal>
           <span class="num">03</span>
-          <h3 class="h3">I show the errata.</h3>
-          <p>The DAB repo lists its own bodges: a swapped eFuse pinout, a reversed controlCARD connector, a current-limit resistor that had to change. A board that pretends it worked first time is a board nobody learned anything from.</p>
+          <h3 class="h3">I document the mistakes, too.</h3>
+          <p>The DAB repo lists its own fixes: a swapped eFuse pinout, a reversed controlCARD connector and a current-limit resistor that had to change. Recording those mistakes makes the next revision easier and gives other people a more useful starting point.</p>
           <span class="corner" aria-hidden="true"></span>
         </article>
         <article class="note" data-reveal>
           <span class="num">04</span>
-          <h3 class="h3">Firmware is a means, not a hobby.</h3>
-          <p>I design the hardware and stay honest about the rest: firmware gets brought up with a lot of help from language models, because my interest lives on the copper side of the board. Where the software is the point — tools, web apps, automations — I'll happily build it myself.</p>
+          <h3 class="h3">Hardware first, with practical help for firmware.</h3>
+          <p>Hardware is where I do my best work. For device firmware, I use existing frameworks and LLM assistance, then test the result on the board. I also enjoy writing small tools and web apps when they make the hardware easier to use.</p>
           <span class="corner" aria-hidden="true"></span>
         </article>
       </div>
@@ -321,17 +321,17 @@
     <div class="wrap">
       <div class="sec-head">
         <span class="sec-num">04</span>
-        <h2 class="h2">The person <span class="serif">attached</span></h2>
+        <h2 class="h2">About <span class="serif">me</span></h2>
         <span class="sec-note">Thommy · they/them</span>
       </div>
 
       <div class="about-grid">
         <div class="about-side">
-          <h3 class="h2">Hey. I'm <span class="serif">Thommy.</span></h3>
-          <p class="lede">I break things to find out how they work, then build the version that should have existed. Usually it is smaller, hotter, and more efficient than anyone asked for.</p>
+          <h3 class="h2">Hi, I'm <span class="serif">Thommy.</span></h3>
+          <p class="lede">I like taking things apart to understand them, then putting that understanding into something useful. Most of my personal projects start as small questions and turn into complete boards.</p>
           <div class="chips">
             <span class="chip">Blender &amp; FreeCAD</span>
-            <span class="chip">Self-hosted everything</span>
+            <span class="chip">Self-hosted tools</span>
             <span class="chip">Batteries</span>
             <span class="chip">Sound design</span>
             <span class="chip">VESC</span>
@@ -346,16 +346,16 @@
                  width="1500" height="1191"
                  alt="Schroombort in real life: black enclosure with a vacuum fluorescent display lit up and rows of mechanical switches."
                  loading="lazy">
-            <figcaption>The first board I ever finished. It plays dumb sounds.</figcaption>
+            <figcaption>My first finished board, built in 2021.</figcaption>
           </figure>
         </div>
 
         <div class="about-body">
-          <p>Power electronics is the day job. The rest is the same instinct pointed at other problems: a 36-button soundboard because a soundboard should have 36 buttons, a browser app for a battery management system because the vendor app was worse than none, a Home Assistant add-on because two containers is one too many.</p>
-          <p>I like things I can open, repair and keep. Everything I can release under an open hardware licence, I do — the rest I try to at least <em>explain</em>, including the parts that went wrong. Reverse engineering a protocol is my idea of a good evening; so is a render that makes a PCB look like it belongs in a museum.</p>
-          <p>The images on this site are mine — same for the housings, the board art and the silkscreen jokes. If a board is going to spend its life inside a box, it may as well look good on the way in.</p>
-          <p>Right now: working in power electronics, keeping an eye out for the <strong>right thing</strong> — a harder problem, a smaller package, or a team that thinks density is a personality trait.</p>
-          <p class="sig">Thommy — they/them · open to the right thing</p>
+          <p>Power electronics is the day job, but the same curiosity shows up in smaller projects: a 36-button soundboard, a browser app for reading a battery management system, and a Home Assistant add-on that handles a repetitive task automatically. I enjoy making tools for my own setup and sharing them when they might help someone else.</p>
+          <p>I like products that can be opened, understood and repaired. I publish hardware under CERN-OHL-S where I can, and I try to document both the design and the mistakes. Reverse engineering is satisfying for the same reason: it turns a closed system into something you can work with.</p>
+          <p>I also do the mechanical design and rendering for these projects, using KiCad, FreeCAD and Blender. It helps me check the packaging and gives each board a clear visual identity.</p>
+          <p>Right now I'm working in power electronics and open to new opportunities — especially a team with <strong>interesting hardware problems</strong> and room to keep learning.</p>
+          <p class="sig">Thommy — they/them · open to new opportunities</p>
         </div>
       </div>
     </div>
@@ -365,7 +365,7 @@
   <section class="contact" id="contact">
     <div class="wrap contact-inner">
       <p class="eyebrow"><span class="dash" aria-hidden="true"></span>05 — Contact</p>
-      <h2>Got something that<br>needs to be <span class="serif">smaller?</span></h2>
+      <h2>Have an interesting<br><span class="serif">hardware problem?</span></h2>
 
       <div class="contact-rows">
         <div class="contact-row">
@@ -382,7 +382,7 @@
         </div>
         <div class="contact-row">
           <span class="k">Availability</span>
-          <span class="v">Open to the right thing —<br>hardware, power, or a problem that doesn't fit.</span>
+          <span class="v">Open to power-electronics roles,<br>hardware collaborations and interesting technical problems.</span>
         </div>
       </div>
     </div>
@@ -392,7 +392,7 @@
 <footer class="site-foot">
   <div class="wrap foot-inner">
     <span>© <span data-year>2026</span> Thommy · they/them</span>
-    <span>Plain HTML, because a portfolio shouldn't need a build step.</span>
+    <span>Designed and built as a small static site.</span>
     <nav class="foot-links" aria-label="Footer">
       <a href="https://github.com/NovaPrime18" target="_blank" rel="noopener">GitHub</a>
       <a href="mailto:novaprime18@gmail.com">Email</a>

@@ -34,7 +34,7 @@
         <a href="../index.html#about">About</a>
         <a href="../index.html#contact">Contact</a>
       </nav>
-    <span class="head-status"><span class="pulse" aria-hidden="true"></span>Open to the right thing</span>
+    <span class="head-status"><span class="pulse" aria-hidden="true"></span>Open to new opportunities</span>
     <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav">
       <span aria-hidden="true"></span>
     </button>
@@ -45,7 +45,7 @@
   <div class="wrap">
     <p class="crumb"><a href="../index.html#work">Work</a> <span aria-hidden="true">/</span> <i>01</i> <span>DC-DC</span></p>
     <h1>Ten kilowatts,<br>on the <em class="serif">bench.</em></h1>
-    <p class="lede">One building block of a 500 kW off-grid EV charger: 800 V in, up to 1000 V out at 100 kHz through a planar transformer with 10 kV isolation — and creepage treated as a design constraint rather than an afterthought.</p>
+    <p class="lede">A 10 kW dual active bridge module developed as part of a thesis on a 500 kW off-grid EV charger: 800 V in, up to 1000 V out at 100 kHz, with the isolation and cooling requirements considered from the start.</p>
     <dl class="case-meta">
         <div><dt>Year</dt><dd>2026</dd></div>
         <div><dt>Role</dt><dd>Hardware design — internship thesis</dd></div>
@@ -65,8 +65,8 @@
         <h2><span class="n">01</span>The brief</h2>
         <div class="prose">
 
-          <p>The project was an internship thesis: work out whether a 500 kW off-grid EV DC fast charger could be built in-house. A 500 kW charger is not one converter. It is a rack of modules that share a DC bus, so the thesis needed a module — a 10 kW dual active bridge, derived from a Texas Instruments reference design and rebuilt around the parts and processes actually available.</p>
-          <p>The module had to hold 500–800 V on the primary, deliver 250–1000 V on the secondary, survive an EV charger's fault currents, and be manufacturable at a price that made the whole idea worth evaluating. The full design rationale, LTspice and PLECS results and the test campaign live in the thesis; the repository holds the hardware.</p>
+          <p>This module was developed during an internship thesis on whether a 500 kW off-grid EV DC fast charger could be built in-house. The system would be made from modules sharing a DC bus, so the thesis needed a repeatable 10 kW building block. This board is based on a Texas Instruments DAB reference design, adapted to the available components and manufacturing process.</p>
+          <p>It was designed for 500–800 V on the primary and 250–1000 V on the secondary, with cost and manufacturability part of the brief from the beginning. The thesis contains the design rationale, LTspice and PLECS simulations and test results; the repository contains the hardware.</p>
         
         </div>
       </section>
@@ -95,13 +95,13 @@
         </div>
       </section>
       <section class="case-grid" data-reveal>
-        <h2><span class="n">03</span>Decisions worth defending</h2>
+        <h2><span class="n">03</span>Key design decisions</h2>
         <div class="prose">
 
-          <p><strong>Six layers instead of the reference design's four.</strong> At 22 A peak on the primary and 25 A on the secondary, conduction loss stops being a detail. The extra layers carry 70 µm copper, spread heat, and let the high-current path keep a via per amp without turning the plane into a colander. Trace rise was held to ≤ 10 °C above ambient at 30 A using KiCad's trace-width calculator.</p>
-          <p><strong>1700 V on the isolated side, with 1.7× derating.</strong> A 1000 V output does not leave 1000 V of headroom — it leaves switching overshoot, transformer ringing and the occasional very bad day. The SiC MOSFETs and the DC-blocking capacitors are rated to 1700 V, and the blocking caps are 2280-package parts double-stacked to reach the capacitance in the space available.</p>
-          <p><strong>The contactors left the board.</strong> High-voltage switching happens externally, through XT30 connectors. It costs a little in integration effort and buys the freedom to pick a contactor rated for the real bus voltage instead of one that fits a footprint on a prototype PCB.</p>
-          <p><strong>The transformer is a structural member.</strong> It sits in the middle, supports the board, and is where the cooling plate clamps down. The board does not need a separate frame because the heaviest component is already doing the job.</p>
+          <p><strong>Six layers instead of four.</strong> The extra copper helps carry the 22 A primary and 25 A secondary peaks, spreads heat, and leaves room for via stitching around the high-current path. KiCad's trace-width calculator was used to keep the estimated trace rise within 10 °C above ambient at 30 A.</p>
+          <p><strong>1700 V on the isolated side.</strong> The 1000 V output also has to accommodate switching overshoot and transformer ringing. The secondary SiC MOSFETs and DC-blocking capacitors are rated at 1700 V, giving 1.7× derating. Two 2280-package capacitors are stacked to reach the required capacitance within the available footprint.</p>
+          <p><strong>External contactors.</strong> High-voltage switching is handled by external contactors through XT30 connectors. That keeps the contactor voltage rating independent of the prototype board and makes it easier to change the system architecture later.</p>
+          <p><strong>The transformer is part of the structure.</strong> It sits in the centre of the board and also supports the PCB and cooling plate. Using the heaviest component as part of the mechanical structure saves a separate frame.</p>
         
         </div>
       </section>
@@ -133,7 +133,7 @@
         <div class="prose">
 
           <p>All components sit on the top side, for cheaper single-sided assembly and a simpler stencil. Isolation is galvanic through a Payton Planar transformer — 24:20 turns, 35 µH of leakage inductance, 10 kV dielectric strength — and the 5 V and gate-drive rails are derived on-board on both sides of the barrier. Control is a TI controlCARD over CAN, phase-shift regulating the bridge.</p>
-          <p>Everything was prototyped through JLCPCB on their 6-layer, double-thick-copper process. The board is not a product; it is an argument that the product is possible.</p>
+          <p>The prototype was manufactured by JLCPCB on a six-layer, double-thick-copper process. It is a proof of concept rather than a finished product, but it provides a concrete basis for the thesis evaluation.</p>
         
         </div>
       </section>
@@ -169,7 +169,7 @@
 <footer class="site-foot">
   <div class="wrap foot-inner">
     <span>© 2026 Thommy · they/them</span>
-    <span>Plain HTML, because a portfolio shouldn't need a build step.</span>
+    <span>Designed and built as a small static site.</span>
     <nav class="foot-links" aria-label="Footer">
       <a href="https://github.com/NovaPrime18" target="_blank" rel="noopener">GitHub</a>
       <a href="mailto:novaprime18@gmail.com">Email</a>

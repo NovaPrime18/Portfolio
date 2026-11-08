@@ -34,7 +34,7 @@
         <a href="../index.html#about">About</a>
         <a href="../index.html#contact">Contact</a>
       </nav>
-    <span class="head-status"><span class="pulse" aria-hidden="true"></span>Open to the right thing</span>
+    <span class="head-status"><span class="pulse" aria-hidden="true"></span>Open to new opportunities</span>
     <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav">
       <span aria-hidden="true"></span>
     </button>
@@ -44,8 +44,8 @@
 <main id="top" class="case-hero">
   <div class="wrap">
     <p class="crumb"><a href="../index.html#work">Work</a> <span aria-hidden="true">/</span> <i>03</i> <span>Power supply</span></p>
-    <h1>Two hundred and forty watts,<br>in a <em class="serif">pocket.</em></h1>
-    <p class="lede">A USB-C PD 3.1 buck/boost that turns a laptop charger into a 0–60 V bench supply. 1 MHz switching, eGaN FETs, and a controller kept out of its own lossiest operating mode by an MCU that negotiates PPS, AVS and EPR.</p>
+    <h1>240 W<br>in a <em class="serif">pocket.</em></h1>
+    <p class="lede">A USB-C PD 3.1 buck/boost supply with a 0–60 V output and up to 240 W. The STM32 negotiates the input rail to keep the converter in an efficient operating region; the second revision reached 94.8 % measured peak efficiency.</p>
     <dl class="case-meta">
         <div><dt>Year</dt><dd>2026 — R2</dd></div>
         <div><dt>Role</dt><dd>Hardware, layout, bring-up, test</dd></div>
@@ -65,8 +65,8 @@
         <h2><span class="n">01</span>The brief</h2>
         <div class="prose">
 
-          <p>The target was a portable programmable supply — the same job as a Miniware MDP-XP, but with more power density and a wider voltage range, and less concern about output ripple. Input from USB-C Power Delivery or a high-voltage DC source; output 0–60 V at up to 20 A from an XT90.</p>
-          <p>Small is the whole point. At 1 MHz the inductor and capacitors shrink enough for the board to fit inside a printed housing the size of a small brick, and the GaN FETs make 1 MHz practical without the switching loss eating the density gain.</p>
+          <p>The goal was a portable programmable supply in the spirit of the Miniware MDP-XP, with a wider output range and an emphasis on power density. It accepts USB-C Power Delivery or higher-voltage DC input and provides 0–60 V at up to 20 A through an XT90 connector.</p>
+          <p>Switching at 1 MHz reduces the size of the magnetics and capacitors. The EPC GaN devices help keep the associated losses low enough for a compact enclosure.</p>
         
         </div>
       </section>
@@ -92,20 +92,20 @@
         </div>
       </section>
       <section class="case-grid" data-reveal>
-        <h2><span class="n">03</span>The trick: auto-tracking PD</h2>
+        <h2><span class="n">03</span>Tracking the input rail</h2>
         <div class="prose">
 
-          <p>A non-inverting buck/boost is efficient in buck, efficient in boost, and noticeably worse in the four-switch band where both bridges switch. nitride-nano negotiates the input voltage instead of accepting whatever the charger offers: the MCU derives the PD rail from the requested output, so the LT8390A stays in a clean buck or boost region across the whole 0–60 V range.</p>
-          <p>That means speaking full USB-C PD on the input side — fixed PDOs, PPS in 50 mV steps, and AVS/EPR up to 48 V — and choosing the rail before the converter ever has to regulate. The negotiation is as much a part of the power stage as the inductor.</p>
+          <p>A four-switch buck/boost is generally less efficient when both bridges are switching. Instead of accepting any available charger voltage, the STM32 requests a PD rail based on the desired output, keeping the LT8390A in a cleaner buck or boost region where possible.</p>
+          <p>The input supports fixed PDOs, PPS and AVS/EPR up to 48 V. This links the USB-C negotiation directly to the efficiency of the power stage, rather than treating it as a separate feature.</p>
         
         </div>
       </section>
       <section class="case-grid" data-reveal>
-        <h2><span class="n">04</span>Measured, not modelled</h2>
+        <h2><span class="n">04</span>Bench results</h2>
         <div class="prose">
 
-          <p>Revision 1 delivered 164 W at 94.1 %; revision 2, with a 2.2 µH Coilcraft XAL1010-222MED, delivers 219 W at 94.8 % peak — 240.8 W in, measured on a Riden RD6024 and an EA-EL 3160-60 load.</p>
-          <p>The two revisions are in the repository with their full test tables. Publishing the worse number next to the better one is the only way the better one means anything.</p>
+          <p>The first revision reached 164 W in one test at 94.1 %. With a 2.2 µH Coilcraft XAL1010 inductor, revision 2 reached 219 W at 94.8 % peak efficiency, with a highest measured input of 240.8 W. Testing used a Riden RD6024 supply and an EA-EL 3160-60 load.</p>
+          <p>The repository includes the full test tables and equipment list for both revisions, making the effect of the component change easy to see.</p>
         
         </div>
       </section>
@@ -113,7 +113,7 @@
         <h2><span class="n">05</span>Thermal</h2>
         <div class="prose">
 
-          <p>The enclosure was simulated in FreeCAD: about 38 °C with a fan when 10 W of loss goes into the heatsink from the GaN FETs. In practice the FETs barely exceed 60 °C, because not all of that heat leaves through the top of the package — the inductor core, at around 90 °C, is by far the hottest thing on the board. Which is the usual lesson: the magnetic component is the thermal design.</p>
+          <p>A FreeCAD thermal model estimated an enclosure temperature of about 38 °C with a fan when 10 W was applied to the heatsink. On the bench, the GaN devices stayed around 60 °C, while the inductor core reached about 90 °C. That makes the inductor the main thermal constraint in the current revision.</p>
         
         </div>
       </section>
@@ -149,7 +149,7 @@
   <div class="wrap">
     <a class="next-case" href="compressor-controller.html">
       <span class="k">Next case</span>
-      <span class="t"><span>A compressor drive that keeps the grid happy.</span><span aria-hidden="true">→</span></span>
+      <span class="t"><span>A compressor drive with active PFC.</span><span aria-hidden="true">→</span></span>
     </a>
   </div>
 </main>
@@ -157,7 +157,7 @@
 <footer class="site-foot">
   <div class="wrap foot-inner">
     <span>© 2026 Thommy · they/them</span>
-    <span>Plain HTML, because a portfolio shouldn't need a build step.</span>
+    <span>Designed and built as a small static site.</span>
     <nav class="foot-links" aria-label="Footer">
       <a href="https://github.com/NovaPrime18" target="_blank" rel="noopener">GitHub</a>
       <a href="mailto:novaprime18@gmail.com">Email</a>

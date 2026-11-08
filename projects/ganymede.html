@@ -34,7 +34,7 @@
         <a href="../index.html#about">About</a>
         <a href="../index.html#contact">Contact</a>
       </nav>
-    <span class="head-status"><span class="pulse" aria-hidden="true"></span>Open to the right thing</span>
+    <span class="head-status"><span class="pulse" aria-hidden="true"></span>Open to new opportunities</span>
     <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav">
       <span aria-hidden="true"></span>
     </button>
@@ -65,8 +65,8 @@
         <h2><span class="n">01</span>The brief</h2>
         <div class="prose">
 
-          <p>A direct-drive hub motor wants a lot of phase current in a small package, with no gearbox to hide the inefficiency. GaNymede is built for that: 50 A phase continuous, 100 A peak for one minute, phase-current and phase-voltage sensing on every leg, Hall inputs, and an ESP32-C3 for wireless telemetry.</p>
-          <p>The control side deliberately follows the VESC pattern — STM32F405, three Hall inputs, three phase-current channels — because the value of a VESC-compatible board is the firmware ecosystem, not a new one. The power stage is where the design earns its keep.</p>
+          <p>A direct-drive hub motor needs high phase current in a compact package. GaNymede targets 50 A continuous and 100 A peak for one minute, with current and voltage sensing on every phase, Hall inputs and an ESP32-C3 for wireless telemetry.</p>
+          <p>The control side follows the VESC pattern — STM32F405, three Hall inputs and three phase-current channels — so existing firmware and tools can be used. Most of the design work went into the power stage, current sensing and thermal budget.</p>
         
         </div>
       </section>
@@ -93,30 +93,30 @@
         </div>
       </section>
       <section class="case-grid" data-reveal>
-        <h2><span class="n">03</span>Decisions worth defending</h2>
+        <h2><span class="n">03</span>Key design decisions</h2>
         <div class="prose">
 
-          <p><strong>The bus capacitor bank wraps the power stage.</strong> 1.4 mF is not a polite number of capacitors; placing them around the bridge instead of at one end keeps the commutation loop short and stops the DC link from becoming an inductor with a capacitor problem.</p>
-          <p><strong>0.25 mΩ per phase, measured across two 0.5 mΩ shunts in parallel.</strong> Two 2512 resistors share the current and the heating, and an INA240A1 at a gain of 20 turns microvolts into something a 12-bit ADC can resolve at 100 A. The whole sensing chain is inside the power loop, so it is part of the layout, not an afterthought.</p>
-          <p><strong>Dead time lives in firmware.</strong> The LMG1210s are strapped for independent high and low inputs rather than self-timed, which makes dead time a software parameter. That is the right place for it on a VESC target — but it means the gate drive is only as safe as the first bring-up.</p>
-          <p><strong>Copper sized for the peak, not the average.</strong> A 100 A minute is a thermal event. The pours and the via stitching are sized for the whole minute, not for the 50 A number on the front of the datasheet.</p>
+          <p><strong>The bus capacitor bank wraps the power stage.</strong> The roughly 1.4 mF bank is arranged around the bridge to keep the commutation loop short, with ceramic capacitors close to the switches and larger parts providing the bulk storage.</p>
+          <p><strong>0.25 mΩ per phase, using two parallel shunts.</strong> Each phase uses two 0.5 mΩ 2512 resistors, feeding an INA240A1 at a gain of 20. Sharing the current between two parts reduces heating while keeping a useful measurement signal at high current.</p>
+          <p><strong>Dead time lives in firmware.</strong> The LMG1210 drivers are configured for independent high- and low-side inputs, so dead time is set in software. That suits the VESC control scheme, but makes careful bring-up and gate-signal checks important.</p>
+          <p><strong>Copper sized for the peak.</strong> The pours and via stitching are sized for the one-minute 100 A peak, not just the 50 A continuous rating. The loss model also accounts for shunt heating and the thermal path through the board.</p>
         
         </div>
       </section>
       <section class="case-grid" data-reveal>
-        <h2><span class="n">04</span>The loss model says something surprising</h2>
+        <h2><span class="n">04</span>What the loss model shows</h2>
         <div class="prose">
 
           <p>There is a full copper, semiconductor and thermal model in <a href="https://github.com/NovaPrime18/GaNymede/blob/main/LOSSES.md" target="_blank" rel="noopener">LOSSES.md</a>. At 100 A peak it predicts about 29 W of total loss and 99.4 % efficiency; at 50 A continuous, about 7.3 W and 99.7 %.</p>
-          <p>The interesting part is where the heat comes from: the phase shunts and the 60 V/GND copper dominate the budget, not the six eGaN devices. Which changes the thermal design — the heatsink needs to move 5–6 W continuously and about 20 W by the end of a 100 A minute, so a 1.5–2 °C/W natural-convection sink is enough. The thermal pad under the FETs matters more than the heatsink, and the one-minute rating is limited by thermal mass rather than by the sink.</p>
+          <p>The model puts most of the loss in the phase shunts and the 60 V/GND copper rather than in the GaN devices. That makes the thermal interface and copper layout especially important. A 1.5–2 °C/W natural-convection heatsink should be sufficient for the modelled continuous load, while the one-minute peak is limited mainly by thermal mass.</p>
         
         </div>
       </section>
       <section class="case-grid" data-reveal>
-        <h2><span class="n">05</span>A board can be a poster</h2>
+        <h2><span class="n">05</span>The visual side</h2>
         <div class="prose">
 
-          <p>The back of the board carries an engraved illustration of Ganymede — the moon, and the myth — rendered as silkscreen and copper pour. It costs nothing electrically and it makes the object worth picking up. If a board spends its life inside a housing, it may as well look like something on the way in.</p>
+          <p>The back of the board carries an engraved illustration of Ganymede and the eagle, taken from the project's name. It has no electrical function; it is simply a detail I enjoyed adding, and it gives the board a recognisable identity.</p>
         
         </div>
       </section>
@@ -124,7 +124,7 @@
         <h2><span class="n">06</span>Where it stands</h2>
         <div class="prose">
 
-          <p>R1 is drawn and the six-layer layout is finished. The current and thermal figures above are design targets from the loss model, not bench measurements — the repository says so where the table is, and this page is not going to pretend otherwise.</p>
+          <p>R1 has a completed schematic and six-layer layout. The current and thermal figures are modelled design targets, not bench measurements. They are labelled as such here and in the repository, and will need to be checked on hardware.</p>
         
         </div>
       </section>
@@ -146,7 +146,7 @@
   <div class="wrap">
     <a class="next-case" href="nitride-nano.html">
       <span class="k">Next case</span>
-      <span class="t"><span>Two hundred and forty watts, in a pocket.</span><span aria-hidden="true">→</span></span>
+      <span class="t"><span>240 W in a pocket.</span><span aria-hidden="true">→</span></span>
     </a>
   </div>
 </main>
@@ -154,7 +154,7 @@
 <footer class="site-foot">
   <div class="wrap foot-inner">
     <span>© 2026 Thommy · they/them</span>
-    <span>Plain HTML, because a portfolio shouldn't need a build step.</span>
+    <span>Designed and built as a small static site.</span>
     <nav class="foot-links" aria-label="Footer">
       <a href="https://github.com/NovaPrime18" target="_blank" rel="noopener">GitHub</a>
       <a href="mailto:novaprime18@gmail.com">Email</a>

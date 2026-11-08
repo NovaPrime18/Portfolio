@@ -34,7 +34,7 @@
         <a href="../index.html#about">About</a>
         <a href="../index.html#contact">Contact</a>
       </nav>
-    <span class="head-status"><span class="pulse" aria-hidden="true"></span>Open to the right thing</span>
+    <span class="head-status"><span class="pulse" aria-hidden="true"></span>Open to new opportunities</span>
     <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav">
       <span aria-hidden="true"></span>
     </button>
@@ -45,7 +45,7 @@
   <div class="wrap">
     <p class="crumb"><a href="../index.html#work">Work</a> <span aria-hidden="true">/</span> <i>05</i> <span>Side project</span></p>
     <h1>Two motor drives,<br>one 99 mm <em class="serif">board.</em></h1>
-    <p class="lede">A dual VESC-compatible controller that packs two complete three-phase GaN inverters onto a single 99 × 99 mm board — with all three controllers sharing one internal CAN bus, so traction control is a local conversation instead of a cable.</p>
+    <p class="lede">A dual VESC-compatible controller with two complete three-phase GaN inverters on a 99 × 99 mm board. Both STM32s and an ESP32 share one internal CAN bus, allowing the motor channels to coordinate directly for traction control.</p>
     <dl class="case-meta">
         <div><dt>Year</dt><dd>2026 — R1</dd></div>
         <div><dt>Role</dt><dd>Hardware design</dd></div>
@@ -65,8 +65,8 @@
         <h2><span class="n">01</span>The brief</h2>
         <div class="prose">
 
-          <p>Two-wheel-drive light electric vehicles — skateboards, e-bikes, small robots — usually carry two separate ESCs that have to agree with each other over a cable. Twin-GaN does the job with one board: two independent three-phase inverters, each with its own STM32F405, its own USB-C and its own three-shunt sensing chain, plus an ESP32-C3 as a third CAN node.</p>
-          <p>The bet is that integration beats modularity at this size. It is cheaper and smaller than the equivalent dual ESC, and the trade-off is deliberate: it gives up peak power for density.</p>
+          <p>Two-wheel-drive light electric vehicles often need two motor controllers. Twin-GaN puts both channels on one 99 × 99 mm board, with independent STM32F405 controllers, USB-C ports and three-shunt sensing. An ESP32-C3 provides a third CAN node.</p>
+          <p>The aim is to reduce size and cost compared with two separate ESCs, accepting a lower peak-power rating in exchange for integration.</p>
         
         </div>
       </section>
@@ -92,13 +92,13 @@
         </div>
       </section>
       <section class="case-grid" data-reveal>
-        <h2><span class="n">03</span>What makes it a system, not two boards</h2>
+        <h2><span class="n">03</span>Why one board</h2>
         <div class="prose">
 
-          <p><strong>One CAN bus, three nodes.</strong> Both STM32s and the ESP32 are on the same internal bus with on-board termination, so the two channels can hand each other torque requests without an external harness. Traction control becomes a firmware feature rather than a wiring problem.</p>
-          <p><strong>Two VESC targets, not one.</strong> Because each channel has its own MCU and its own 6-PWM stage, VESC Tool sees two separate controllers, identifies and configures them independently, and treats them exactly like two ESCs — which is what makes the board instantly usable by anyone who already knows the ecosystem.</p>
-          <p><strong>Three-shunt sensing per channel with a real reference.</strong> One INA240A1D per phase across 2 mΩ shunts, with REF1 at GND and REF2 at 3V3, so the measurement is genuinely bidirectional and the firmware can tell forward from regen.</p>
-          <p><strong>Every port accounted for.</strong> USB-C per controller with proper 5.1 kΩ CC pulldowns and a PTC on VBUS; Tag-Connect SWD per MCU; VESC accessory headers on the standard pinout. The details that make a board feel like a product instead of a prototype.</p>
+          <p><strong>One CAN bus, three nodes.</strong> Both STM32s and the ESP32 share one terminated internal CAN bus, allowing the channels to exchange torque and control information without external wiring. This provides a hardware basis for on-board traction control.</p>
+          <p><strong>Two VESC targets.</strong> Each channel has its own MCU and six-PWM stage, so VESC Tool detects and configures them as two separate controllers. That keeps the familiar setup workflow and avoids a custom control interface.</p>
+          <p><strong>Three-shunt sensing per channel.</strong> Each phase uses an INA240A1D across a 2 mΩ shunt. REF1 and REF2 are connected for bidirectional measurement, so the controller can distinguish drive and regenerative current.</p>
+          <p><strong>Practical connections.</strong> Each controller has its own USB-C port with CC pulldowns and VBUS protection, plus Tag-Connect SWD and the standard VESC accessory header. These details should make programming, commissioning and future expansion straightforward.</p>
         
         </div>
       </section>
@@ -106,7 +106,7 @@
         <h2><span class="n">04</span>Where it stands</h2>
         <div class="prose">
 
-          <p>R1 is drawn, and the numbers on this page are design targets — 60 V, 20 A battery current, 20 A continuous and 40 A absolute-max phase current per channel, roughly 1.2 kW total. None of it has been bench-verified. The repository carries the same warning at the top of the specification table, which is the only honest way to publish a board that has not yet been through a real load.</p>
+          <p>R1 is at the design stage. The targets are 60 V input, 20 A battery current, 20 A continuous and 40 A absolute-max phase current per channel, and roughly 1.2 kW total. None of these figures has been bench-verified. They are labelled as targets here and in the repository so the next person to build the board knows what still needs testing.</p>
         
         </div>
       </section>
@@ -128,7 +128,7 @@
   <div class="wrap">
     <a class="next-case" href="schroombort.html">
       <span class="k">Next case</span>
-      <span class="t"><span>The thing that got me here.</span><span aria-hidden="true">→</span></span>
+      <span class="t"><span>The board that started it.</span><span aria-hidden="true">→</span></span>
     </a>
   </div>
 </main>
@@ -136,7 +136,7 @@
 <footer class="site-foot">
   <div class="wrap foot-inner">
     <span>© 2026 Thommy · they/them</span>
-    <span>Plain HTML, because a portfolio shouldn't need a build step.</span>
+    <span>Designed and built as a small static site.</span>
     <nav class="foot-links" aria-label="Footer">
       <a href="https://github.com/NovaPrime18" target="_blank" rel="noopener">GitHub</a>
       <a href="mailto:novaprime18@gmail.com">Email</a>

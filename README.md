@@ -1,7 +1,7 @@
 # Portfolio
 
-Personal portfolio for **Thommy** — power electronics, open hardware, and a
-refusal to leave a board alone.
+Personal portfolio for **Thommy** — power electronics, open hardware, and the
+tools and enclosures around them.
 
 Live at **https://novaprime18.github.io/Portfolio/**
 
@@ -101,5 +101,5 @@ Type: Archivo, Instrument Serif (italic) and JetBrains Mono — all self-hosted,
 SIL Open Font License. Colour, spacing and motion live in the CSS custom
 properties at the top of `assets/css/style.css`.
 
-Built with plain HTML, CSS and a small amount of JavaScript. Because a
-portfolio shouldn't need a build step.
+Built with plain HTML, CSS and a small amount of JavaScript, so it can be
+hosted anywhere without a build step.
