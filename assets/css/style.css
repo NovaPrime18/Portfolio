@@ -479,10 +479,10 @@ h3,
 }
   .parts-track span {
   font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.2em;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #6d675d;
+  color: #8a8478;
   padding: 0 26px;
   position: relative;
   white-space: nowrap;
