@@ -505,6 +505,26 @@ h3,
 }
 
 /* ---- stats -------------------------------------------------------------- */
+.stats-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 6px 24px;
+  margin: 0 0 clamp(6px, 0.9vw, 10px);
+  padding-top: clamp(20px, 2.6vw, 30px);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.stats-head b {
+  color: var(--gold);
+  font-weight: 500;
+}
+.stats-head + .stats .stat { padding-top: clamp(16px, 2vw, 22px); }
+
 .stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
