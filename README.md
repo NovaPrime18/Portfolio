@@ -24,7 +24,7 @@ Open `index.html` and it works.
 ├── index.html                      homepage
 ├── projects/
 │   ├── dab-dcdc.html               10 kW dual active bridge
-│   ├── ganymede.html               60 V / 100 A GaN motor drive
+│   ├── ganymede.html               60 V / 100 A GaN motor driver
 │   ├── nitride-nano.html           240 W USB-C PD bench supply
 │   ├── compressor-controller.html  230 V AC PFC compressor drive
 │   ├── twin-gan.html               dual 3-phase GaN controller

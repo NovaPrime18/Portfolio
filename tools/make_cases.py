@@ -65,11 +65,11 @@ def head(title, desc, og="assets/img/ganymede-iso-1100.webp"):
 """
 
 
-def foot(year="2026"):
+def foot(year="2026", root=""):
     return f"""
 <footer class="site-foot">
   <div class="wrap foot-inner">
-    <span>© {year} Thommy · they/them</span>
+    <span class="foot-brand"><img src="{root}assets/logo-mark.svg" alt="" width="18" height="20"><span>© {year} Thommy · they/them</span></span>
     <span>Designed and built as a small static site.</span>
     <nav class="foot-links" aria-label="Footer">
       <a href="https://github.com/NovaPrime18" target="_blank" rel="noopener">GitHub</a>
@@ -139,7 +139,7 @@ CASES["dab-dcdc"] = dict(
     hero=("dab-hero-1800", "dab-hero-1100", "The 10 kW dual active bridge board: purple solder mask, a planar transformer under an aluminium block, 1700 V SiC MOSFETs along both sides.", 1800, 773),
     sections=[
         ("01", "The brief", """
-          <p>This module was developed during an internship thesis on whether a 500 kW off-grid EV DC fast charger could be built in-house. The system would be made from modules sharing a DC bus, so the thesis needed a repeatable 10 kW building block. This board is based on a Texas Instruments DAB reference design, adapted to the available components and manufacturing process.</p>
+          <p>This module was developed during an internship thesis on whether a 500 kW off-grid EV DC fast charger could be built in-house. The system would be made from modules sharing a DC bus, so the thesis needed a repeatable 10 kW building block. This board is based on a Texas Instruments DAB reference design, adapted to 1000V maximum output instead of just 500V.</p>
           <p>It was designed for 500–800 V on the primary and 250–1000 V on the secondary, with cost and manufacturability part of the brief from the beginning. The thesis contains the design rationale, LTspice and PLECS simulations and test results; the repository contains the hardware.</p>
         """),
         ("02", "What a 10 kW module needs", None),
@@ -190,11 +190,11 @@ CASES["dab-dcdc"] = dict(
 
 # --------------------------------------------------------------------------
 CASES["ganymede"] = dict(
-    title="GaNymede — 60 V, 100 A GaN motor drive · Thommy",
+    title="GaNymede — 60 V, 100 A GaN motor driver · Thommy",
     desc="A VESC-compatible three-phase GaN motor controller: six EPC2361 eGaN FETs, 0.25 mΩ phase shunts and 1.4 mF of bus capacitance on a 78 × 65 mm six-layer board.",
     h1="Sixty volts,<br>a hundred <em class=\"serif\">amps.</em>",
     lede="A VESC-compatible three-phase drive for a direct-drive hub motor: six eGaN FETs, 0.25 mΩ phase shunts and 1.4 mF of bus capacitance wrapped around a 78 × 65 mm six-layer power stage.",
-    crumb=("02", "Motor drive"),
+    crumb=("02", "Motor driver"),
     meta=[
         ("Year", "2026 — R1"),
         ("Role", "Hardware design, layout, loss model"),
@@ -247,7 +247,8 @@ CASES["ganymede"] = dict(
             <b>Phase currents are amplitudes, not RMS.</b> 100 A peak is 70.7 A RMS. The 100 V FET rating leaves headroom for turn-off overshoot, but the real margin depends on power-loop inductance and should be checked with a double-pulse test during bring-up.
           </div>""",
     figures=[
-        ("ganymede-top-1400", "ganymede-top-900", "The assembled module in its printed housing: 78 × 65 mm, XT90 input, three plated through-holes for U, V and W.", 1400, 1020, "figure--wide", "Assembled, in housing"),
+        ("ganymede-board-back-1400", "ganymede-board-back-900", "Back of the GaNymede board, showing the engraved Ganymede and eagle illustration across the copper and silkscreen.", 1400, 1264, "", "Back side"),
+        ("ganymede-board-front-1400", "ganymede-board-front-900", "Component side of the GaNymede board: the bus capacitor bank, eGaN devices and gate drivers around the power stage.", 1400, 1237, "", "Power stage"),
     ],
     links=[("https://github.com/NovaPrime18/GaNymede", "Hardware files on GitHub")],
     tags=["5.2 kW", "100 A peak", "EPC2361", "CERN-OHL-S"],
@@ -258,9 +259,9 @@ CASES["ganymede"] = dict(
 # --------------------------------------------------------------------------
 CASES["nitride-nano"] = dict(
     title="nitride-nano — 240 W USB-C PD bench supply · Thommy",
-    desc="A USB-C PD 3.1 buck/boost converter: 12–48 V in, 0–60 V out, 240 W, 1 MHz switching, 94.8 % measured peak efficiency.",
+    desc="A USB-C PD 3.2 buck/boost converter: 12–48 V in, 0–60 V out, 240 W, 1 MHz switching, 94.8 % measured peak efficiency.",
     h1="240 W<br>in a <em class=\"serif\">pocket.</em>",
-    lede="A USB-C PD 3.1 buck/boost supply with a 0–60 V output and up to 240 W. The STM32 negotiates the input rail to keep the converter in an efficient operating region; the second revision reached 94.8 % measured peak efficiency.",
+    lede="A USB-C PD 3.2 buck/boost supply with a 0–60 V output and up to 240 W. The STM32 negotiates the input rail to keep the converter in an efficient operating region; the second revision reached 94.8 % measured peak efficiency.",
     crumb=("03", "Power supply"),
     meta=[
         ("Year", "2026 — R2"),
@@ -311,10 +312,10 @@ CASES["nitride-nano"] = dict(
           </div>""",
     figures=[
         ("nano-back-1500", "nano-back-950", "The back of the board: silkscreen reads POWAH!, atom logo, and the output range printed where an assembly technician will see it.", 1500, 871, "", "Back side"),
-        ("nano-photo-1800", "nano-photo-1100", "The rev 2 board in its printed housing, running on an XT90 input.", 1800, 1355, "figure--wide", "Rev 2, running"),
+        ("nano-photo-1800", "nano-photo-1100", "The rev 2 board in its printed housing, running on an XT90 input.", 1800, 1355, "figure--wide", "Rev 3, running"),
     ],
     links=[("https://github.com/NovaPrime18/nitride-nano", "Hardware and firmware on GitHub")],
-    tags=["240 W", "1 MHz", "USB-C PD 3.1", "CERN-OHL-S"],
+    tags=["240 W", "1 MHz", "USB-C PD 3.2", "CERN-OHL-S"],
     next=("compressor-controller", "A compressor drive with active PFC."),
     year="2026",
 )
@@ -374,11 +375,12 @@ CASES["compressor-controller"] = dict(
             <b>Mains voltage.</b> This board operates at lethal voltages: 230 V AC in, roughly 325–400 V DC on the bus. It is an open hardware design intended for qualified people, with enclosure, creepage and fusing treated as part of the system rather than accessories.
           </div>""",
     figures=[
-        ("compressor-back-1500", "compressor-back-950", "The power side: PFC inductor, film capacitors, IPM heatspreader and the bus capacitor bank.", 1500, 944, "figure--wide", "Power side"),
+        ("compressor-back-1500", "compressor-back-950", "The power side: PFC inductor, film capacitors, IPM heatspreader and the bus capacitor bank.", 1500, 944, "", "Power side"),
+        ("compressor-photo-1800", "compressor-photo-1100", "The first assembled compressor controller on a workbench, with the power stage, PFC magnetics and capacitor bank visible.", 1800, 1355, "", "First article"),
     ],
     links=[("https://github.com/NovaPrime18/CompressorController", "Hardware files on GitHub")],
     tags=["230 V AC", "Active PFC", "VESC", "IEC 61000-3-2"],
-    next=("twin-gan", "Two motor drives, one 99 mm board."),
+    next=("twin-gan", "Two motor drivers, one 99 mm board."),
     year="2026",
 )
 
@@ -386,7 +388,7 @@ CASES["compressor-controller"] = dict(
 CASES["twin-gan"] = dict(
     title="Twin-GaN — dual 3-phase GaN motor controller · Thommy",
     desc="Two complete VESC-compatible three-phase inverters on one 99 × 99 mm board, with both MCUs and an ESP32 sharing one internal CAN bus.",
-    h1="Two motor drives,<br>one 99 mm <em class=\"serif\">board.</em>",
+    h1="Two motor drivers,<br>one 99 mm <em class=\"serif\">board.</em>",
     lede="A dual VESC-compatible controller with two complete three-phase GaN inverters on a 99 × 99 mm board. Both STM32s and an ESP32 share one internal CAN bus, allowing the motor channels to coordinate directly for traction control.",
     crumb=("05", "Side project"),
     meta=[
@@ -595,7 +597,7 @@ def build_case(slug, c):
   </div>
 </main>
 """
-        + foot(c.get("year", "2026"))
+        + foot(c.get("year", "2026"), "../")
     )
     (OUT / f"{slug}.html").write_text(html)
     print("wrote", f"projects/{slug}.html")

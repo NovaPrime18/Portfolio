@@ -853,25 +853,8 @@ h3,
 
 /* ---- contact ------------------------------------------------------------ */
 .contact { padding-block: clamp(90px, 12vw, 170px) 0; }
-.contact-inner {
-  border-top: 1px solid var(--line);
-  padding-top: clamp(44px, 6vw, 80px);
-  position: relative;
-  overflow: hidden;
-}
-.contact-inner::after {
-  content: "";
-  position: absolute;
-  right: 8px;
-  top: 24px;
-  width: clamp(190px, 19vw, 280px);
-  aspect-ratio: 895 / 1019;
-  background: url("../logo-mark.svg") center / contain no-repeat;
-  opacity: 0.1;
-  pointer-events: none;
-  z-index: 0;
-}
-.contact-inner > * { position: relative; z-index: 1; }
+.contact-inner { border-top: 1px solid var(--line); padding-top: clamp(44px, 6vw, 80px); }
+
 .contact h2 {
   margin: 18px 0 0;
   font-size: clamp(2.5rem, 7vw, 6.2rem);
@@ -956,6 +939,8 @@ h3,
   text-transform: uppercase;
   color: #56524b;
 }
+.foot-brand { display: inline-flex; align-items: center; gap: 10px; }
+.foot-brand img { height: 20px; width: auto; opacity: 0.9; flex: none; }
 .foot-links { display: flex; gap: 22px; }
 .foot-links a { transition: color 0.3s; }
 .foot-links a:hover { color: var(--gold); }
@@ -1229,7 +1214,6 @@ h3,
   .caps li { grid-template-columns: 1fr; gap: 8px; }
   .contact-rows { grid-template-columns: 1fr; }
   .contact-row { border-left: 0; padding: 20px 0 !important; border-top: 1px solid var(--line-2); }
-  .contact-inner::after { display: none; }
   .contact-row:first-child { border-top: 0; }
   .case-meta { grid-template-columns: 1fr 1fr; }
   .case-meta div:nth-child(3) { border-left: 0; padding-left: 0; }

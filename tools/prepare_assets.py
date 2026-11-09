@@ -23,11 +23,13 @@ OUT.mkdir(parents=True, exist_ok=True)
 # "cut" expects an image that already has a transparent background.
 JOBS = [
     ("ganymede-iso",      "GaNymede/Pics/board-iso.png",              [1800, 1100], "keyblack"),
-    ("ganymede-top",      "GaNymede/Pics/board-top.png",              [1400, 900],  "keyblack"),
+    ("ganymede-board-back",  "assets/src/ganymede-board-back.webp",   [1400, 900],  "keyblack"),
+    ("ganymede-board-front", "assets/src/ganymede-board-front.webp",  [1400, 900],  "keyblack"),
     ("nano-front",        "assets/src/nano-new.webp",                 [1800, 1100], "cut"),
     ("nano-back",         "nitride-nano/Pics/nitride-nano-b.png",     [1500, 950],  "keyblack"),
     ("nano-photo",        "assets/src/nano-photo.jpg",                [1800, 1100], "keep"),
-    ("compressor-front",  "assets/src/compressor-new.webp",           [1500, 950],  "key"),
+    ("compressor-front",  "assets/src/compressor-new.webp",           [1500, 950],  "keyblack"),
+    ("compressor-photo",  "assets/src/compressor-photo.jpg",           [1800, 1100], "keep"),
     ("compressor-back",   "CompressorController/FC.png",              [1500, 950],  "key"),
     ("dab-hero",          "DAB_DCDC/Pictures/DAB9T.png",               [1800, 1100], "keyblack"),
     ("dab-macro",         "DAB_DCDC/Pictures/DAB10.jpg",               [1800, 1100], "keep"),
