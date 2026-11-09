@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DAB DC-DC — 10 kW module · Thommy</title>
-<meta name="description" content="A 10 kW dual active bridge module for a 500 kW off-grid EV charger: 800 V in, 1000 V out, 100 kHz, 1700 V SiC and creepage rules that shaped the layout.">
+<title>DAB DC-DC — 10 kW design · Thommy</title>
+<meta name="description" content="A dual active bridge designed for 10 kW as part of a 500 kW off-grid EV charger thesis: 800 V in, up to 1000 V out, 100 kHz and 1700 V SiC.">
 <meta name="author" content="Thommy">
 <meta name="theme-color" content="#08090b">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DAB DC-DC — 10 kW module · Thommy">
-<meta property="og:description" content="A 10 kW dual active bridge module for a 500 kW off-grid EV charger: 800 V in, 1000 V out, 100 kHz, 1700 V SiC and creepage rules that shaped the layout.">
+<meta property="og:title" content="DAB DC-DC — 10 kW design · Thommy">
+<meta property="og:description" content="A dual active bridge designed for 10 kW as part of a 500 kW off-grid EV charger thesis: 800 V in, up to 1000 V out, 100 kHz and 1700 V SiC.">
 <meta property="og:image" content="../assets/img/ganymede-iso-1100.webp">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
@@ -46,8 +46,8 @@
 <main id="top" class="case-hero">
   <div class="wrap">
     <p class="crumb"><a href="../index.html#work">Work</a> <span aria-hidden="true">/</span> <i>01</i> <span>DC-DC</span></p>
-    <h1>Ten kilowatts,<br>on the <em class="serif">bench.</em></h1>
-    <p class="lede">A 10 kW dual active bridge module developed as part of a thesis on a 500 kW off-grid EV charger: 800 V in, up to 1000 V out at 100 kHz, with the isolation and cooling requirements considered from the start.</p>
+    <h1>Over two kilowatts,<br>per <em class="serif">liter.</em></h1>
+    <p class="lede">A dual active bridge module designed for 10 kW as part of a thesis on a 500 kW off-grid EV charger. It takes 500–800 V in, covers 250–1000 V out and switches at 100 kHz. Revision one is a low-voltage prototype with a few lessons attached.</p>
     <dl class="case-meta">
         <div><dt>Year</dt><dd>2026</dd></div>
         <div><dt>Role</dt><dd>Hardware design — internship thesis</dd></div>
@@ -67,24 +67,24 @@
         <h2><span class="n">01</span>The brief</h2>
         <div class="prose">
 
-          <p>This module was developed during an internship thesis on whether a 500 kW off-grid EV DC fast charger could be built in-house. The system would be made from modules sharing a DC bus, so the thesis needed a repeatable 10 kW building block. This board is based on a Texas Instruments DAB reference design, adapted to 1000V maximum output instead of just 500V.</p>
-          <p>It was designed for 500–800 V on the primary and 250–1000 V on the secondary, with cost and manufacturability part of the brief from the beginning. The thesis contains the design rationale, LTspice and PLECS simulations and test results; the repository contains the hardware.</p>
-        
+          <p>The thesis asked whether New Electric should build a 500 kW off-grid EV fast charger in-house. The proposed charger uses repeated 10 kW DAB modules rather than one 500 kW converter. This board is the prototype for one of those modules.</p>
+          <p>TI’s reference design was the starting point because it came closest to the required specification. Its output stopped at 500 V; the project needed 1000 V and more current at lower output voltages. That meant new SiC devices and capacitors, more copper, a different transformer ratio, larger clearances and a proper look at cooling. LTspice and PLECS checked the design before anything was ordered.</p>
+
         </div>
       </section>
       <section class="case-grid" data-reveal>
         <h2><span class="n">02</span>What a 10 kW module needs</h2>
         <div>
           <table class="table">
-            <caption>Prototype module, revision 1</caption>
+            <caption>Revision 1 — design targets; derating and bring-up status below</caption>
             <tbody>
             <tr><th scope="row">Topology</th><td>Dual active bridge, phase-shift controlled</td></tr>
             <tr><th scope="row">Input</th><td class="num">500–800 V DC</td></tr>
-            <tr><th scope="row">Output</th><td class="num">250–1000 V DC (peak efficiency at 666 V)</td></tr>
-            <tr><th scope="row">Power</th><td class="num">≈ 10 kW per module</td></tr>
-            <tr><th scope="row">Current</th><td>15 A primary (22 A peak) · 17 A secondary (25 A peak)</td></tr>
+            <tr><th scope="row">Output</th><td class="num">250–1000 V DC design range · simulated efficiency peak at 666 V</td></tr>
+            <tr><th scope="row">Power</th><td class="num">10 kW design target · voltage-dependent derating</td></tr>
+            <tr><th scope="row">Transformer current</th><td>15 A primary (22 A peak) · 17 A secondary (25 A peak)</td></tr>
             <tr><th scope="row">Switching</th><td class="num">100 kHz</td></tr>
-            <tr><th scope="row">Isolation</th><td>10 kV primary-to-secondary</td></tr>
+            <tr><th scope="row">Transformer dielectric strength</th><td>10 kV primary-to-secondary · not a repaired-board rating</td></tr>
             <tr><th scope="row">Transformer</th><td>Payton Planar, 24:20, 35 µH leakage</td></tr>
             <tr><th scope="row">Secondary switches</th><td>Microchip MSC035SMA170B4, 1700 V SiC</td></tr>
             <tr><th scope="row">Creepage / clearance</th><td>3 mm primary · 3.5 mm secondary (IEC-60664 at 1000 V)</td></tr>
@@ -100,43 +100,38 @@
         <h2><span class="n">03</span>Key design decisions</h2>
         <div class="prose">
 
-          <p><strong>Six layers instead of four.</strong> The extra copper helps carry the 22 A primary and 25 A secondary peaks, spreads heat, and leaves room for via stitching around the high-current path. KiCad's trace-width calculator was used to keep the estimated trace rise within 10 °C above ambient at 30 A.</p>
-          <p><strong>1700 V on the isolated side.</strong> The 1000 V output also has to accommodate switching overshoot and transformer ringing. The secondary SiC MOSFETs and DC-blocking capacitors are rated at 1700 V, giving 1.7× derating. Two 2280-package capacitors are stacked to reach the required capacitance within the available footprint.</p>
-          <p><strong>External contactors.</strong> High-voltage switching is handled by external contactors through XT30 connectors. That keeps the contactor voltage rating independent of the prototype board and makes it easier to change the system architecture later.</p>
-          <p><strong>The transformer is part of the structure.</strong> It sits in the centre of the board and also supports the PCB and cooling plate. Using the heaviest component as part of the mechanical structure saves a separate frame.</p>
-        
+          <p><strong>Six layers instead of four.</strong> The reference design uses four layers. This one uses six, with 70 µm copper, to carry the higher current and spread the heat. KiCad’s trace-width calculator put the estimated trace rise below 10 °C at 30 A, though limited room for thermal vias around the HV clearances meant this still needed a bench test.</p>
+          <p><strong>1700 V on the isolated side.</strong> The 1000 V output also has to survive switching overshoot and transformer ringing. Secondary SiC MOSFETs and DC-blocking capacitors are rated at 1700 V, a 1.7× margin. The available switch has higher gate charge and slightly higher on-resistance than TI’s 900 V part, so the extra loss went into the simulations and cooling budget.</p>
+          <p><strong>External contactors.</strong> Moving the contactors off-board keeps their voltage rating independent of the prototype PCB and makes the precharge hardware easier to adapt to the vehicle. XT30 connectors replace the original on-board arrangement.</p>
+          <p><strong>The transformer holds things up.</strong> It is the heaviest component, so it might as well be part of the structure. It sits in the centre and is held by the cooling plate; together they support the PCB. The 2 mm FR4 keeps the outer edges from sagging.</p>
+
         </div>
       </section>
       <section class="case-grid" data-reveal>
         <h2><span class="n">04</span>What went wrong</h2>
         <div class="prose">
           <div class="callout">
-            <b>Errata, first prototype.</b> The eFuse (TPS26400) had pins 3 and 5 swapped in the footprint, so the board would not power up; it was bodged with wires. The standard KiCad footprint for TI's controlCARD connector numbers its pins the other way round, so a small flip-adapter PCB is included in the repo. The isolated supply's 1 kΩ current-limit resistor was replaced with 270 Ω to stop start-up faults, and the DS modulator sense pins — routed to pins that do not support it — were rerouted with magnet wire. Until these are fixed in a re-spin, this prototype is only to be run at low voltage.
+            <b>Errata, first prototype.</b> The board collected a respectable set: swapped eFuse connections, a controlCARD footprint with TI’s pin numbering reversed, an isolated-supply current limit set too low and sense signals routed to the wrong MCU pins. The fixes involved bodge wires, a 270 Ω resistor, magnet wire and a small adapter PCB designed and ordered within a day. Those repairs enabled the supply, controlCARD and thermal checks, but did not preserve the original HV isolation. Revision one therefore stays below 50 V.
           </div></div>
       </section>
       <section class="case-grid" data-reveal>
-        <h2><span class="n">05</span>Numbers</h2>
-        <div>
-          <table class="table">
-            <caption>Design summary</caption>
-            <tbody>
-            <tr><th scope="row">Module power</th><td class="num">≈ 10 kW</td></tr>
-            <tr><th scope="row">Switching frequency</th><td class="num">100 kHz</td></tr>
-            <tr><th scope="row">Isolation</th><td class="num">10 kV</td></tr>
-            <tr><th scope="row">Creepage at 1000 V</th><td class="num">3.5 mm</td></tr>
-            <tr><th scope="row">HV derating</th><td>1.7×</td></tr>
-            <tr><th scope="row">Copper</th><td>6 layers · 70 µm</td></tr>
-            </tbody>
-          </table>
+        <h2><span class="n">05</span>What the tests added</h2>
+        <div class="prose">
+
+          <p>PLECS predicted 98.6 % efficiency for 750 V to 600 V at 10 kW; LTspice also sat above 98 %. At 750 V to 1000 V, the predictions fell to about 96 % in PLECS and 94 % in LTspice. Those are simulation results, not measured converter efficiencies.</p>
+          <p>The 10 kW target does not apply across the whole output range. The thesis specifies 40 A for 10 kW at 250 V, while the prototype transformer is rated at 17 A secondary and 25 A peak. Low-voltage operation therefore needs a power limit, and the 1000 V simulations favour derating too.</p>
+          <p>The converter itself has not yet delivered power. The gate drivers would not reset and none of the SiC FETs switched, even with PWM and reset signals sent. Eight dead gate drivers at once seemed unlikely, making software the prime suspect at the time of writing. The planned 48 V efficiency test is still on the list.</p>
+          <p>A 20 A thermal test on one of the tighter internal traces raised its temperature from an 18 °C ambient to at most 30 °C after five minutes. The shunt was the hottest feature, not the copper. Full HV testing was not attempted: the lab lacked a suitable current-limited HV supply, and revision one’s repairs had already compromised the isolation.</p>
+
         </div>
       </section>
       <section class="case-grid" data-reveal>
-        <h2><span class="n">06</span>The rest of the board</h2>
+        <h2><span class="n">06</span>Building one</h2>
         <div class="prose">
 
-          <p>All components sit on the top side, for cheaper single-sided assembly and a simpler stencil. Isolation is galvanic through a Payton Planar transformer — 24:20 turns, 35 µH of leakage inductance, 10 kV dielectric strength — and the 5 V and gate-drive rails are derived on-board on both sides of the barrier. Control is a TI controlCARD over CAN, phase-shift regulating the bridge.</p>
-          <p>The prototype was manufactured by JLCPCB on a six-layer, double-thick-copper process. It is a proof of concept rather than a finished product, but it provides a concrete basis for the thesis evaluation.</p>
-        
+          <p>Payton Planar made the one-off 24:20 transformer to the project’s specifications. Murata never replied, which simplified the supplier selection considerably. JLCPCB made the six-layer PCB; a wrongly entered delivery address added a month that had not featured in the project plan.</p>
+          <p>All roughly 750 components were then placed by hand in three sessions, using a stencil, solder paste and an AliExpress hotplate. For a single prototype, that beat shipping the expensive parts to an assembly house and hoping every purchasing decision had been right.</p>
+
         </div>
       </section>
     <div class="figures">
@@ -155,7 +150,7 @@
     </div>
 
     <div class="case-foot">
-      <div class="tags"><span class="tag">10 kW</span><span class="tag">100 kHz</span><span class="tag">1700 V SiC</span><span class="tag">CERN-OHL-S</span></div>
+      <div class="tags"><span class="tag">10 kW target</span><span class="tag">100 kHz</span><span class="tag">1700 V SiC</span><span class="tag">CERN-OHL-S</span></div>
       <div><a class="arrow" href="https://github.com/NovaPrime18/DAB_DCDC" target="_blank" rel="noopener">Hardware files on GitHub <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h11M8.6 1.4 12.2 5l-3.6 3.6" stroke="currentColor" stroke-width="1.2"/></svg></a></div>
     </div>
   </div>
@@ -163,7 +158,7 @@
   <div class="wrap">
     <a class="next-case" href="ganymede.html">
       <span class="k">Next case</span>
-      <span class="t"><span>Sixty volts, a hundred amps.</span><span aria-hidden="true">→</span></span>
+      <span class="t"><span>GaN up front. Ganymede on the back.</span><span aria-hidden="true">→</span></span>
     </a>
   </div>
 </main>

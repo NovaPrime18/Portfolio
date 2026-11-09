@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>nitride-nano — 240 W USB-C PD bench supply · Thommy</title>
-<meta name="description" content="A USB-C PD 3.2 buck/boost converter: 12–48 V in, 0–60 V out, 240 W, 1 MHz switching, 94.8 % measured peak efficiency.">
+<meta name="description" content="A USB-C PD 3.2 buck/boost converter designed for 240 W output: 12–48 V in, 0–60 V out, 1 MHz and 94.8 % measured peak efficiency at 219 W output.">
 <meta name="author" content="Thommy">
 <meta name="theme-color" content="#08090b">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nitride-nano — 240 W USB-C PD bench supply · Thommy">
-<meta property="og:description" content="A USB-C PD 3.2 buck/boost converter: 12–48 V in, 0–60 V out, 240 W, 1 MHz switching, 94.8 % measured peak efficiency.">
+<meta property="og:description" content="A USB-C PD 3.2 buck/boost converter designed for 240 W output: 12–48 V in, 0–60 V out, 1 MHz and 94.8 % measured peak efficiency at 219 W output.">
 <meta property="og:image" content="../assets/img/ganymede-iso-1100.webp">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
@@ -47,11 +47,11 @@
   <div class="wrap">
     <p class="crumb"><a href="../index.html#work">Work</a> <span aria-hidden="true">/</span> <i>03</i> <span>Power supply</span></p>
     <h1>240 W<br>in a <em class="serif">pocket.</em></h1>
-    <p class="lede">A USB-C PD 3.2 buck/boost supply with a 0–60 V output and up to 240 W. The STM32 negotiates the input rail to keep the converter in an efficient operating region; the second revision reached 94.8 % measured peak efficiency.</p>
+    <p class="lede">A programmable supply designed for 240 W output, powered by USB-C PD or DC input. The STM32 asks the USB-C source for a useful voltage instead of accepting whatever appears. Revision two measured 219 W output at 94.8 % peak efficiency.</p>
     <dl class="case-meta">
-        <div><dt>Year</dt><dd>2026 — R2</dd></div>
+        <div><dt>Year</dt><dd>2026 — R4</dd></div>
         <div><dt>Role</dt><dd>Hardware, layout, bring-up, test</dd></div>
-        <div><dt>Result</dt><dd>94.8 % peak · 240.8 W in</dd></div>
+        <div><dt>Result</dt><dd>219 W out at 94.8 % · 240.8 W max in</dd></div>
         <div><dt>Licence</dt><dd>CERN-OHL-S v2.0</dd></div>
     </dl>
   </div>
@@ -67,19 +67,19 @@
         <h2><span class="n">01</span>The brief</h2>
         <div class="prose">
 
-          <p>The goal was a portable programmable supply in the spirit of the Miniware MDP-XP, with a wider output range and an emphasis on power density. It accepts USB-C Power Delivery or higher-voltage DC input and provides 0–60 V at up to 20 A through an XT90 connector.</p>
-          <p>Switching at 1 MHz reduces the size of the magnetics and capacitors. The EPC GaN devices help keep the associated losses low enough for a compact enclosure.</p>
-        
+          <p>The Miniware MDP-XP was the starting point: make something similarly portable, but with a wider output range and more power. The result accepts USB-C Power Delivery or higher-voltage DC and delivers 0–60 V at up to 20 A through an XT90 connector.</p>
+          <p>Switching at 1 MHz keeps the magnetics and capacitors small. EPC GaN devices help stop that decision from becoming a heating problem. Calling it a bench supply is slightly generous anyway; it fits in a pocket.</p>
+
         </div>
       </section>
       <section class="case-grid" data-reveal>
         <h2><span class="n">02</span>Specification</h2>
         <div>
           <table class="table">
-            <caption>Revision 2, bench-tested</caption>
+            <caption>Revision 2 — measured results and design ratings</caption>
             <tbody>
             <tr><th scope="row">Input</th><td class="num">12–48 V — USB-C PD or XT90</td></tr>
-            <tr><th scope="row">Output</th><td class="num">0–60 V, 20 A, 240 W</td></tr>
+            <tr><th scope="row">Output</th><td class="num">0–60 V, 20 A · 240 W design target</td></tr>
             <tr><th scope="row">Topology</th><td>Non-inverting buck/boost, LT8390A</td></tr>
             <tr><th scope="row">Switching</th><td class="num">1 MHz</td></tr>
             <tr><th scope="row">Power FETs</th><td>EPC2367 eGaN</td></tr>
@@ -97,34 +97,34 @@
         <h2><span class="n">03</span>Tracking the input rail</h2>
         <div class="prose">
 
-          <p>A four-switch buck/boost is generally less efficient when both bridges are switching. Instead of accepting any available charger voltage, the STM32 requests a PD rail based on the desired output, keeping the LT8390A in a cleaner buck or boost region where possible.</p>
-          <p>The input supports fixed PDOs, PPS and AVS/EPR up to 48 V. This links the USB-C negotiation directly to the efficiency of the power stage, rather than treating it as a separate feature.</p>
-        
+          <p>A four-switch buck/boost loses efficiency when both bridges are switching. Rather than take whatever voltage a charger offers, the STM32 requests a PD rail to suit the output and keeps the LT8390A in buck-only or boost-only operation where possible.</p>
+          <p>Fixed PDOs, PPS and AVS/EPR up to 48 V are supported. USB-C negotiation is therefore part of the power-stage efficiency, not just a socket on the side.</p>
+
         </div>
       </section>
       <section class="case-grid" data-reveal>
         <h2><span class="n">04</span>Bench results</h2>
         <div class="prose">
 
-          <p>The first revision reached 164 W in one test at 94.1 %. With a 2.2 µH Coilcraft XAL1010 inductor, revision 2 reached 219 W at 94.8 % peak efficiency, with a highest measured input of 240.8 W. Testing used a Riden RD6024 supply and an EA-EL 3160-60 load.</p>
-          <p>The repository includes the full test tables and equipment list for both revisions, making the effect of the component change easy to see.</p>
-        
+          <p>Revision one’s recorded test reached 164 W output at 94.1 %. Revision two used a 2.2 µH Coilcraft XAL1010 inductor and reached 219 W output at 94.8 %, with 36 V in and 52.4 V out. A separate 14 V input test reached 240.8 W input and 217.1 W output at 90.2 %. A Riden RD6024 supplied the input and an EA-EL 3160-60 sank the output.</p>
+          <p>Both revisions’ full test tables are in the repository, so the two peak numbers do not have to stand in for every operating point.</p>
+
         </div>
       </section>
       <section class="case-grid" data-reveal>
         <h2><span class="n">05</span>Thermal</h2>
         <div class="prose">
 
-          <p>A FreeCAD thermal model estimated an enclosure temperature of about 38 °C with a fan when 10 W was applied to the heatsink. On the bench, the GaN devices stayed around 60 °C, while the inductor core reached about 90 °C. That makes the inductor the main thermal constraint in the current revision.</p>
-        
+          <p>On the bench, the GaN devices sat around 60 °C while the inductor core reached about 90 °C. The next thermal revision starts with the magnetics. A separate FreeCAD model, with a fan fitted and 10 W applied to the heatsink, estimated an enclosure temperature of about 38 °C.</p>
+
         </div>
       </section>
       <section class="case-grid" data-reveal>
         <h2><span class="n">06</span>The rest of it</h2>
         <div class="prose">
 
-          <p>An STM32G474 runs the bare-metal UI on a 0.96″ OLED with three buttons, reads an INA228 for input and output power, and shows real-time efficiency. The power stage is EPC2367 eGaN with an LT8390A controller, following the EVAL-LT8390A topology. USB-C PD input stage based on the open-source PD240W design.</p>
-        
+          <p>An STM32G474 runs the bare-metal UI on a 0.96″ OLED with three buttons, reads an INA228 for input and output power, and shows real-time efficiency. The EPC2367 GaN power stage follows the EVAL-LT8390A topology; the USB-C PD input is based on the open-source PD240W design.</p>
+
         </div>
       </section>
     <div class="figures">
@@ -137,13 +137,13 @@
             <figure class="figure figure--wide">
               <img src="../assets/img/nano-photo-1100.webp"
                    srcset="../assets/img/nano-photo-1100.webp 1100w, ../assets/img/nano-photo-1800.webp 1800w"
-                   sizes="(max-width: 860px) 92vw, 60vw" width="1800" height="1355" alt="The rev 2 board in its printed housing, running on an XT90 input." loading="lazy">
-              <figcaption>Rev 3, running</figcaption>
+                   sizes="(max-width: 860px) 92vw, 60vw" width="1800" height="1355" alt="The revision 2 board in its printed housing, running on an XT90 input." loading="lazy">
+              <figcaption>Revision 2, running</figcaption>
             </figure>
     </div>
 
     <div class="case-foot">
-      <div class="tags"><span class="tag">240 W</span><span class="tag">1 MHz</span><span class="tag">USB-C PD 3.2</span><span class="tag">CERN-OHL-S</span></div>
+      <div class="tags"><span class="tag">240 W target</span><span class="tag">1 MHz</span><span class="tag">USB-C PD 3.2</span><span class="tag">CERN-OHL-S</span></div>
       <div><a class="arrow" href="https://github.com/NovaPrime18/nitride-nano" target="_blank" rel="noopener">Hardware and firmware on GitHub <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h11M8.6 1.4 12.2 5l-3.6 3.6" stroke="currentColor" stroke-width="1.2"/></svg></a></div>
     </div>
   </div>
@@ -151,7 +151,7 @@
   <div class="wrap">
     <a class="next-case" href="compressor-controller.html">
       <span class="k">Next case</span>
-      <span class="t"><span>A compressor drive with active PFC.</span><span aria-hidden="true">→</span></span>
+      <span class="t"><span>Mains in. Compressor out.</span><span aria-hidden="true">→</span></span>
     </a>
   </div>
 </main>

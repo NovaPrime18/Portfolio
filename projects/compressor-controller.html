@@ -46,12 +46,12 @@
 <main id="top" class="case-hero">
   <div class="wrap">
     <p class="crumb"><a href="../index.html#work">Work</a> <span aria-hidden="true">/</span> <i>04</i> <span>Mains drive</span></p>
-    <h1>A compressor drive<br>with active <em class="serif">PFC.</em></h1>
-    <p class="lede">A 230 V AC, VESC-compatible drive for compressor and HVAC applications. Active PFC reduces harmonic current, while isolated gate signals and dual isolated CAN separate the control side from the mains domain.</p>
+    <h1>Mains in.<br>Compressor <em class="serif">out.</em></h1>
+    <p class="lede">A VESC-compatible three-phase compressor drive designed for 230 V AC mains. With preliminary european EMC Compliance.</p>
     <dl class="case-meta">
-        <div><dt>Year</dt><dd>2026 — Rev 1</dd></div>
+        <div><dt>Year</dt><dd>2026 — Rev 2</dd></div>
         <div><dt>Role</dt><dd>Hardware design, schematic hierarchy</dd></div>
-        <div><dt>Scope</dt><dd>Mains · 325 V bus · HVAC</dd></div>
+        <div><dt>Scope</dt><dd>Mains · boost-follower PFC · HVAC</dd></div>
         <div><dt>Licence</dt><dd>CERN-OHL-S v2.0</dd></div>
     </dl>
   </div>
@@ -67,19 +67,20 @@
         <h2><span class="n">01</span>The brief</h2>
         <div class="prose">
 
-          <p>This board is intended for compressor and HVAC applications where a compact three-phase drive has to run directly from 230 V AC. It combines a rectified DC bus, active power factor correction and an intelligent power module, while remaining compatible with VESC firmware and tools.</p>
-          <p>The grid interface is a central part of the design. A simple diode bridge and bulk capacitor would draw pulsed current; the CCM PFC stage shapes the input current and is intended to help meet IEC 61000-3-2 harmonic limits.</p>
-        
+          <p>The original problem was to run a compact three-phase compressor drive directly from 230 V AC while keeping VESC firmware and tools. That means fitting the entire grid interface on board too: EMI filter, inrush limiting, rectifier, active PFC and DC bus.</p>
+          <p>A diode bridge and bulk capacitor alone would draw current in pulses. The UCC28180 CCM boost stage is intended to shape that current and gives the design a route towards IEC 61000-3-2 harmonic limits. The standard still needs measurements, of course.</p>
+
         </div>
       </section>
       <section class="case-grid" data-reveal>
         <h2><span class="n">02</span>Specification</h2>
         <div>
           <table class="table">
-            <caption>Revision 1</caption>
+            <caption>Revision 1 — design specifications; first article assembled</caption>
             <tbody>
             <tr><th scope="row">Input</th><td class="num">230 V AC single phase</td></tr>
-            <tr><th scope="row">HV bus</th><td class="num">≈ 325 V DC nominal</td></tr>
+            <tr><th scope="row">Rectified bus</th><td class="num">≈ 325 V DC nominal · before PFC</td></tr>
+            <tr><th scope="row">PFC output</th><td class="num">Regulated boost-follower bus · feeds the IPM</td></tr>
             <tr><th scope="row">PFC</th><td class="num">TI UCC28180D — CCM boost PFC</td></tr>
             <tr><th scope="row">Power bridge</th><td>Infineon IKCM10H60GAXKMA1 IPM — 10 A / 600 V</td></tr>
             <tr><th scope="row">MCU</th><td>STM32F405RGTx running VESC firmware</td></tr>
@@ -96,20 +97,20 @@
         <h2><span class="n">03</span>Architecture</h2>
         <div class="prose">
 
-          <p>The schematic is split into ten hierarchical sheets: power input, PFC, phases, filters, isolator, low-voltage power, MCU, CAN and the VESC Express module. This keeps each functional block readable and makes reviews and reuse easier.</p>
-          <p>The power path uses an EMI filter, inrush limiting and a bridge rectifier feeding a nominal 325 V bus, followed by a UCC28180 PFC stage and an Infineon IKCM10H60 intelligent power module. Gate drivers and bootstrap are integrated in the module, while a separate isolation barrier protects the control domain.</p>
-        
+          <p>The schematic uses ten hierarchical sheets, so the mains input, PFC, motor phases, isolation and control sections can be reviewed without following wires across one enormous page.</p>
+          <p>The power path runs through an EMI filter, inrush limiter and bridge rectifier to a nominal 325 V rectified bus, then through the PFC stage. The regulated PFC output feeds an Infineon IKCM10H60 intelligent power module; 325 V is therefore the rectifier-side figure, not a fixed output rating for the boost stage. The module integrates gate drivers and bootstrap, while a separate isolation barrier protects the control domain.</p>
+
         </div>
       </section>
       <section class="case-grid" data-reveal>
         <h2><span class="n">04</span>Key design decisions</h2>
         <div class="prose">
 
-          <p><strong>Isolation is designed in from the start.</strong> Gate signals and fault lines cross a dedicated isolation barrier, and the CAN interfaces are isolated too. The schematic hierarchy makes that boundary explicit and easier to review.</p>
-          <p><strong>PFC is part of the drive, not an add-on.</strong> The stage is intended around the compressor's operating profile rather than only a full-power resistive load, since harmonic performance also matters at part load.</p>
-          <p><strong>VESC Express for connectivity.</strong> An ESP32 module provides Wi-Fi, Bluetooth and a CAN bridge, so commissioning and monitoring can use existing VESC tools instead of a custom application.</p>
-          <p><strong>Service access.</strong> Tag-Connect SWD, status LEDs and a USB-C port for VESC Tool make programming and debugging possible without adding wires to the board.</p>
-        
+          <p><strong>Isolation gets its own sheet.</strong> Gate signals and fault lines cross a dedicated barrier, and both CAN interfaces are isolated too. Making that boundary visible in the schematic also makes it harder to lose during a review.</p>
+          <p><strong>Boost-follower PFC.</strong> The controller includes boost-follower control for its efficiency benefit rather than simply regulating a fixed high-voltage output. The schematic’s own note gives the trade-off: the software might not like the regulation loop. That is a bench question, not a solved feature.</p>
+          <p><strong>VESC Express handles connectivity.</strong> An ESP32 module provides Wi-Fi, Bluetooth and a CAN bridge. Commissioning and monitoring can use existing VESC tools instead of another custom application.</p>
+          <p><strong>Service access is on the board.</strong> Tag-Connect SWD, status LEDs and USB-C for VESC Tool cover programming and debugging without extra bodge wires. Other boards in this portfolio have not always been so lucky.</p>
+
         </div>
       </section>
       <section class="case-grid" data-reveal>
@@ -118,7 +119,7 @@
           <table class="table">
             <caption>Standards in scope</caption>
             <tbody>
-            <tr><th scope="row">IEC 61000-3-2</th><td class="num">Harmonic current emissions — addressed by active PFC</td></tr>
+            <tr><th scope="row">IEC 61000-3-2</th><td class="num">Harmonic current emissions — active PFC; measurement still required</td></tr>
             <tr><th scope="row">IEC 60335-2-34</th><td>Particular requirements for motor-compressors</td></tr>
             <tr><th scope="row">EN IEC 63000</th><td>RoHS technical documentation</td></tr>
             </tbody>
@@ -129,9 +130,9 @@
         <h2><span class="n">06</span>Compliance and safety</h2>
         <div class="prose">
 
-          <p>The design targets IEC 61000-3-2 for harmonic current emissions, IEC 60335-2-34 for motor-compressors and EN IEC 63000 for RoHS documentation. Active PFC supports the first of these, but it does not provide certification; compliance still has to be verified by measurement during integration.</p>
-          <p>The DC bus sits at roughly 325–400 V from rectified mains. Enclosure, creepage, clearance and fusing therefore need to be treated as part of the system, and the board is intended for people qualified to work on mains equipment.</p>
-        
+          <p>Active PFC is intended to reduce harmonic-current emissions, but it does not make the board certified. IEC 60335-2-34 for motor-compressors and EN IEC 63000 for RoHS documentation also remain integration and documentation work, not boxes ticked by a schematic.</p>
+          <p>The rectified and PFC buses operate at lethal voltages, roughly 325–400 V depending on the node and operating point. Enclosure, creepage, clearance and fusing are part of the design rather than accessories, and this is not a beginner mains project.</p>
+
         </div>
       </section>
     <div class="figures">
@@ -158,7 +159,7 @@
   <div class="wrap">
     <a class="next-case" href="twin-gan.html">
       <span class="k">Next case</span>
-      <span class="t"><span>Two motor drivers, one 99 mm board.</span><span aria-hidden="true">→</span></span>
+      <span class="t"><span>No CAN cable between the ESCs.</span><span aria-hidden="true">→</span></span>
     </a>
   </div>
 </main>

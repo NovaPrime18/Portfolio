@@ -125,10 +125,10 @@ CASES = {}
 
 # --------------------------------------------------------------------------
 CASES["dab-dcdc"] = dict(
-    title="DAB DC-DC — 10 kW module · Thommy",
-    desc="A 10 kW dual active bridge module for a 500 kW off-grid EV charger: 800 V in, 1000 V out, 100 kHz, 1700 V SiC and creepage rules that shaped the layout.",
-    h1="Ten kilowatts,<br>on the <em class=\"serif\">bench.</em>",
-    lede="A 10 kW dual active bridge module developed as part of a thesis on a 500 kW off-grid EV charger: 800 V in, up to 1000 V out at 100 kHz, with the isolation and cooling requirements considered from the start.",
+    title="DAB DC-DC — 10 kW design · Thommy",
+    desc="A dual active bridge designed for 10 kW as part of a 500 kW off-grid EV charger thesis: 800 V in, up to 1000 V out, 100 kHz and 1700 V SiC.",
+    h1="Over two kilowatts,<br>per <em class=\"serif\">liter.</em>",
+    lede="A dual active bridge module designed for 10 kW as part of a thesis on a 500 kW off-grid EV charger. It takes 500–800 V in, covers 250–1000 V out and switches at 100 kHz. Revision one is a low-voltage prototype with a few lessons attached.",
     crumb=("01", "DC-DC"),
     meta=[
         ("Year", "2026"),
@@ -139,33 +139,38 @@ CASES["dab-dcdc"] = dict(
     hero=("dab-hero-1800", "dab-hero-1100", "The 10 kW dual active bridge board: purple solder mask, a planar transformer under an aluminium block, 1700 V SiC MOSFETs along both sides.", 1800, 773),
     sections=[
         ("01", "The brief", """
-          <p>This module was developed during an internship thesis on whether a 500 kW off-grid EV DC fast charger could be built in-house. The system would be made from modules sharing a DC bus, so the thesis needed a repeatable 10 kW building block. This board is based on a Texas Instruments DAB reference design, adapted to 1000V maximum output instead of just 500V.</p>
-          <p>It was designed for 500–800 V on the primary and 250–1000 V on the secondary, with cost and manufacturability part of the brief from the beginning. The thesis contains the design rationale, LTspice and PLECS simulations and test results; the repository contains the hardware.</p>
+          <p>The thesis asked whether New Electric should build a 500 kW off-grid EV fast charger in-house. The proposed charger uses repeated 10 kW DAB modules rather than one 500 kW converter. This board is the prototype for one of those modules.</p>
+          <p>TI’s reference design was the starting point because it came closest to the required specification. Its output stopped at 500 V; the project needed 1000 V and more current at lower output voltages. That meant new SiC devices and capacitors, more copper, a different transformer ratio, larger clearances and a proper look at cooling. LTspice and PLECS checked the design before anything was ordered.</p>
         """),
         ("02", "What a 10 kW module needs", None),
         ("03", "Key design decisions", """
-          <p><strong>Six layers instead of four.</strong> The extra copper helps carry the 22 A primary and 25 A secondary peaks, spreads heat, and leaves room for via stitching around the high-current path. KiCad's trace-width calculator was used to keep the estimated trace rise within 10 °C above ambient at 30 A.</p>
-          <p><strong>1700 V on the isolated side.</strong> The 1000 V output also has to accommodate switching overshoot and transformer ringing. The secondary SiC MOSFETs and DC-blocking capacitors are rated at 1700 V, giving 1.7× derating. Two 2280-package capacitors are stacked to reach the required capacitance within the available footprint.</p>
-          <p><strong>External contactors.</strong> High-voltage switching is handled by external contactors through XT30 connectors. That keeps the contactor voltage rating independent of the prototype board and makes it easier to change the system architecture later.</p>
-          <p><strong>The transformer is part of the structure.</strong> It sits in the centre of the board and also supports the PCB and cooling plate. Using the heaviest component as part of the mechanical structure saves a separate frame.</p>
+          <p><strong>Six layers instead of four.</strong> The reference design uses four layers. This one uses six, with 70 µm copper, to carry the higher current and spread the heat. KiCad’s trace-width calculator put the estimated trace rise below 10 °C at 30 A, though limited room for thermal vias around the HV clearances meant this still needed a bench test.</p>
+          <p><strong>1700 V on the isolated side.</strong> The 1000 V output also has to survive switching overshoot and transformer ringing. Secondary SiC MOSFETs and DC-blocking capacitors are rated at 1700 V, a 1.7× margin. The available switch has higher gate charge and slightly higher on-resistance than TI’s 900 V part, so the extra loss went into the simulations and cooling budget.</p>
+          <p><strong>External contactors.</strong> Moving the contactors off-board keeps their voltage rating independent of the prototype PCB and makes the precharge hardware easier to adapt to the vehicle. XT30 connectors replace the original on-board arrangement.</p>
+          <p><strong>The transformer holds things up.</strong> It is the heaviest component, so it might as well be part of the structure. It sits in the centre and is held by the cooling plate; together they support the PCB. The 2 mm FR4 keeps the outer edges from sagging.</p>
         """),
         ("04", "What went wrong", None),
-        ("05", "Numbers", None),
-        ("06", "The rest of the board", """
-          <p>All components sit on the top side, for cheaper single-sided assembly and a simpler stencil. Isolation is galvanic through a Payton Planar transformer — 24:20 turns, 35 µH of leakage inductance, 10 kV dielectric strength — and the 5 V and gate-drive rails are derived on-board on both sides of the barrier. Control is a TI controlCARD over CAN, phase-shift regulating the bridge.</p>
-          <p>The prototype was manufactured by JLCPCB on a six-layer, double-thick-copper process. It is a proof of concept rather than a finished product, but it provides a concrete basis for the thesis evaluation.</p>
+        ("05", "What the tests added", """
+          <p>PLECS predicted 98.6 % efficiency for 750 V to 600 V at 10 kW; LTspice also sat above 98 %. At 750 V to 1000 V, the predictions fell to about 96 % in PLECS and 94 % in LTspice. Those are simulation results, not measured converter efficiencies.</p>
+          <p>The 10 kW target does not apply across the whole output range. The thesis specifies 40 A for 10 kW at 250 V, while the prototype transformer is rated at 17 A secondary and 25 A peak. Low-voltage operation therefore needs a power limit, and the 1000 V simulations favour derating too.</p>
+          <p>The converter itself has not yet delivered power. The gate drivers would not reset and none of the SiC FETs switched, even with PWM and reset signals sent. Eight dead gate drivers at once seemed unlikely, making software the prime suspect at the time of writing. The planned 48 V efficiency test is still on the list.</p>
+          <p>A 20 A thermal test on one of the tighter internal traces raised its temperature from an 18 °C ambient to at most 30 °C after five minutes. The shunt was the hottest feature, not the copper. Full HV testing was not attempted: the lab lacked a suitable current-limited HV supply, and revision one’s repairs had already compromised the isolation.</p>
+        """),
+        ("06", "Building one", """
+          <p>Payton Planar made the one-off 24:20 transformer to the project’s specifications. Murata never replied, which simplified the supplier selection considerably. JLCPCB made the six-layer PCB; a wrongly entered delivery address added a month that had not featured in the project plan.</p>
+          <p>All roughly 750 components were then placed by hand in three sessions, using a stencil, solder paste and an AliExpress hotplate. For a single prototype, that beat shipping the expensive parts to an assembly house and hoping every purchasing decision had been right.</p>
         """),
     ],
     table_title="Specification",
-    table_caption="Prototype module, revision 1",
+    table_caption="Revision 1 — design targets; derating and bring-up status below",
     rows=[
         ("Topology", "Dual active bridge, phase-shift controlled", False),
         ("Input", "500–800 V DC", True),
-        ("Output", "250–1000 V DC (peak efficiency at 666 V)", True),
-        ("Power", "≈ 10 kW per module", True),
-        ("Current", "15 A primary (22 A peak) · 17 A secondary (25 A peak)", False),
+        ("Output", "250–1000 V DC design range · simulated efficiency peak at 666 V", True),
+        ("Power", "10 kW design target · voltage-dependent derating", True),
+        ("Transformer current", "15 A primary (22 A peak) · 17 A secondary (25 A peak)", False),
         ("Switching", "100 kHz", True),
-        ("Isolation", "10 kV primary-to-secondary", False),
+        ("Transformer dielectric strength", "10 kV primary-to-secondary · not a repaired-board rating", False),
         ("Transformer", "Payton Planar, 24:20, 35 µH leakage", False),
         ("Secondary switches", "Microchip MSC035SMA170B4, 1700 V SiC", False),
         ("Creepage / clearance", "3 mm primary · 3.5 mm secondary (IEC-60664 at 1000 V)", False),
@@ -176,15 +181,15 @@ CASES["dab-dcdc"] = dict(
     ],
     callout="""
           <div class="callout">
-            <b>Errata, first prototype.</b> The eFuse (TPS26400) had pins 3 and 5 swapped in the footprint, so the board would not power up; it was bodged with wires. The standard KiCad footprint for TI's controlCARD connector numbers its pins the other way round, so a small flip-adapter PCB is included in the repo. The isolated supply's 1 kΩ current-limit resistor was replaced with 270 Ω to stop start-up faults, and the DS modulator sense pins — routed to pins that do not support it — were rerouted with magnet wire. Until these are fixed in a re-spin, this prototype is only to be run at low voltage.
+            <b>Errata, first prototype.</b> The board collected a respectable set: swapped eFuse connections, a controlCARD footprint with TI’s pin numbering reversed, an isolated-supply current limit set too low and sense signals routed to the wrong MCU pins. The fixes involved bodge wires, a 270 Ω resistor, magnet wire and a small adapter PCB designed and ordered within a day. Those repairs enabled the supply, controlCARD and thermal checks, but did not preserve the original HV isolation. Revision one therefore stays below 50 V.
           </div>""",
     figures=[
         ("dab-macro-1800", "dab-macro-1100", "Close-up of the secondary side: 1700 V SiC MOSFETs, gate-drive isolation and the HV capacitor bank.", 1800, 1125, "", "Secondary side"),
         ("dab-cooling-1500", "dab-cooling-950", "The cooling plate and fin stack, clamped over the SiC devices and the transformer.", 1500, 1125, "", "Cooling plate"),
     ],
     links=[("https://github.com/NovaPrime18/DAB_DCDC", "Hardware files on GitHub")],
-    tags=["10 kW", "100 kHz", "1700 V SiC", "CERN-OHL-S"],
-    next=("ganymede", "Sixty volts, a hundred amps."),
+    tags=["10 kW target", "100 kHz", "1700 V SiC", "CERN-OHL-S"],
+    next=("ganymede", "GaN up front. Ganymede on the back."),
     year="2026",
 )
 
@@ -192,8 +197,8 @@ CASES["dab-dcdc"] = dict(
 CASES["ganymede"] = dict(
     title="GaNymede — 60 V, 100 A GaN motor driver · Thommy",
     desc="A VESC-compatible three-phase GaN motor controller: six EPC2361 eGaN FETs, 0.25 mΩ phase shunts and 1.4 mF of bus capacitance on a 78 × 65 mm six-layer board.",
-    h1="Sixty volts,<br>a hundred <em class=\"serif\">amps.</em>",
-    lede="A VESC-compatible three-phase drive for a direct-drive hub motor: six eGaN FETs, 0.25 mΩ phase shunts and 1.4 mF of bus capacitance wrapped around a 78 × 65 mm six-layer power stage.",
+    h1="GaN up front.<br>Ganymede <em class=\"serif\">on the back.</em>",
+    lede="A VESC-compatible three-phase hub-motor driver on a 78 × 65 mm six-layer board. Six EPC2361 GaN FETs and a wrapped capacitor bank keep the power loop small; three-shunt sensing and a copper-inclusive loss model cover the less glamorous parts.",
     crumb=("02", "Motor driver"),
     meta=[
         ("Year", "2026 — R1"),
@@ -205,29 +210,29 @@ CASES["ganymede"] = dict(
     hero=("ganymede-iso-1800", "ganymede-iso-1100", "GaNymede in its translucent housing, engraved silkscreen illustration of Ganymede and the eagle across the copper.", 1800, 1533),
     sections=[
         ("01", "The brief", """
-          <p>A direct-drive hub motor needs high phase current in a compact package. GaNymede targets 50 A continuous and 100 A peak for one minute, with current and voltage sensing on every phase, Hall inputs and an ESP32-C3 for wireless telemetry.</p>
-          <p>The control side follows the VESC pattern — STM32F405, three Hall inputs and three phase-current channels — so existing firmware and tools can be used. Most of the design work went into the power stage, current sensing and thermal budget.</p>
+          <p>GaNymede is a motor controller for a direct-drive hub motor, with a target of 50 A continuous and 100 A for one minute. Three-phase current and voltage sensing, Hall inputs, CAN and an ESP32-C3 for wireless telemetry are all on board.</p>
+          <p>Using the VESC pattern—STM32F405, existing firmware and tools—keeps the control side familiar. The GaN power stage, current sensing and thermal budget are where most of the design time went.</p>
         """),
         ("02", "Specification", None),
         ("03", "Key design decisions", """
-          <p><strong>The bus capacitor bank wraps the power stage.</strong> The roughly 1.4 mF bank is arranged around the bridge to keep the commutation loop short, with ceramic capacitors close to the switches and larger parts providing the bulk storage.</p>
-          <p><strong>0.25 mΩ per phase, using two parallel shunts.</strong> Each phase uses two 0.5 mΩ 2512 resistors, feeding an INA240A1 at a gain of 20. Sharing the current between two parts reduces heating while keeping a useful measurement signal at high current.</p>
-          <p><strong>Dead time lives in firmware.</strong> The LMG1210 drivers are configured for independent high- and low-side inputs, so dead time is set in software. That suits the VESC control scheme, but makes careful bring-up and gate-signal checks important.</p>
-          <p><strong>Copper sized for the peak.</strong> The pours and via stitching are sized for the one-minute 100 A peak, not just the 50 A continuous rating. The loss model also accounts for shunt heating and the thermal path through the board.</p>
+          <p><strong>The capacitor bank wraps around the bridge.</strong> It does not sit politely in a row. Wrapping the roughly 1.4 mF bank around the power stage uses the available board area and keeps the commutation loop short. Ceramic capacitors sit close to the switches; larger parts provide bulk storage.</p>
+          <p><strong>Two shunts per phase.</strong> Two parallel 0.5 mΩ 2512 resistors make a 0.25 mΩ shunt, feeding an INA240A1 at a gain of 20. Sharing the current spreads the heat while keeping a useful measurement signal.</p>
+          <p><strong>Dead time lives in firmware.</strong> The LMG1210 takes independent high- and low-side inputs, which fits the VESC control scheme. It also makes careful gate-signal checks essential during first power-up.</p>
+          <p><strong>The copper is sized for the peak.</strong> Pours and via stitching account for the one-minute 100 A target, not just 50 A continuous. The 100 V FET rating leaves headroom over the 60 V bus, but real overshoot still needs a double-pulse test.</p>
         """),
-        ("04", "What the loss model shows", """
-          <p>There is a full copper, semiconductor and thermal model in <a href="https://github.com/NovaPrime18/GaNymede/blob/main/LOSSES.md" target="_blank" rel="noopener">LOSSES.md</a>. At 100 A peak it predicts about 29 W of total loss and 99.4 % efficiency; at 50 A continuous, about 7.3 W and 99.7 %.</p>
-          <p>The model puts most of the loss in the phase shunts and the 60 V/GND copper rather than in the GaN devices. That makes the thermal interface and copper layout especially important. A 1.5–2 °C/W natural-convection heatsink should be sufficient for the modelled continuous load, while the one-minute peak is limited mainly by thermal mass.</p>
+        ("04", "What the loss model says", """
+          <p>The copper, semiconductor and thermal model in <a href="https://github.com/NovaPrime18/GaNymede/blob/main/LOSSES.md" target="_blank" rel="noopener">LOSSES.md</a> currently predicts about 29 W of loss and 99.4 % efficiency at 100 A peak, or 7.3 W and 99.7 % at 50 A continuous. Those are model outputs, not claims from a finished inverter.</p>
+          <p>It puts most of the loss in the phase shunts and 60 V/GND copper rather than the GaN devices. A 1.5–2 °C/W natural-convection heatsink should handle the modelled continuous load, while the one-minute peak leans mostly on thermal mass. If the bench disagrees, the bench wins.</p>
         """),
-        ("05", "The visual side", """
-          <p>The back of the board carries an engraved illustration of Ganymede and the eagle, taken from the project's name. It has no electrical function; it is simply a detail I enjoyed adding, and it gives the board a recognisable identity.</p>
+        ("05", "The back of the board", """
+          <p>The back carries an engraving of Ganymede and the eagle. It does absolutely nothing for efficiency. It does make the back of the board much better.</p>
         """),
         ("06", "Where it stands", """
-          <p>R1 has a completed schematic and six-layer layout. The current and thermal figures are modelled design targets, not bench measurements. They are labelled as such here and in the repository, and will need to be checked on hardware.</p>
+          <p>R1 exists as a completed schematic and six-layer layout, not a tested controller. Every current, power and thermal figure here is a target or model output. Gate checks, a double-pulse test and a thermal camera need to turn those targets into ratings.</p>
         """),
     ],
     table_title="Specification",
-    table_caption="Revision 1 — design targets, not yet bench-verified",
+    table_caption="Revision 1 — design targets",
     rows=[
         ("Bus voltage", "up to 60 V DC", True),
         ("Phase current", "50 A continuous · 100 A peak (1 min)", True),
@@ -251,7 +256,7 @@ CASES["ganymede"] = dict(
         ("ganymede-board-front-1400", "ganymede-board-front-900", "Component side of the GaNymede board: the bus capacitor bank, eGaN devices and gate drivers around the power stage.", 1400, 1237, "", "Power stage"),
     ],
     links=[("https://github.com/NovaPrime18/GaNymede", "Hardware files on GitHub")],
-    tags=["5.2 kW", "100 A peak", "EPC2361", "CERN-OHL-S"],
+    tags=["5.2 kW modelled", "100 A target", "EPC2361", "CERN-OHL-S"],
     next=("nitride-nano", "240 W in a pocket."),
     year="2026",
 )
@@ -259,43 +264,43 @@ CASES["ganymede"] = dict(
 # --------------------------------------------------------------------------
 CASES["nitride-nano"] = dict(
     title="nitride-nano — 240 W USB-C PD bench supply · Thommy",
-    desc="A USB-C PD 3.2 buck/boost converter: 12–48 V in, 0–60 V out, 240 W, 1 MHz switching, 94.8 % measured peak efficiency.",
+    desc="A USB-C PD 3.2 buck/boost converter designed for 240 W output: 12–48 V in, 0–60 V out, 1 MHz and 94.8 % measured peak efficiency at 219 W output.",
     h1="240 W<br>in a <em class=\"serif\">pocket.</em>",
-    lede="A USB-C PD 3.2 buck/boost supply with a 0–60 V output and up to 240 W. The STM32 negotiates the input rail to keep the converter in an efficient operating region; the second revision reached 94.8 % measured peak efficiency.",
+    lede="A programmable supply designed for 240 W output, powered by USB-C PD or DC input. The STM32 asks the USB-C source for a useful voltage instead of accepting whatever appears. Revision two measured 219 W output at 94.8 % peak efficiency.",
     crumb=("03", "Power supply"),
     meta=[
         ("Year", "2026 — R2"),
         ("Role", "Hardware, layout, bring-up, test"),
-        ("Result", "94.8 % peak · 240.8 W in"),
+        ("Result", "219 W out at 94.8 % · 240.8 W max in"),
         ("Licence", "CERN-OHL-S v2.0"),
     ],
     hero=("nano-front-1800", "nano-front-1100", "nitride-nano: a compact white PCB with its GaN power stage, USB-C input and XT90 output connectors.", 1800, 1046),
     sections=[
         ("01", "The brief", """
-          <p>The goal was a portable programmable supply in the spirit of the Miniware MDP-XP, with a wider output range and an emphasis on power density. It accepts USB-C Power Delivery or higher-voltage DC input and provides 0–60 V at up to 20 A through an XT90 connector.</p>
-          <p>Switching at 1 MHz reduces the size of the magnetics and capacitors. The EPC GaN devices help keep the associated losses low enough for a compact enclosure.</p>
+          <p>The Miniware MDP-XP was the starting point: make something similarly portable, but with a wider output range and more power. The result accepts USB-C Power Delivery or higher-voltage DC and delivers 0–60 V at up to 20 A through an XT90 connector.</p>
+          <p>Switching at 1 MHz keeps the magnetics and capacitors small. EPC GaN devices help stop that decision from becoming a heating problem. Calling it a bench supply is slightly generous anyway; it fits in a pocket.</p>
         """),
         ("02", "Specification", None),
         ("03", "Tracking the input rail", """
-          <p>A four-switch buck/boost is generally less efficient when both bridges are switching. Instead of accepting any available charger voltage, the STM32 requests a PD rail based on the desired output, keeping the LT8390A in a cleaner buck or boost region where possible.</p>
-          <p>The input supports fixed PDOs, PPS and AVS/EPR up to 48 V. This links the USB-C negotiation directly to the efficiency of the power stage, rather than treating it as a separate feature.</p>
+          <p>A four-switch buck/boost loses efficiency when both bridges are switching. Rather than take whatever voltage a charger offers, the STM32 requests a PD rail to suit the output and keeps the LT8390A in buck-only or boost-only operation where possible.</p>
+          <p>Fixed PDOs, PPS and AVS/EPR up to 48 V are supported. USB-C negotiation is therefore part of the power-stage efficiency, not just a socket on the side.</p>
         """),
         ("04", "Bench results", """
-          <p>The first revision reached 164 W in one test at 94.1 %. With a 2.2 µH Coilcraft XAL1010 inductor, revision 2 reached 219 W at 94.8 % peak efficiency, with a highest measured input of 240.8 W. Testing used a Riden RD6024 supply and an EA-EL 3160-60 load.</p>
-          <p>The repository includes the full test tables and equipment list for both revisions, making the effect of the component change easy to see.</p>
+          <p>Revision one’s recorded test reached 164 W output at 94.1 %. Revision two used a 2.2 µH Coilcraft XAL1010 inductor and reached 219 W output at 94.8 %, with 36 V in and 52.4 V out. A separate 14 V input test reached 240.8 W input and 217.1 W output at 90.2 %. A Riden RD6024 supplied the input and an EA-EL 3160-60 sank the output.</p>
+          <p>Both revisions’ full test tables are in the repository, so the two peak numbers do not have to stand in for every operating point.</p>
         """),
         ("05", "Thermal", """
-          <p>A FreeCAD thermal model estimated an enclosure temperature of about 38 °C with a fan when 10 W was applied to the heatsink. On the bench, the GaN devices stayed around 60 °C, while the inductor core reached about 90 °C. That makes the inductor the main thermal constraint in the current revision.</p>
+          <p>On the bench, the GaN devices sat around 60 °C while the inductor core reached about 90 °C. The next thermal revision starts with the magnetics. A separate FreeCAD model, with a fan fitted and 10 W applied to the heatsink, estimated an enclosure temperature of about 38 °C.</p>
         """),
         ("06", "The rest of it", """
-          <p>An STM32G474 runs the bare-metal UI on a 0.96″ OLED with three buttons, reads an INA228 for input and output power, and shows real-time efficiency. The power stage is EPC2367 eGaN with an LT8390A controller, following the EVAL-LT8390A topology. USB-C PD input stage based on the open-source PD240W design.</p>
+          <p>An STM32G474 runs the bare-metal UI on a 0.96″ OLED with three buttons, reads an INA228 for input and output power, and shows real-time efficiency. The EPC2367 GaN power stage follows the EVAL-LT8390A topology; the USB-C PD input is based on the open-source PD240W design.</p>
         """),
     ],
     table_title="Specification",
-    table_caption="Revision 2, bench-tested",
+    table_caption="Revision 2 — measured results and design ratings",
     rows=[
         ("Input", "12–48 V — USB-C PD or XT90", True),
-        ("Output", "0–60 V, 20 A, 240 W", True),
+        ("Output", "0–60 V, 20 A · 240 W design target", True),
         ("Topology", "Non-inverting buck/boost, LT8390A", False),
         ("Switching", "1 MHz", True),
         ("Power FETs", "EPC2367 eGaN", False),
@@ -308,15 +313,15 @@ CASES["nitride-nano"] = dict(
     ],
     callout="""
           <div class="callout">
-            <b>Thermal finding.</b> The inductor core was the hottest component at approximately 90 °C; the GaN FETs stayed around 60 °C. A future revision would start by reviewing the magnetics rather than changing the power devices.
+            <b>Two different measured points.</b> The 219 W output at 94.8 % and 240.8 W input at 90.2 % came from different tests. Neither result means that 240 W output has been measured; that remains the design target.
           </div>""",
     figures=[
         ("nano-back-1500", "nano-back-950", "The back of the board: silkscreen reads POWAH!, atom logo, and the output range printed where an assembly technician will see it.", 1500, 871, "", "Back side"),
-        ("nano-photo-1800", "nano-photo-1100", "The rev 2 board in its printed housing, running on an XT90 input.", 1800, 1355, "figure--wide", "Rev 3, running"),
+        ("nano-photo-1800", "nano-photo-1100", "The revision 2 board in its printed housing, running on an XT90 input.", 1800, 1355, "figure--wide", "Revision 2, running"),
     ],
     links=[("https://github.com/NovaPrime18/nitride-nano", "Hardware and firmware on GitHub")],
-    tags=["240 W", "1 MHz", "USB-C PD 3.2", "CERN-OHL-S"],
-    next=("compressor-controller", "A compressor drive with active PFC."),
+    tags=["240 W target", "1 MHz", "USB-C PD 3.2", "CERN-OHL-S"],
+    next=("compressor-controller", "Mains in. Compressor out."),
     year="2026",
 )
 
@@ -324,43 +329,44 @@ CASES["nitride-nano"] = dict(
 CASES["compressor-controller"] = dict(
     title="CompressorController — 230 V AC VESC-compatible HVAC drive · Thommy",
     desc="A mains-powered, VESC-compatible three-phase motor driver with active PFC, isolated gate signals and dual isolated CAN, designed against IEC 61000-3-2.",
-    h1="A compressor drive<br>with active <em class=\"serif\">PFC.</em>",
-    lede="A 230 V AC, VESC-compatible drive for compressor and HVAC applications. Active PFC reduces harmonic current, while isolated gate signals and dual isolated CAN separate the control side from the mains domain.",
+    h1="Mains in.<br>Compressor <em class=\"serif\">out.</em>",
+    lede="A VESC-compatible three-phase compressor drive designed for 230 V AC mains. Active PFC is intended to shape the input current, while isolated gate signals and two isolated CAN interfaces keep the control side away from mains.",
     crumb=("04", "Mains drive"),
     meta=[
         ("Year", "2026 — Rev 1"),
         ("Role", "Hardware design, schematic hierarchy"),
-        ("Scope", "Mains · 325 V bus · HVAC"),
+        ("Scope", "Mains · boost-follower PFC · HVAC"),
         ("Licence", "CERN-OHL-S v2.0"),
     ],
     hero=("compressor-front-1500", "compressor-front-950", "The compressor controller: green PCB with an intelligent power module, PFC inductor, film capacitors and a large bus capacitor bank.", 1500, 911),
     sections=[
         ("01", "The brief", """
-          <p>This board is intended for compressor and HVAC applications where a compact three-phase drive has to run directly from 230 V AC. It combines a rectified DC bus, active power factor correction and an intelligent power module, while remaining compatible with VESC firmware and tools.</p>
-          <p>The grid interface is a central part of the design. A simple diode bridge and bulk capacitor would draw pulsed current; the CCM PFC stage shapes the input current and is intended to help meet IEC 61000-3-2 harmonic limits.</p>
+          <p>The original problem was to run a compact three-phase compressor drive directly from 230 V AC while keeping VESC firmware and tools. That means fitting the entire grid interface on board too: EMI filter, inrush limiting, rectifier, active PFC and DC bus.</p>
+          <p>A diode bridge and bulk capacitor alone would draw current in pulses. The UCC28180 CCM boost stage is intended to shape that current and gives the design a route towards IEC 61000-3-2 harmonic limits. The standard still needs measurements, of course.</p>
         """),
         ("02", "Specification", None),
         ("03", "Architecture", """
-          <p>The schematic is split into ten hierarchical sheets: power input, PFC, phases, filters, isolator, low-voltage power, MCU, CAN and the VESC Express module. This keeps each functional block readable and makes reviews and reuse easier.</p>
-          <p>The power path uses an EMI filter, inrush limiting and a bridge rectifier feeding a nominal 325 V bus, followed by a UCC28180 PFC stage and an Infineon IKCM10H60 intelligent power module. Gate drivers and bootstrap are integrated in the module, while a separate isolation barrier protects the control domain.</p>
+          <p>The schematic uses ten hierarchical sheets, so the mains input, PFC, motor phases, isolation and control sections can be reviewed without following wires across one enormous page.</p>
+          <p>The power path runs through an EMI filter, inrush limiter and bridge rectifier to a nominal 325 V rectified bus, then through the PFC stage. The regulated PFC output feeds an Infineon IKCM10H60 intelligent power module; 325 V is therefore the rectifier-side figure, not a fixed output rating for the boost stage. The module integrates gate drivers and bootstrap, while a separate isolation barrier protects the control domain.</p>
         """),
         ("04", "Key design decisions", """
-          <p><strong>Isolation is designed in from the start.</strong> Gate signals and fault lines cross a dedicated isolation barrier, and the CAN interfaces are isolated too. The schematic hierarchy makes that boundary explicit and easier to review.</p>
-          <p><strong>PFC is part of the drive, not an add-on.</strong> The stage is intended around the compressor's operating profile rather than only a full-power resistive load, since harmonic performance also matters at part load.</p>
-          <p><strong>VESC Express for connectivity.</strong> An ESP32 module provides Wi-Fi, Bluetooth and a CAN bridge, so commissioning and monitoring can use existing VESC tools instead of a custom application.</p>
-          <p><strong>Service access.</strong> Tag-Connect SWD, status LEDs and a USB-C port for VESC Tool make programming and debugging possible without adding wires to the board.</p>
+          <p><strong>Isolation gets its own sheet.</strong> Gate signals and fault lines cross a dedicated barrier, and both CAN interfaces are isolated too. Making that boundary visible in the schematic also makes it harder to lose during a review.</p>
+          <p><strong>Boost-follower PFC.</strong> The controller includes boost-follower control for its efficiency benefit rather than simply regulating a fixed high-voltage output. The schematic’s own note gives the trade-off: the software might not like the regulation loop. That is a bench question, not a solved feature.</p>
+          <p><strong>VESC Express handles connectivity.</strong> An ESP32 module provides Wi-Fi, Bluetooth and a CAN bridge. Commissioning and monitoring can use existing VESC tools instead of another custom application.</p>
+          <p><strong>Service access is on the board.</strong> Tag-Connect SWD, status LEDs and USB-C for VESC Tool cover programming and debugging without extra bodge wires. Other boards in this portfolio have not always been so lucky.</p>
         """),
         ("05", "Compliance targets", None),
         ("06", "Compliance and safety", """
-          <p>The design targets IEC 61000-3-2 for harmonic current emissions, IEC 60335-2-34 for motor-compressors and EN IEC 63000 for RoHS documentation. Active PFC supports the first of these, but it does not provide certification; compliance still has to be verified by measurement during integration.</p>
-          <p>The DC bus sits at roughly 325–400 V from rectified mains. Enclosure, creepage, clearance and fusing therefore need to be treated as part of the system, and the board is intended for people qualified to work on mains equipment.</p>
+          <p>Active PFC is intended to reduce harmonic-current emissions, but it does not make the board certified. IEC 60335-2-34 for motor-compressors and EN IEC 63000 for RoHS documentation also remain integration and documentation work, not boxes ticked by a schematic.</p>
+          <p>The rectified and PFC buses operate at lethal voltages, roughly 325–400 V depending on the node and operating point. Enclosure, creepage, clearance and fusing are part of the design rather than accessories, and this is not a beginner mains project.</p>
         """),
     ],
     table_title="Specification",
-    table_caption="Revision 1",
+    table_caption="Revision 1 — design specifications; first article assembled",
     rows=[
         ("Input", "230 V AC single phase", True),
-        ("HV bus", "≈ 325 V DC nominal", True),
+        ("Rectified bus", "≈ 325 V DC nominal · before PFC", True),
+        ("PFC output", "Regulated boost-follower bus · feeds the IPM", True),
         ("PFC", "TI UCC28180D — CCM boost PFC", True),
         ("Power bridge", "Infineon IKCM10H60GAXKMA1 IPM — 10 A / 600 V", False),
         ("MCU", "STM32F405RGTx running VESC firmware", False),
@@ -372,7 +378,7 @@ CASES["compressor-controller"] = dict(
     ],
     callout="""
           <div class="callout">
-            <b>Mains voltage.</b> This board operates at lethal voltages: 230 V AC in, roughly 325–400 V DC on the bus. It is an open hardware design intended for qualified people, with enclosure, creepage and fusing treated as part of the system rather than accessories.
+            <b>Mains voltage.</b> This board operates at lethal voltages: 230 V AC in, with high-voltage DC nodes around 325–400 V depending on the node and operating point. It is an open hardware design intended for qualified people, with enclosure, creepage and fusing treated as part of the system rather than accessories.
           </div>""",
     figures=[
         ("compressor-back-1500", "compressor-back-950", "The power side: PFC inductor, film capacitors, IPM heatspreader and the bus capacitor bank.", 1500, 944, "", "Power side"),
@@ -380,7 +386,7 @@ CASES["compressor-controller"] = dict(
     ],
     links=[("https://github.com/NovaPrime18/CompressorController", "Hardware files on GitHub")],
     tags=["230 V AC", "Active PFC", "VESC", "IEC 61000-3-2"],
-    next=("twin-gan", "Two motor drivers, one 99 mm board."),
+    next=("twin-gan", "No CAN cable between the ESCs."),
     year="2026",
 )
 
@@ -388,8 +394,8 @@ CASES["compressor-controller"] = dict(
 CASES["twin-gan"] = dict(
     title="Twin-GaN — dual 3-phase GaN motor controller · Thommy",
     desc="Two complete VESC-compatible three-phase inverters on one 99 × 99 mm board, with both MCUs and an ESP32 sharing one internal CAN bus.",
-    h1="Two motor drivers,<br>one 99 mm <em class=\"serif\">board.</em>",
-    lede="A dual VESC-compatible controller with two complete three-phase GaN inverters on a 99 × 99 mm board. Both STM32s and an ESP32 share one internal CAN bus, allowing the motor channels to coordinate directly for traction control.",
+    h1="No CAN cable<br>between the <em class=\"serif\">ESCs.</em>",
+    lede="Two independent VESC-compatible GaN motor channels on a 99 × 99 mm board. Each keeps its own STM32, USB-C port and three-shunt sensing; an ESP32 joins both on an internal CAN bus for coordinated traction control.",
     crumb=("05", "Side project"),
     meta=[
         ("Year", "2026 — R1"),
@@ -400,25 +406,25 @@ CASES["twin-gan"] = dict(
     hero=("twin-gan-1400", "twin-gan-900", "Twin-GaN: a 99 mm square green PCB with two complete three-phase GaN inverters, six ePower stages and two STM32 controllers.", 1400, 1553),
     sections=[
         ("01", "The brief", """
-          <p>Two-wheel-drive light electric vehicles often need two motor controllers. Twin-GaN puts both channels on one 99 × 99 mm board, with independent STM32F405 controllers, USB-C ports and three-shunt sensing. An ESP32-C3 provides a third CAN node.</p>
-          <p>The aim is to reduce size and cost compared with two separate ESCs, accepting a lower peak-power rating in exchange for integration.</p>
+          <p>A two-wheel-drive light EV normally gets two separate ESCs and the wiring between them. Twin-GaN puts both controllers on one 99 × 99 mm PCB to reduce board count, size and cost. The trade-off is a lower peak-power rating in exchange for the integration.</p>
+          <p>Each channel keeps an independent STM32F405, USB-C port and three-shunt sensing. An ESP32-C3 provides a third CAN node alongside the two motor controllers.</p>
         """),
         ("02", "Specification", None),
         ("03", "Why one board", """
-          <p><strong>One CAN bus, three nodes.</strong> Both STM32s and the ESP32 share one terminated internal CAN bus, allowing the channels to exchange torque and control information without external wiring. This provides a hardware basis for on-board traction control.</p>
-          <p><strong>Two VESC targets.</strong> Each channel has its own MCU and six-PWM stage, so VESC Tool detects and configures them as two separate controllers. That keeps the familiar setup workflow and avoids a custom control interface.</p>
-          <p><strong>Three-shunt sensing per channel.</strong> Each phase uses an INA240A1D across a 2 mΩ shunt. REF1 and REF2 are connected for bidirectional measurement, so the controller can distinguish drive and regenerative current.</p>
-          <p><strong>Practical connections.</strong> Each controller has its own USB-C port with CC pulldowns and VBUS protection, plus Tag-Connect SWD and the standard VESC accessory header. These details should make programming, commissioning and future expansion straightforward.</p>
+          <p><strong>One CAN bus, three nodes.</strong> Both STM32s and the ESP32 sit on the same terminated internal CAN bus. Torque and control information can move between channels without external wiring, giving future traction-control firmware somewhere to start.</p>
+          <p><strong>VESC Tool still sees two controllers.</strong> Each channel has its own MCU and six-PWM stage, so setup stays familiar and no custom combined-control interface is needed.</p>
+          <p><strong>Three shunts per channel.</strong> Each phase uses an INA240A1D across a 2 mΩ shunt. REF1 and REF2 are connected for bidirectional measurement, so the controller can distinguish drive current from regeneration.</p>
+          <p><strong>The usual connections are already there.</strong> Each controller gets USB-C with CC pulldowns and VBUS protection, Tag-Connect SWD and the standard VESC accessory header. No adapter-cable hunt is required for basic commissioning.</p>
         """),
         ("04", "Where it stands", """
-          <p>R1 is at the design stage. The targets are 60 V input, 20 A battery current, 20 A continuous and 40 A absolute-max phase current per channel, and roughly 1.2 kW total. None of these figures has been bench-verified. They are labelled as targets here and in the repository so the next person to build the board knows what still needs testing.</p>
+          <p>R1 is at the design stage. The 60 V input, 20 A total battery current, 20 A continuous and 40 A absolute-max phase current per channel, and roughly 1.2 kW total are targets awaiting bench tests. Until then, they describe what the board is intended to survive, not what it has already survived.</p>
         """),
     ],
     table_title="Specification",
-    table_caption="Revision 1 — design targets, not yet bench-verified",
+    table_caption="Revision 1 — design targets",
     rows=[
         ("Input", "up to 60 V DC · XT60", True),
-        ("Battery current", "20 A", True),
+        ("Battery current", "20 A total · both channels", True),
         ("Phase current", "20 A continuous · 40 A absolute max, per channel", True),
         ("Max input power", "≈ 1.2 kW, battery-limited", False),
         ("Topology", "2 × independent 3-phase inverter", False),
@@ -437,8 +443,8 @@ CASES["twin-gan"] = dict(
         ("twin-gan-900", "twin-gan-900", "Detail: two EPC23102 ePower stages per channel, with the 2 mΩ shunts and INA240 sensing in the phase legs.", 1086, 1205, "figure--wide", "Power stage detail"),
     ],
     links=[("https://github.com/NovaPrime18/Twin-GaN", "Hardware files on GitHub")],
-    tags=["1.2 kW", "2 × 3-phase", "EPC23102", "CERN-OHL-S"],
-    next=("schroombort", "The board that started it."),
+    tags=["1.2 kW target", "2 × 3-phase", "EPC23102", "CERN-OHL-S"],
+    next=("schroombort", "The calculator was unnecessary."),
     year="2026",
 )
 
@@ -446,8 +452,8 @@ CASES["twin-gan"] = dict(
 CASES["schroombort"] = dict(
     title="Schroombort — 36-key soundboard, macro-pad and calculator · Thommy",
     desc="A battery-powered, over-engineered mechanical soundboard: 36 Cherry MX switches, a VFD, stereo speakers and three modes of operation.",
-    h1="The board that<br>started <em class=\"serif\">it.</em>",
-    lede="Schroombort is a battery-powered soundboard with 36 Cherry MX switches, a vacuum fluorescent display and stereo speakers. It also works as a macro-pad and a basic calculator. It was the first board I finished, and many of the skills used in the later projects started here.",
+    h1="The calculator<br>was <em class=\"serif\">unnecessary.</em>",
+    lede="A battery-powered 36-key soundboard with a VFD, stereo speakers and a macro-pad mode. It was the first board I finished, and the project where electronics, firmware and enclosure design first had to cooperate.",
     crumb=("06", "Where I started"),
     meta=[
         ("Year", "2021"),
@@ -458,16 +464,16 @@ CASES["schroombort"] = dict(
     hero=("schroombort-1500", "schroombort-950", "Schroombort: a black battery-powered board with 36 mechanical switches, a vacuum fluorescent display and silkscreen artwork.", 1500, 1670),
     sections=[
         ("01", "What it is", """
-          <p>At its simplest, Schroombort plays a sound when you press a key. It has 36 mechanical switches, a VFD, stereo speakers, USB-C charging and a battery power-path manager that can run from USB, battery or both.</p>
-          <p>It has three modes. As a soundboard, each key plays a file from the SD card. Connected over USB-C, it becomes a macro-pad with assignable keys. The third mode is a basic calculator, added because the hardware already had a display and keypad.</p>
+          <p>At its simplest, press a key and Schroombort plays a sound from the SD card. Underneath are 36 mechanical switches, a VFD, stereo speakers, USB-C charging and a battery power-path manager that can run from USB, battery or both.</p>
+          <p>Connected over USB-C, it becomes a macro-pad with assignable keys. The third mode is a basic calculator. The display and keypad were already there; restraint was not.</p>
         """),
         ("02", "Specification", None),
-        ("03", "Why it matters", """
-          <p>This was the project that taught me what it takes to finish a piece of hardware: power management, a keyboard matrix, display driving, audio, an enclosure and firmware all have to work together. It also taught me that details which look fine on screen do not always read well on a physical board.</p>
-          <p>It was more complex than the original idea required, but that made it a useful way to learn. Later projects could build on a complete design rather than a collection of separate experiments.</p>
+        ("03", "The first finished board", """
+          <p>This was the first project where power management, a keyboard matrix, display driving, audio, an enclosure and firmware all had to work at once. It also exposed the difference between readable on a monitor and readable on an actual PCB.</p>
+          <p>It was over-engineered for a soundboard. Finishing one complete object still taught me more than another row of breadboard experiments would have.</p>
         """),
         ("04", "The trailer", """
-          <p>There is a short cinematic trailer on <a href="https://www.youtube.com/watch?v=MM4cooladaY" target="_blank" rel="noopener">YouTube</a>, which shows the finished device and its display.</p>
+          <p>There is a short cinematic trailer on <a href="https://www.youtube.com/watch?v=MM4cooladaY" target="_blank" rel="noopener">YouTube</a>. Yes, the soundboard got a trailer.</p>
         """),
     ],
     table_title="Specification",
@@ -491,7 +497,7 @@ CASES["schroombort"] = dict(
     ],
     links=[("https://github.com/NovaPrime18/schroombort", "Hardware on GitHub")],
     tags=["36 keys", "VFD", "ATxmega", "CERN-OHL-S"],
-    next=("dab-dcdc", "Ten kilowatts, on the bench."),
+    next=("dab-dcdc", "Over two kilowatts, per liter."),
     year="2021",
 )
 
@@ -526,7 +532,7 @@ def build_case(slug, c):
             elif title == "Compliance targets":
                 sections_html.append(
                     table(num, title, "Standards in scope", [
-                        ("IEC 61000-3-2", "Harmonic current emissions — addressed by active PFC", True),
+                        ("IEC 61000-3-2", "Harmonic current emissions — active PFC; measurement still required", True),
                         ("IEC 60335-2-34", "Particular requirements for motor-compressors", False),
                         ("EN IEC 63000", "RoHS technical documentation", False),
                     ])
@@ -599,6 +605,7 @@ def build_case(slug, c):
 """
         + foot(c.get("year", "2026"), "../")
     )
+    html = "\n".join(line.rstrip() for line in html.splitlines()) + "\n"
     (OUT / f"{slug}.html").write_text(html)
     print("wrote", f"projects/{slug}.html")
 

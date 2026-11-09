@@ -46,8 +46,8 @@
 <main id="top" class="case-hero">
   <div class="wrap">
     <p class="crumb"><a href="../index.html#work">Work</a> <span aria-hidden="true">/</span> <i>02</i> <span>Motor driver</span></p>
-    <h1>Sixty volts,<br>a hundred <em class="serif">amps.</em></h1>
-    <p class="lede">A VESC-compatible three-phase drive for a direct-drive hub motor: six eGaN FETs, 0.25 mΩ phase shunts and 1.4 mF of bus capacitance wrapped around a 78 × 65 mm six-layer power stage.</p>
+    <h1>GaN up front.<br>Ganymede <em class="serif">on the back.</em></h1>
+    <p class="lede">A VESC-compatible three-phase hub-motor driver on a 78 × 65 mm six-layer board. Six EPC2361 GaN FETs and a wrapped capacitor bank keep the power loop small; three-shunt sensing and a copper-inclusive loss model cover the less glamorous parts.</p>
     <dl class="case-meta">
         <div><dt>Year</dt><dd>2026 — R1</dd></div>
         <div><dt>Role</dt><dd>Hardware design, layout, loss model</dd></div>
@@ -67,16 +67,16 @@
         <h2><span class="n">01</span>The brief</h2>
         <div class="prose">
 
-          <p>A direct-drive hub motor needs high phase current in a compact package. GaNymede targets 50 A continuous and 100 A peak for one minute, with current and voltage sensing on every phase, Hall inputs and an ESP32-C3 for wireless telemetry.</p>
-          <p>The control side follows the VESC pattern — STM32F405, three Hall inputs and three phase-current channels — so existing firmware and tools can be used. Most of the design work went into the power stage, current sensing and thermal budget.</p>
-        
+          <p>GaNymede is a motor controller for a direct-drive hub motor, with a target of 50 A continuous and 100 A for one minute. Three-phase current and voltage sensing, Hall inputs, CAN and an ESP32-C3 for wireless telemetry are all on board.</p>
+          <p>Using the VESC pattern—STM32F405, existing firmware and tools—keeps the control side familiar. The GaN power stage, current sensing and thermal budget are where most of the design time went.</p>
+
         </div>
       </section>
       <section class="case-grid" data-reveal>
         <h2><span class="n">02</span>Specification</h2>
         <div>
           <table class="table">
-            <caption>Revision 1 — design targets, not yet bench-verified</caption>
+            <caption>Revision 1 — design targets</caption>
             <tbody>
             <tr><th scope="row">Bus voltage</th><td class="num">up to 60 V DC</td></tr>
             <tr><th scope="row">Phase current</th><td class="num">50 A continuous · 100 A peak (1 min)</td></tr>
@@ -98,36 +98,36 @@
         <h2><span class="n">03</span>Key design decisions</h2>
         <div class="prose">
 
-          <p><strong>The bus capacitor bank wraps the power stage.</strong> The roughly 1.4 mF bank is arranged around the bridge to keep the commutation loop short, with ceramic capacitors close to the switches and larger parts providing the bulk storage.</p>
-          <p><strong>0.25 mΩ per phase, using two parallel shunts.</strong> Each phase uses two 0.5 mΩ 2512 resistors, feeding an INA240A1 at a gain of 20. Sharing the current between two parts reduces heating while keeping a useful measurement signal at high current.</p>
-          <p><strong>Dead time lives in firmware.</strong> The LMG1210 drivers are configured for independent high- and low-side inputs, so dead time is set in software. That suits the VESC control scheme, but makes careful bring-up and gate-signal checks important.</p>
-          <p><strong>Copper sized for the peak.</strong> The pours and via stitching are sized for the one-minute 100 A peak, not just the 50 A continuous rating. The loss model also accounts for shunt heating and the thermal path through the board.</p>
-        
+          <p><strong>The capacitor bank wraps around the bridge.</strong> It does not sit politely in a row. Wrapping the roughly 1.4 mF bank around the power stage uses the available board area and keeps the commutation loop short. Ceramic capacitors sit close to the switches; larger parts provide bulk storage.</p>
+          <p><strong>Two shunts per phase.</strong> Two parallel 0.5 mΩ 2512 resistors make a 0.25 mΩ shunt, feeding an INA240A1 at a gain of 20. Sharing the current spreads the heat while keeping a useful measurement signal.</p>
+          <p><strong>Dead time lives in firmware.</strong> The LMG1210 takes independent high- and low-side inputs, which fits the VESC control scheme. It also makes careful gate-signal checks essential during first power-up.</p>
+          <p><strong>The copper is sized for the peak.</strong> Pours and via stitching account for the one-minute 100 A target, not just 50 A continuous. The 100 V FET rating leaves headroom over the 60 V bus, but real overshoot still needs a double-pulse test.</p>
+
         </div>
       </section>
       <section class="case-grid" data-reveal>
-        <h2><span class="n">04</span>What the loss model shows</h2>
+        <h2><span class="n">04</span>What the loss model says</h2>
         <div class="prose">
 
-          <p>There is a full copper, semiconductor and thermal model in <a href="https://github.com/NovaPrime18/GaNymede/blob/main/LOSSES.md" target="_blank" rel="noopener">LOSSES.md</a>. At 100 A peak it predicts about 29 W of total loss and 99.4 % efficiency; at 50 A continuous, about 7.3 W and 99.7 %.</p>
-          <p>The model puts most of the loss in the phase shunts and the 60 V/GND copper rather than in the GaN devices. That makes the thermal interface and copper layout especially important. A 1.5–2 °C/W natural-convection heatsink should be sufficient for the modelled continuous load, while the one-minute peak is limited mainly by thermal mass.</p>
-        
+          <p>The copper, semiconductor and thermal model in <a href="https://github.com/NovaPrime18/GaNymede/blob/main/LOSSES.md" target="_blank" rel="noopener">LOSSES.md</a> currently predicts about 29 W of loss and 99.4 % efficiency at 100 A peak, or 7.3 W and 99.7 % at 50 A continuous. Those are model outputs, not claims from a finished inverter.</p>
+          <p>It puts most of the loss in the phase shunts and 60 V/GND copper rather than the GaN devices. A 1.5–2 °C/W natural-convection heatsink should handle the modelled continuous load, while the one-minute peak leans mostly on thermal mass. If the bench disagrees, the bench wins.</p>
+
         </div>
       </section>
       <section class="case-grid" data-reveal>
-        <h2><span class="n">05</span>The visual side</h2>
+        <h2><span class="n">05</span>The back of the board</h2>
         <div class="prose">
 
-          <p>The back of the board carries an engraved illustration of Ganymede and the eagle, taken from the project's name. It has no electrical function; it is simply a detail I enjoyed adding, and it gives the board a recognisable identity.</p>
-        
+          <p>The back carries an engraving of Ganymede and the eagle. It does absolutely nothing for efficiency. It does make the back of the board much better.</p>
+
         </div>
       </section>
       <section class="case-grid" data-reveal>
         <h2><span class="n">06</span>Where it stands</h2>
         <div class="prose">
 
-          <p>R1 has a completed schematic and six-layer layout. The current and thermal figures are modelled design targets, not bench measurements. They are labelled as such here and in the repository, and will need to be checked on hardware.</p>
-        
+          <p>R1 exists as a completed schematic and six-layer layout, not a tested controller. Every current, power and thermal figure here is a target or model output. Gate checks, a double-pulse test and a thermal camera need to turn those targets into ratings.</p>
+
         </div>
       </section>
     <div class="figures">
@@ -146,7 +146,7 @@
     </div>
 
     <div class="case-foot">
-      <div class="tags"><span class="tag">5.2 kW</span><span class="tag">100 A peak</span><span class="tag">EPC2361</span><span class="tag">CERN-OHL-S</span></div>
+      <div class="tags"><span class="tag">5.2 kW modelled</span><span class="tag">100 A target</span><span class="tag">EPC2361</span><span class="tag">CERN-OHL-S</span></div>
       <div><a class="arrow" href="https://github.com/NovaPrime18/GaNymede" target="_blank" rel="noopener">Hardware files on GitHub <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h11M8.6 1.4 12.2 5l-3.6 3.6" stroke="currentColor" stroke-width="1.2"/></svg></a></div>
     </div>
   </div>

@@ -46,8 +46,8 @@
 <main id="top" class="case-hero">
   <div class="wrap">
     <p class="crumb"><a href="../index.html#work">Work</a> <span aria-hidden="true">/</span> <i>05</i> <span>Side project</span></p>
-    <h1>Two motor drivers,<br>one 99 mm <em class="serif">board.</em></h1>
-    <p class="lede">A dual VESC-compatible controller with two complete three-phase GaN inverters on a 99 × 99 mm board. Both STM32s and an ESP32 share one internal CAN bus, allowing the motor channels to coordinate directly for traction control.</p>
+    <h1>No CAN cable<br>between the <em class="serif">ESCs.</em></h1>
+    <p class="lede">Two independent VESC-compatible GaN motor channels on a 99 × 99 mm board. Each keeps its own STM32, USB-C port and three-shunt sensing; an ESP32 joins both on an internal CAN bus for coordinated traction control.</p>
     <dl class="case-meta">
         <div><dt>Year</dt><dd>2026 — R1</dd></div>
         <div><dt>Role</dt><dd>Hardware design</dd></div>
@@ -67,19 +67,19 @@
         <h2><span class="n">01</span>The brief</h2>
         <div class="prose">
 
-          <p>Two-wheel-drive light electric vehicles often need two motor controllers. Twin-GaN puts both channels on one 99 × 99 mm board, with independent STM32F405 controllers, USB-C ports and three-shunt sensing. An ESP32-C3 provides a third CAN node.</p>
-          <p>The aim is to reduce size and cost compared with two separate ESCs, accepting a lower peak-power rating in exchange for integration.</p>
-        
+          <p>A two-wheel-drive light EV normally gets two separate ESCs and the wiring between them. Twin-GaN puts both controllers on one 99 × 99 mm PCB to reduce board count, size and cost. The trade-off is a lower peak-power rating in exchange for the integration.</p>
+          <p>Each channel keeps an independent STM32F405, USB-C port and three-shunt sensing. An ESP32-C3 provides a third CAN node alongside the two motor controllers.</p>
+
         </div>
       </section>
       <section class="case-grid" data-reveal>
         <h2><span class="n">02</span>Specification</h2>
         <div>
           <table class="table">
-            <caption>Revision 1 — design targets, not yet bench-verified</caption>
+            <caption>Revision 1 — design targets</caption>
             <tbody>
             <tr><th scope="row">Input</th><td class="num">up to 60 V DC · XT60</td></tr>
-            <tr><th scope="row">Battery current</th><td class="num">20 A</td></tr>
+            <tr><th scope="row">Battery current</th><td class="num">20 A total · both channels</td></tr>
             <tr><th scope="row">Phase current</th><td class="num">20 A continuous · 40 A absolute max, per channel</td></tr>
             <tr><th scope="row">Max input power</th><td>≈ 1.2 kW, battery-limited</td></tr>
             <tr><th scope="row">Topology</th><td>2 × independent 3-phase inverter</td></tr>
@@ -97,19 +97,19 @@
         <h2><span class="n">03</span>Why one board</h2>
         <div class="prose">
 
-          <p><strong>One CAN bus, three nodes.</strong> Both STM32s and the ESP32 share one terminated internal CAN bus, allowing the channels to exchange torque and control information without external wiring. This provides a hardware basis for on-board traction control.</p>
-          <p><strong>Two VESC targets.</strong> Each channel has its own MCU and six-PWM stage, so VESC Tool detects and configures them as two separate controllers. That keeps the familiar setup workflow and avoids a custom control interface.</p>
-          <p><strong>Three-shunt sensing per channel.</strong> Each phase uses an INA240A1D across a 2 mΩ shunt. REF1 and REF2 are connected for bidirectional measurement, so the controller can distinguish drive and regenerative current.</p>
-          <p><strong>Practical connections.</strong> Each controller has its own USB-C port with CC pulldowns and VBUS protection, plus Tag-Connect SWD and the standard VESC accessory header. These details should make programming, commissioning and future expansion straightforward.</p>
-        
+          <p><strong>One CAN bus, three nodes.</strong> Both STM32s and the ESP32 sit on the same terminated internal CAN bus. Torque and control information can move between channels without external wiring, giving future traction-control firmware somewhere to start.</p>
+          <p><strong>VESC Tool still sees two controllers.</strong> Each channel has its own MCU and six-PWM stage, so setup stays familiar and no custom combined-control interface is needed.</p>
+          <p><strong>Three shunts per channel.</strong> Each phase uses an INA240A1D across a 2 mΩ shunt. REF1 and REF2 are connected for bidirectional measurement, so the controller can distinguish drive current from regeneration.</p>
+          <p><strong>The usual connections are already there.</strong> Each controller gets USB-C with CC pulldowns and VBUS protection, Tag-Connect SWD and the standard VESC accessory header. No adapter-cable hunt is required for basic commissioning.</p>
+
         </div>
       </section>
       <section class="case-grid" data-reveal>
         <h2><span class="n">04</span>Where it stands</h2>
         <div class="prose">
 
-          <p>R1 is at the design stage. The targets are 60 V input, 20 A battery current, 20 A continuous and 40 A absolute-max phase current per channel, and roughly 1.2 kW total. None of these figures has been bench-verified. They are labelled as targets here and in the repository so the next person to build the board knows what still needs testing.</p>
-        
+          <p>R1 is at the design stage. The 60 V input, 20 A total battery current, 20 A continuous and 40 A absolute-max phase current per channel, and roughly 1.2 kW total are targets awaiting bench tests. Until then, they describe what the board is intended to survive, not what it has already survived.</p>
+
         </div>
       </section>
     <div class="figures">
@@ -122,7 +122,7 @@
     </div>
 
     <div class="case-foot">
-      <div class="tags"><span class="tag">1.2 kW</span><span class="tag">2 × 3-phase</span><span class="tag">EPC23102</span><span class="tag">CERN-OHL-S</span></div>
+      <div class="tags"><span class="tag">1.2 kW target</span><span class="tag">2 × 3-phase</span><span class="tag">EPC23102</span><span class="tag">CERN-OHL-S</span></div>
       <div><a class="arrow" href="https://github.com/NovaPrime18/Twin-GaN" target="_blank" rel="noopener">Hardware files on GitHub <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h11M8.6 1.4 12.2 5l-3.6 3.6" stroke="currentColor" stroke-width="1.2"/></svg></a></div>
     </div>
   </div>
@@ -130,7 +130,7 @@
   <div class="wrap">
     <a class="next-case" href="schroombort.html">
       <span class="k">Next case</span>
-      <span class="t"><span>The board that started it.</span><span aria-hidden="true">→</span></span>
+      <span class="t"><span>The calculator was unnecessary.</span><span aria-hidden="true">→</span></span>
     </a>
   </div>
 </main>
