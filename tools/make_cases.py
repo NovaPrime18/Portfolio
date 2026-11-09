@@ -376,7 +376,7 @@ CASES["compressor-controller"] = dict(
           </div>""",
     figures=[
         ("compressor-back-1500", "compressor-back-950", "The power side: PFC inductor, film capacitors, IPM heatspreader and the bus capacitor bank.", 1500, 944, "", "Power side"),
-        ("compressor-photo-1800", "compressor-photo-1100", "The first assembled compressor controller on a workbench, with the power stage, PFC magnetics and capacitor bank visible.", 1800, 1355, "", "First article"),
+        ("compressor-photo-1800", "compressor-photo-1100", "The first assembled compressor controller on a workbench, with the power stage, PFC magnetics and capacitor bank visible.", 1800, 1131, "", "First article"),
     ],
     links=[("https://github.com/NovaPrime18/CompressorController", "Hardware files on GitHub")],
     tags=["230 V AC", "Active PFC", "VESC", "IEC 61000-3-2"],
